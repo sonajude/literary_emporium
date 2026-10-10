@@ -1518,21 +1518,19 @@
                 );
 
 
-            setTimeout(
-                function() {
+            function dismissSplash() {
+                if (splash && !splash.classList.contains("hide")) {
+                    splash.classList.add("hide");
+                    if (main) main.classList.add("show");
+                }
+            }
 
-                    splash.classList.add(
-                        "hide"
-                    );
+            if (splash) {
+                splash.style.cursor = "pointer";
+                splash.addEventListener("click", dismissSplash);
+            }
 
-
-                    main.classList.add(
-                        "show"
-                    );
-
-                },
-                7000
-            );
+            setTimeout(dismissSplash, 1200);
 
         }
     );

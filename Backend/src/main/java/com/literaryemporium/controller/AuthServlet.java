@@ -190,6 +190,15 @@ public class AuthServlet extends HttpServlet {
         User user = userDAO.login(email.trim().toLowerCase(), password);
 
         if (user != null) {
+            String requestedRole = getString(body, "role", request.getParameter("role"));
+            if (requestedRole != null && !requestedRole.trim().isEmpty() && !requestedRole.equalsIgnoreCase(user.getRole())) {
+                res.put("status", "error");
+                res.put("message", "Access denied. This account has role '" + user.getRole() + "', not '" + requestedRole + "'.");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write(gson.toJson(res));
+                return;
+            }
+
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             res.put("status", "success");
@@ -201,6 +210,13 @@ public class AuthServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         response.getWriter().write(gson.toJson(res));
+    }
+
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        setCorsAndJson(response);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     private void setCorsAndJson(HttpServletResponse response) {
