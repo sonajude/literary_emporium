@@ -1,0 +1,1993 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Orders | Literary Emporium</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+    <script src="language.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px 7%;
+            border-bottom: 3px solid #6d2638;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            color: #cbd2da;
+            font-size: 12px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-selector {
+            padding: 9px 12px;
+            background: white;
+            color: #172337;
+            border: 1px solid #d1d6dc;
+            cursor: pointer;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: white;
+            border: 1px solid #d5dbe2;
+            padding: 10px 18px;
+            font-size: 13px;
+        }
+
+        .back-button:hover {
+            background: #26364d;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 45px 25px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 29px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .page-header p {
+            color: #687586;
+            font-size: 14px;
+        }
+
+        .order-count {
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: #687586;
+        }
+
+        .order-count strong {
+            color: #172337;
+            font-size: 21px;
+            margin-left: 8px;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #d9dee4;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1050px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #eef1f4;
+            color: #354052;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            border-bottom: 1px solid #d9dee4;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+            font-size: 13px;
+            color: #526070;
+            border-bottom: 1px solid #e2e6ea;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fafbfc;
+        }
+
+        .order-id {
+            color: #172337;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .customer-name {
+            color: #172337;
+            font-weight: 500;
+        }
+
+        .total {
+            color: #172337;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-select {
+            padding: 8px;
+            border: 1px solid #ccd3db;
+            background: white;
+            color: #344052;
+            cursor: pointer;
+        }
+
+        .qr-button {
+            padding: 8px 12px;
+            border: 1px solid #315c49;
+            background: white;
+            color: #315c49;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .qr-button:hover {
+            background: #315c49;
+            color: white;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 50px 20px;
+            color: #687586;
+            font-size: 14px;
+        }
+
+        /* QR AREA */
+
+        .qr-section {
+            margin-top: 40px;
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 30px;
+        }
+
+        .qr-section h2 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .qr-section p {
+            color: #687586;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .scanner-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .scan-button {
+            padding: 10px 18px;
+            background: #172337;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .stop-button {
+            padding: 10px 18px;
+            background: white;
+            color: #8a2638;
+            border: 1px solid #8a2638;
+            cursor: pointer;
+        }
+
+        .scan-button:hover {
+            background: #26364d;
+        }
+
+        .stop-button:hover {
+            background: #8a2638;
+            color: white;
+        }
+
+        #scannerContainer {
+            display: none;
+            margin-top: 25px;
+        }
+
+        #video {
+            width: 100%;
+            max-width: 500px;
+            display: block;
+            border: 1px solid #cfd5dc;
+            background: #111;
+        }
+
+        #scanCanvas {
+            display: none;
+        }
+
+        .scan-status {
+            margin-top: 15px;
+            color: #687586;
+            font-size: 13px;
+        }
+
+        .scan-result {
+            margin-top: 25px;
+            padding: 22px;
+            background: #f7f8fa;
+            border: 1px solid #d9dee4;
+            display: none;
+        }
+
+        .scan-result h3 {
+            color: #172337;
+            margin-bottom: 15px;
+        }
+
+        .result-row {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #526070;
+        }
+
+        .result-row strong {
+            color: #172337;
+        }
+
+        .book-list {
+            margin-top: 12px;
+            padding-left: 20px;
+            color: #526070;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .qr-box {
+            margin-top: 15px;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            background: #e9edf1;
+            color: #667384;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .language-selector,
+            .back-button {
+                flex: 1;
+                text-align: center;
+            }
+
+            main {
+                padding: 35px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .qr-section {
+                padding: 22px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div>
+
+            <div class="brand"
+                 data-i18n="brandName">
+                LITERARY EMPORIUM
+            </div>
+
+            <div class="subtitle"
+                 data-i18n="adminPanel">
+                Administrator Panel
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <select id="languageSelector"
+                    class="language-selector">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+
+            <a href="admin-dashboard.html"
+               class="back-button"
+               data-i18n="backDashboard">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <section class="page-header">
+
+        <h1 data-i18n="manageOrders">
+            Manage Orders
+        </h1>
+
+        <p data-i18n="ordersDescription">
+            Review customer orders, update order status and scan marketplace QR codes.
+        </p>
+
+    </section>
+
+
+    <div class="order-count">
+
+        <span data-i18n="totalOrders">
+            Total Orders:
+        </span>
+
+        <strong id="orderCount">0</strong>
+
+    </div>
+
+
+    <section class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th data-i18n="orderId">
+                        Order ID
+                    </th>
+
+                    <th data-i18n="customer">
+                        Customer
+                    </th>
+
+                    <th data-i18n="books">
+                        Books
+                    </th>
+
+                    <th data-i18n="total">
+                        Total
+                    </th>
+
+                    <th data-i18n="payment">
+                        Payment
+                    </th>
+
+                    <th data-i18n="status">
+                        Status
+                    </th>
+
+                    <th data-i18n="date">
+                        Date
+                    </th>
+
+                    <th data-i18n="qr">
+                        QR
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="ordersTableBody"></tbody>
+
+        </table>
+
+
+        <div id="emptyOrderMessage"
+             class="empty-message"
+             style="display:none;">
+
+            <span data-i18n="noOrders">
+                No orders have been placed yet.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- QR SCANNER -->
+
+    <section class="qr-section">
+
+        <h2 data-i18n="qrScanner">
+            QR Scanner
+        </h2>
+
+        <p data-i18n="qrDescription">
+            Scan an order QR code or seller QR code to view its details.
+        </p>
+
+
+        <div class="scanner-controls">
+
+            <button class="scan-button"
+                    onclick="startScanner()"
+                    data-i18n="startScanner">
+
+                Start Camera Scanner
+
+            </button>
+
+
+            <button class="stop-button"
+                    onclick="stopScanner()"
+                    data-i18n="stopScanner">
+
+                Stop Scanner
+
+            </button>
+
+        </div>
+
+
+        <div id="scannerContainer">
+
+            <video id="video"
+                   autoplay
+                   playsinline>
+            </video>
+
+            <canvas id="scanCanvas"></canvas>
+
+            <div id="scanStatus"
+                 class="scan-status">
+
+                Ready to scan.
+
+            </div>
+
+        </div>
+
+
+        <div id="scanResult"
+             class="scan-result">
+
+            <h3 id="resultTitle">
+                Scan Result
+            </h3>
+
+            <div id="resultContent"></div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 Literary Emporium.
+    <span data-i18n="allRights">
+        All rights reserved.
+    </span>
+
+</footer>
+
+
+<script>
+
+    let orders = [];
+
+    let scannerStream = null;
+
+    let scanning = false;
+
+    let animationFrame = null;
+
+
+    /* =========================
+       ORDERS
+    ========================= */
+
+    function getOrdersData() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "literaryEmporiumOrders"
+                )
+            ) || [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function displayOrders() {
+
+        orders = getOrdersData();
+
+        const tbody =
+            document.getElementById(
+                "ordersTableBody"
+            );
+
+        const empty =
+            document.getElementById(
+                "emptyOrderMessage"
+            );
+
+        const count =
+            document.getElementById(
+                "orderCount"
+            );
+
+
+        tbody.innerHTML = "";
+
+        count.textContent =
+            orders.length;
+
+
+        if (orders.length === 0) {
+
+            empty.style.display = "block";
+
+            return;
+
+        }
+
+
+        empty.style.display = "none";
+
+
+        orders.forEach(function(order, index) {
+
+            const row =
+                document.createElement("tr");
+
+
+            const orderId =
+                order.orderId ||
+                order.id ||
+                `ORD-${index + 1}`;
+
+
+            const customer =
+                order.customerName ||
+                order.name ||
+                order.email ||
+                "Customer";
+
+
+            let booksText = "Book";
+
+
+            if (Array.isArray(order.items)) {
+
+                booksText =
+                    order.items
+                        .map(function(item) {
+
+                            return item.title ||
+                                   item.name ||
+                                   "Book";
+
+                        })
+                        .join(", ");
+
+            }
+
+
+            else if (Array.isArray(order.books)) {
+
+                booksText =
+                    order.books
+                        .map(function(item) {
+
+                            return typeof item === "string"
+                                ? item
+                                : item.title || "Book";
+
+                        })
+                        .join(", ");
+
+            }
+
+
+            const total =
+                Number(
+                    order.total ||
+                    order.amount ||
+                    0
+                );
+
+
+            const payment =
+                order.paymentMethod ||
+                order.payment ||
+                "Pay Later";
+
+
+            const status =
+                order.status ||
+                "Pending";
+
+
+            const date =
+                formatDate(
+                    order.date ||
+                    order.createdAt
+                );
+
+
+            row.innerHTML = `
+
+                <td class="order-id">
+                    ${escapeHtml(orderId)}
+                </td>
+
+                <td class="customer-name">
+                    ${escapeHtml(customer)}
+                </td>
+
+                <td>
+                    ${escapeHtml(booksText)}
+                </td>
+
+                <td class="total">
+                    ₹${total.toFixed(2)}
+                </td>
+
+                <td>
+                    ${escapeHtml(payment)}
+                </td>
+
+                <td>
+
+                    <select
+                        class="status-select"
+                        onchange="updateOrderStatus(${index}, this.value)">
+
+                        <option value="Pending"
+                            ${status === "Pending" ? "selected" : ""}>
+                            Pending
+                        </option>
+
+                        <option value="Confirmed"
+                            ${status === "Confirmed" ? "selected" : ""}>
+                            Confirmed
+                        </option>
+
+                        <option value="Packed"
+                            ${status === "Packed" ? "selected" : ""}>
+                            Packed
+                        </option>
+
+                        <option value="Shipped"
+                            ${status === "Shipped" ? "selected" : ""}>
+                            Shipped
+                        </option>
+
+                        <option value="Delivered"
+                            ${status === "Delivered" ? "selected" : ""}>
+                            Delivered
+                        </option>
+
+                        <option value="Cancelled"
+                            ${status === "Cancelled" ? "selected" : ""}>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td>
+                    ${escapeHtml(date)}
+                </td>
+
+                <td>
+
+                    <button
+                        class="qr-button"
+                        onclick="generateOrderQR(${index})"
+                        data-i18n="viewQR">
+
+                        View QR
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(row);
+
+        });
+
+
+        applyAdminOrdersLanguage();
+
+    }
+
+
+    /* =========================
+       UPDATE STATUS
+    ========================= */
+
+    function updateOrderStatus(index, newStatus) {
+
+        orders = getOrdersData();
+
+
+        if (!orders[index]) {
+            return;
+        }
+
+
+        orders[index].status =
+            newStatus;
+
+
+        localStorage.setItem(
+            "literaryEmporiumOrders",
+            JSON.stringify(orders)
+        );
+
+
+        displayOrders();
+
+    }
+
+
+    /* =========================
+       ORDER QR
+    ========================= */
+
+    function generateOrderQR(index) {
+
+        const currentOrders =
+            getOrdersData();
+
+
+        const order =
+            currentOrders[index];
+
+
+        if (!order) {
+            return;
+        }
+
+
+        const orderId =
+            order.orderId ||
+            order.id ||
+            `ORD-${index + 1}`;
+
+
+        const qrData = JSON.stringify({
+
+            type:
+                "LiteraryEmporiumOrder",
+
+            orderId:
+                orderId
+
+        });
+
+
+        const result =
+            document.getElementById(
+                "scanResult"
+            );
+
+        const content =
+            document.getElementById(
+                "resultContent"
+            );
+
+
+        result.style.display = "block";
+
+
+        content.innerHTML = `
+
+            <div class="result-row">
+                <strong>Order ID:</strong>
+                ${escapeHtml(orderId)}
+            </div>
+
+            <div class="qr-box"
+                 id="orderQR"></div>
+
+        `;
+
+
+        new QRCode(
+            document.getElementById(
+                "orderQR"
+            ),
+            {
+                text: qrData,
+                width: 180,
+                height: 180
+            }
+        );
+
+    }
+
+
+    /* =========================
+       START SCANNER
+    ========================= */
+
+    async function startScanner() {
+
+        if (!navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia) {
+
+            setScanStatus(
+                "Camera access is not supported in this browser."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            scannerStream =
+                await navigator.mediaDevices
+                    .getUserMedia({
+
+                        video: {
+                            facingMode: {
+                                ideal: "environment"
+                            }
+                        },
+
+                        audio: false
+
+                    });
+
+
+            const video =
+                document.getElementById(
+                    "video"
+                );
+
+
+            video.srcObject =
+                scannerStream;
+
+
+            document.getElementById(
+                "scannerContainer"
+            ).style.display = "block";
+
+
+            scanning = true;
+
+
+            setScanStatus(
+                "Scanning for QR code..."
+            );
+
+
+            scanQRCode();
+
+        } catch (error) {
+
+            setScanStatus(
+                "Camera permission was not granted."
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       STOP SCANNER
+    ========================= */
+
+    function stopScanner() {
+
+        scanning = false;
+
+
+        if (animationFrame) {
+
+            cancelAnimationFrame(
+                animationFrame
+            );
+
+            animationFrame = null;
+
+        }
+
+
+        if (scannerStream) {
+
+            scannerStream
+                .getTracks()
+                .forEach(function(track) {
+
+                    track.stop();
+
+                });
+
+
+            scannerStream = null;
+
+        }
+
+
+        const video =
+            document.getElementById(
+                "video"
+            );
+
+
+        video.srcObject = null;
+
+
+        setScanStatus(
+            "Scanner stopped."
+        );
+
+    }
+
+
+    /* =========================
+       SCAN QR
+    ========================= */
+
+    function scanQRCode() {
+
+        if (!scanning) {
+            return;
+        }
+
+
+        const video =
+            document.getElementById(
+                "video"
+            );
+
+
+        const canvas =
+            document.getElementById(
+                "scanCanvas"
+            );
+
+
+        if (
+            video.readyState ===
+            video.HAVE_ENOUGH_DATA
+        ) {
+
+            const context =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            canvas.width =
+                video.videoWidth;
+
+
+            canvas.height =
+                video.videoHeight;
+
+
+            context.drawImage(
+                video,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            const imageData =
+                context.getImageData(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+
+            const code =
+                jsQR(
+                    imageData.data,
+                    imageData.width,
+                    imageData.height
+                );
+
+
+            if (code) {
+
+                handleScannedQR(
+                    code.data
+                );
+
+                stopScanner();
+
+                return;
+
+            }
+
+        }
+
+
+        animationFrame =
+            requestAnimationFrame(
+                scanQRCode
+            );
+
+    }
+
+
+    /* =========================
+       HANDLE SCANNED QR
+    ========================= */
+
+    function handleScannedQR(data) {
+
+        let parsed;
+
+
+        try {
+
+            parsed =
+                JSON.parse(data);
+
+        } catch (error) {
+
+            showInvalidQR();
+
+            return;
+
+        }
+
+
+        if (
+            parsed.type ===
+            "LiteraryEmporiumOrder"
+        ) {
+
+            showOrderDetails(
+                parsed.orderId
+            );
+
+            return;
+
+        }
+
+
+        if (
+            parsed.type ===
+            "LiteraryEmporiumSeller"
+        ) {
+
+            showSellerDetails(
+                parsed
+            );
+
+            return;
+
+        }
+
+
+        showInvalidQR();
+
+    }
+
+
+    /* =========================
+       SHOW ORDER
+    ========================= */
+
+    function showOrderDetails(orderId) {
+
+        const currentOrders =
+            getOrdersData();
+
+
+        const order =
+            currentOrders.find(
+                function(item) {
+
+                    return (
+                        item.orderId ===
+                        orderId ||
+
+                        item.id ===
+                        orderId
+                    );
+
+                }
+            );
+
+
+        const result =
+            document.getElementById(
+                "scanResult"
+            );
+
+
+        const content =
+            document.getElementById(
+                "resultContent"
+            );
+
+
+        result.style.display = "block";
+
+
+        if (!order) {
+
+            content.innerHTML = `
+                <div class="result-row">
+                    Order not found.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        const customer =
+            order.customerName ||
+            order.name ||
+            order.email ||
+            "Customer";
+
+
+        const total =
+            Number(
+                order.total ||
+                order.amount ||
+                0
+            );
+
+
+        const payment =
+            order.paymentMethod ||
+            order.payment ||
+            "Pay Later";
+
+
+        const status =
+            order.status ||
+            "Pending";
+
+
+        let books = [];
+
+
+        if (Array.isArray(order.items)) {
+
+            books =
+                order.items.map(
+                    function(item) {
+
+                        return item.title ||
+                               item.name ||
+                               "Book";
+
+                    }
+                );
+
+        }
+
+
+        else if (Array.isArray(order.books)) {
+
+            books =
+                order.books.map(
+                    function(item) {
+
+                        return typeof item === "string"
+                            ? item
+                            : item.title || "Book";
+
+                    }
+                );
+
+        }
+
+
+        content.innerHTML = `
+
+            <div class="result-row">
+                <strong>Order ID:</strong>
+                ${escapeHtml(orderId)}
+            </div>
+
+            <div class="result-row">
+                <strong>Customer:</strong>
+                ${escapeHtml(customer)}
+            </div>
+
+            <div class="result-row">
+                <strong>Total:</strong>
+                ₹${total.toFixed(2)}
+            </div>
+
+            <div class="result-row">
+                <strong>Payment:</strong>
+                ${escapeHtml(payment)}
+            </div>
+
+            <div class="result-row">
+                <strong>Status:</strong>
+                ${escapeHtml(status)}
+            </div>
+
+            ${
+                payment.toLowerCase().includes("later")
+                ? `
+                    <div class="result-row">
+                        <strong>Pay Later:</strong>
+                        Amount due ₹${total.toFixed(2)}
+                    </div>
+                `
+                : ""
+            }
+
+            <strong>Books:</strong>
+
+            <ul class="book-list">
+
+                ${
+                    books.length
+                    ? books.map(function(book) {
+
+                        return `
+                            <li>
+                                ${escapeHtml(book)}
+                            </li>
+                        `;
+
+                    }).join("")
+                    : "<li>No book information</li>"
+                }
+
+            </ul>
+
+        `;
+
+    }
+
+
+    /* =========================
+       SHOW SELLER
+    ========================= */
+
+    function showSellerDetails(data) {
+
+        const result =
+            document.getElementById(
+                "scanResult"
+            );
+
+
+        const content =
+            document.getElementById(
+                "resultContent"
+            );
+
+
+        result.style.display =
+            "block";
+
+
+        const sellerBooks =
+            JSON.parse(
+                localStorage.getItem(
+                    "literaryEmporiumSellerBooks"
+                )
+            ) || [];
+
+
+        const sellerEmail =
+            data.email || "";
+
+
+        const books =
+            sellerBooks.filter(
+                function(book) {
+
+                    return (
+                        book.sellerEmail ===
+                        sellerEmail
+                    );
+
+                }
+            );
+
+
+        content.innerHTML = `
+
+            <div class="result-row">
+                <strong>Seller Name:</strong>
+                ${escapeHtml(
+                    data.name || "Seller"
+                )}
+            </div>
+
+            <div class="result-row">
+                <strong>Email:</strong>
+                ${escapeHtml(
+                    sellerEmail
+                )}
+            </div>
+
+            <div class="result-row">
+                <strong>Seller ID:</strong>
+                ${escapeHtml(
+                    data.sellerId || "N/A"
+                )}
+            </div>
+
+            <div class="result-row">
+                <strong>Books Listed:</strong>
+                ${books.length}
+            </div>
+
+            <strong>Listed Books:</strong>
+
+            <ul class="book-list">
+
+                ${
+                    books.length
+                    ? books.map(function(book) {
+
+                        return `
+                            <li>
+                                ${escapeHtml(
+                                    book.title ||
+                                    "Untitled Book"
+                                )}
+                            </li>
+                        `;
+
+                    }).join("")
+                    : "<li>No books listed</li>"
+                }
+
+            </ul>
+
+        `;
+
+    }
+
+
+    /* =========================
+       INVALID QR
+    ========================= */
+
+    function showInvalidQR() {
+
+        const result =
+            document.getElementById(
+                "scanResult"
+            );
+
+
+        const content =
+            document.getElementById(
+                "resultContent"
+            );
+
+
+        result.style.display =
+            "block";
+
+
+        content.innerHTML = `
+
+            <div class="result-row">
+                Invalid Literary Emporium QR code.
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================
+       SCAN STATUS
+    ========================= */
+
+    function setScanStatus(message) {
+
+        const status =
+            document.getElementById(
+                "scanStatus"
+            );
+
+
+        if (status) {
+
+            status.textContent =
+                message;
+
+        }
+
+    }
+
+
+    /* =========================
+       DATE
+    ========================= */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "-";
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return String(value);
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       HTML ESCAPE
+    ========================= */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       TRANSLATIONS
+    ========================= */
+
+    const adminOrdersTranslations = {
+
+        en: {
+
+            brandName: "LITERARY EMPORIUM",
+
+            adminPanel: "Administrator Panel",
+
+            backDashboard: "Back to Dashboard",
+
+            manageOrders: "Manage Orders",
+
+            ordersDescription:
+                "Review customer orders, update order status and scan marketplace QR codes.",
+
+            totalOrders: "Total Orders:",
+
+            orderId: "Order ID",
+
+            customer: "Customer",
+
+            books: "Books",
+
+            total: "Total",
+
+            payment: "Payment",
+
+            status: "Status",
+
+            date: "Date",
+
+            qr: "QR",
+
+            viewQR: "View QR",
+
+            noOrders:
+                "No orders have been placed yet.",
+
+            qrScanner: "QR Scanner",
+
+            qrDescription:
+                "Scan an order QR code or seller QR code to view its details.",
+
+            startScanner:
+                "Start Camera Scanner",
+
+            stopScanner:
+                "Stop Scanner",
+
+            allRights:
+                "All rights reserved."
+
+        },
+
+
+        ta: {
+
+            brandName: "லிட்ரரி எம்போரியம்",
+
+            adminPanel: "நிர்வாகி குழு",
+
+            backDashboard: "டாஷ்போர்டுக்கு திரும்பு",
+
+            manageOrders: "ஆர்டர்களை நிர்வகிக்கவும்",
+
+            ordersDescription:
+                "வாடிக்கையாளர் ஆர்டர்களைப் பார்த்து, ஆர்டர் நிலையை மாற்றி, QR குறியீடுகளை ஸ்கேன் செய்யவும்.",
+
+            totalOrders: "மொத்த ஆர்டர்கள்:",
+
+            orderId: "ஆர்டர் ID",
+
+            customer: "வாடிக்கையாளர்",
+
+            books: "புத்தகங்கள்",
+
+            total: "மொத்தம்",
+
+            payment: "பணம் செலுத்துதல்",
+
+            status: "நிலை",
+
+            date: "தேதி",
+
+            qr: "QR",
+
+            viewQR: "QR பார்க்க",
+
+            noOrders:
+                "இதுவரை எந்த ஆர்டரும் இல்லை.",
+
+            qrScanner: "QR ஸ்கேனர்",
+
+            qrDescription:
+                "ஆர்டர் அல்லது விற்பனையாளர் QR குறியீட்டை ஸ்கேன் செய்து விவரங்களைப் பார்க்கவும்.",
+
+            startScanner:
+                "கேமரா ஸ்கேனரை தொடங்கு",
+
+            stopScanner:
+                "ஸ்கேனரை நிறுத்து",
+
+            allRights:
+                "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+        },
+
+
+        hi: {
+
+            brandName: "लिटरेरी एम्पोरियम",
+
+            adminPanel: "प्रशासक पैनल",
+
+            backDashboard: "डैशबोर्ड पर वापस जाएँ",
+
+            manageOrders: "ऑर्डर प्रबंधित करें",
+
+            ordersDescription:
+                "ग्राहक ऑर्डर देखें, ऑर्डर स्थिति अपडेट करें और QR कोड स्कैन करें।",
+
+            totalOrders: "कुल ऑर्डर:",
+
+            orderId: "ऑर्डर ID",
+
+            customer: "ग्राहक",
+
+            books: "पुस्तकें",
+
+            total: "कुल",
+
+            payment: "भुगतान",
+
+            status: "स्थिति",
+
+            date: "तारीख",
+
+            qr: "QR",
+
+            viewQR: "QR देखें",
+
+            noOrders:
+                "अभी तक कोई ऑर्डर नहीं है।",
+
+            qrScanner: "QR स्कैनर",
+
+            qrDescription:
+                "ऑर्डर या विक्रेता QR कोड स्कैन करके विवरण देखें।",
+
+            startScanner:
+                "कैमरा स्कैनर शुरू करें",
+
+            stopScanner:
+                "स्कैनर बंद करें",
+
+            allRights:
+                "सर्वाधिकार सुरक्षित।"
+
+        },
+
+
+        te: {
+
+            brandName: "లిటరరీ ఎంపోరియం",
+
+            adminPanel: "అడ్మినిస్ట్రేటర్ ప్యానెల్",
+
+            backDashboard: "డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్ళండి",
+
+            manageOrders: "ఆర్డర్లను నిర్వహించండి",
+
+            ordersDescription:
+                "కస్టమర్ ఆర్డర్లను చూడండి, ఆర్డర్ స్థితిని మార్చండి మరియు QR కోడ్‌లను స్కాన్ చేయండి.",
+
+            totalOrders: "మొత్తం ఆర్డర్లు:",
+
+            orderId: "ఆర్డర్ ID",
+
+            customer: "కస్టమర్",
+
+            books: "పుస్తకాలు",
+
+            total: "మొత్తం",
+
+            payment: "చెల్లింపు",
+
+            status: "స్థితి",
+
+            date: "తేదీ",
+
+            qr: "QR",
+
+            viewQR: "QR చూడండి",
+
+            noOrders:
+                "ఇంకా ఆర్డర్లు ఏవీ లేవు.",
+
+            qrScanner: "QR స్కానర్",
+
+            qrDescription:
+                "ఆర్డర్ లేదా విక్రేత QR కోడ్‌ను స్కాన్ చేసి వివరాలను చూడండి.",
+
+            startScanner:
+                "కెమెరా స్కానర్ ప్రారంభించండి",
+
+            stopScanner:
+                "స్కానర్ ఆపండి",
+
+            allRights:
+                "అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."
+
+        },
+
+
+        ml: {
+
+            brandName: "ലിറ്റററി എംപോറിയം",
+
+            adminPanel: "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ",
+
+            backDashboard: "ഡാഷ്ബോർഡിലേക്ക് മടങ്ങുക",
+
+            manageOrders: "ഓർഡറുകൾ നിയന്ത്രിക്കുക",
+
+            ordersDescription:
+                "ഉപഭോക്തൃ ഓർഡറുകൾ പരിശോധിക്കുകയും ഓർഡർ നില മാറ്റുകയും QR കോഡുകൾ സ്കാൻ ചെയ്യുകയും ചെയ്യുക.",
+
+            totalOrders: "ആകെ ഓർഡറുകൾ:",
+
+            orderId: "ഓർഡർ ID",
+
+            customer: "ഉപഭോക്താവ്",
+
+            books: "പുസ്തകങ്ങൾ",
+
+            total: "ആകെ",
+
+            payment: "പേയ്മെന്റ്",
+
+            status: "നില",
+
+            date: "തീയതി",
+
+            qr: "QR",
+
+            viewQR: "QR കാണുക",
+
+            noOrders:
+                "ഇതുവരെ ഓർഡറുകളൊന്നും ലഭിച്ചിട്ടില്ല.",
+
+            qrScanner: "QR സ്കാനർ",
+
+            qrDescription:
+                "ഓർഡർ അല്ലെങ്കിൽ വിൽപ്പനക്കാരന്റെ QR കോഡ് സ്കാൻ ചെയ്ത് വിശദാംശങ്ങൾ കാണുക.",
+
+            startScanner:
+                "ക്യാമറ സ്കാനർ ആരംഭിക്കുക",
+
+            stopScanner:
+                "സ്കാനർ നിർത്തുക",
+
+            allRights:
+                "എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+        }
+
+    };
+
+
+    /* =========================
+       LANGUAGE
+    ========================= */
+
+    function applyAdminOrdersLanguage() {
+
+        const language =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        const translations =
+            adminOrdersTranslations[language] ||
+            adminOrdersTranslations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (
+                    translations[key] !==
+                    undefined
+                ) {
+
+                    element.textContent =
+                        translations[key];
+
+                }
+
+            });
+
+
+        const selector =
+            document.getElementById(
+                "languageSelector"
+            );
+
+
+        if (selector) {
+
+            selector.value =
+                language;
+
+        }
+
+    }
+
+
+    const languageSelector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (languageSelector) {
+
+        languageSelector.addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    this.value
+                );
+
+
+                applyAdminOrdersLanguage();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       LOAD
+    ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            displayOrders();
+
+            applyAdminOrdersLanguage();
+
+        }
+    );
+
+
+    window.addEventListener(
+        "beforeunload",
+        function() {
+
+            stopScanner();
+
+        }
+    );
+
+</script>
+<script src="chatbot.js?v=3"></script>
+
+</body>
+
+</html>
+```

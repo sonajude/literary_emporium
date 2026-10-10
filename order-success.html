@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed - Literary Emporium</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #d7dde4;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .language-box select {
+            padding: 7px 10px;
+            border: 1px solid #8d98a5;
+            background: #172337;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        main {
+            min-height: 72vh;
+            display: flex;
+            justify-content: center;
+            padding: 45px 20px;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 760px;
+            background: white;
+            border: 1px solid #d7dde4;
+            padding: 42px;
+        }
+
+        .success-header {
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #315c49;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon span {
+            color: white;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 29px;
+            color: #315c49;
+        }
+
+        .success-text {
+            margin: 0;
+            color: #58677a;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .order-id-box {
+            margin: 28px 0;
+            padding: 16px;
+            background: #f7f8fa;
+            border-top: 1px solid #d7dde4;
+            border-bottom: 1px solid #d7dde4;
+            text-align: center;
+        }
+
+        .order-id-label {
+            font-size: 12px;
+            color: #6c7886;
+            margin-bottom: 7px;
+        }
+
+        .order-id {
+            font-size: 17px;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #172337;
+            margin: 30px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d7dde4;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 18px;
+            padding: 18px 0;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .book-cover {
+            width: 82px;
+            height: 112px;
+            object-fit: cover;
+            background: #eef1f4;
+            border: 1px solid #d7dde4;
+            flex-shrink: 0;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #172337;
+            margin-bottom: 7px;
+        }
+
+        .book-author {
+            font-size: 13px;
+            color: #687586;
+            margin-bottom: 12px;
+        }
+
+        .book-details {
+            font-size: 13px;
+            color: #58677a;
+            line-height: 1.7;
+        }
+
+        .summary-box {
+            margin-top: 20px;
+            border-top: 1px solid #d7dde4;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #58677a;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #d7dde4;
+            margin-top: 8px;
+            padding-top: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #172337;
+        }
+
+        .payment-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f7f8fa;
+            border: 1px solid #d7dde4;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        .payment-label {
+            color: #687586;
+        }
+
+        .payment-value {
+            font-weight: bold;
+            color: #172337;
+            text-align: right;
+        }
+
+        /* DELIVERY */
+
+        .delivery-box {
+            margin-top: 22px;
+            padding: 20px;
+            background: #f7f8fa;
+            border: 1px solid #d7dde4;
+        }
+
+        .delivery-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #172337;
+            margin-bottom: 15px;
+        }
+
+        .delivery-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .delivery-row:last-child {
+            border-bottom: none;
+        }
+
+        .delivery-label {
+            color: #687586;
+        }
+
+        .delivery-value {
+            color: #172337;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* PAY LATER */
+
+        .paylater-box {
+            margin-top: 22px;
+            padding: 20px;
+            border: 1px solid #d7dde4;
+            background: #fafbfc;
+        }
+
+        .paylater-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #172337;
+            margin-bottom: 12px;
+        }
+
+        .paylater-message {
+            font-size: 14px;
+            color: #58677a;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .paylater-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e1e5e9;
+            font-size: 14px;
+        }
+
+        .paylater-row:last-child {
+            border-bottom: none;
+        }
+
+        .paylater-label {
+            color: #687586;
+        }
+
+        .paylater-value {
+            color: #172337;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .reminder-box {
+            margin-top: 14px;
+            padding: 12px;
+            background: #eef1f4;
+            border-left: 3px solid #315c49;
+            font-size: 13px;
+            color: #172337;
+            line-height: 1.5;
+        }
+
+        /* TRACKING */
+
+        .tracking-section {
+            margin-top: 35px;
+        }
+
+        .tracking {
+            position: relative;
+            padding-left: 45px;
+        }
+
+        .tracking::before {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 12px;
+            bottom: 12px;
+            width: 2px;
+            background: #d7dde4;
+        }
+
+        .tracking-step {
+            position: relative;
+            min-height: 65px;
+            padding-bottom: 18px;
+        }
+
+        .tracking-dot {
+            position: absolute;
+            left: -45px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #b8c0c9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7b8794;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .tracking-step.active .tracking-dot {
+            background: #315c49;
+            border-color: #315c49;
+            color: white;
+        }
+
+        .tracking-step.active .tracking-name {
+            color: #315c49;
+            font-weight: bold;
+        }
+
+        .tracking-name {
+            font-size: 14px;
+            color: #58677a;
+            padding-top: 5px;
+        }
+
+        .tracking-status {
+            font-size: 12px;
+            color: #8a95a1;
+            margin-top: 5px;
+        }
+
+        .order-note {
+            margin: 25px 0;
+            padding: 15px;
+            border-top: 1px solid #d7dde4;
+            border-bottom: 1px solid #d7dde4;
+            font-size: 14px;
+            color: #172337;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .button-group {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #172337;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid #172337;
+        }
+
+        .action-button:hover {
+            background: #24344a;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #172337;
+        }
+
+        .secondary-button:hover {
+            background: #eef1f4;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid #d7dde4;
+            color: #6c7886;
+            font-size: 13px;
+        }
+
+        .empty-order {
+            text-align: center;
+            padding: 30px;
+            color: #687586;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                gap: 14px;
+            }
+
+            main {
+                padding: 25px 12px;
+            }
+
+            .success-card {
+                padding: 28px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .brand {
+                font-size: 19px;
+            }
+
+            .language-box {
+                width: 100%;
+            }
+
+            .language-box select {
+                width: 100%;
+            }
+
+            .order-item {
+                gap: 12px;
+            }
+
+            .book-cover {
+                width: 68px;
+                height: 95px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .summary-row,
+            .payment-row,
+            .delivery-row,
+            .paylater-row {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div>
+        <div class="brand">LITERARY EMPORIUM</div>
+
+        <div class="subtitle" data-i18n="subtitle">
+            Online Book Marketplace
+        </div>
+    </div>
+
+    <nav>
+
+        <a href="home.html" data-i18n="home">Home</a>
+
+        <a href="wishlist.html" data-i18n="wishlist">
+            Wishlist
+        </a>
+
+        <a href="cart.html" data-i18n="cart">
+            Cart
+        </a>
+
+        <div class="language-box">
+            <select id="languageSelector">
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+            </select>
+        </div>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+<section class="success-card">
+
+    <div class="success-header">
+
+        <div class="success-icon">
+            <span>✓</span>
+        </div>
+
+        <h1 data-i18n="orderSuccess">
+            Order Placed Successfully
+        </h1>
+
+        <p class="success-text" data-i18n="thankYou">
+            Thank you for shopping with Literary Emporium.
+        </p>
+
+    </div>
+
+
+    <div class="order-id-box">
+
+        <div class="order-id-label" data-i18n="orderIdLabel">
+            Order ID
+        </div>
+
+        <div class="order-id" id="orderId">
+            Loading...
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title" data-i18n="orderDetails">
+        Order Details
+    </h2>
+
+    <div id="orderItems">
+
+        <div class="empty-order">
+            Loading order details...
+        </div>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <div class="summary-row">
+
+            <span data-i18n="subtotal">
+                Subtotal
+            </span>
+
+            <span id="subtotal">
+                ₹0
+            </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span data-i18n="delivery">
+                Delivery
+            </span>
+
+            <span id="delivery">
+                Free
+            </span>
+
+        </div>
+
+
+        <div class="summary-row total">
+
+            <span data-i18n="total">
+                Total
+            </span>
+
+            <span id="total">
+                ₹0
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="payment-box">
+
+        <div class="payment-row">
+
+            <span class="payment-label" data-i18n="paymentMethod">
+                Payment Method
+            </span>
+
+            <span class="payment-value" id="paymentMethod">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span class="payment-label" data-i18n="paymentStatus">
+                Payment Status
+            </span>
+
+            <span class="payment-value" id="paymentStatus">
+                -
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- DELIVERY -->
+
+    <div class="delivery-box">
+
+        <div class="delivery-title" data-i18n="deliveryInformation">
+            Delivery Information
+        </div>
+
+
+        <div class="delivery-row">
+
+            <span class="delivery-label" data-i18n="deliveryTime">
+                Delivery Time
+            </span>
+
+            <span class="delivery-value">
+                3–5 <span data-i18n="days">days</span>
+            </span>
+
+        </div>
+
+
+        <div class="delivery-row">
+
+            <span class="delivery-label" data-i18n="expectedDelivery">
+                Expected Delivery
+            </span>
+
+            <span
+                class="delivery-value"
+                id="expectedDelivery"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="delivery-row">
+
+            <span class="delivery-label" data-i18n="deliveryWindow">
+                Delivery Window
+            </span>
+
+            <span class="delivery-value">
+                9:00 AM – 8:00 PM
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAY LATER -->
+
+    <div
+        class="paylater-box"
+        id="payLaterBox"
+        style="display:none;"
+    >
+
+        <div
+            class="paylater-title"
+            data-i18n="payLaterTitle"
+        >
+            Pay Later
+        </div>
+
+
+        <div
+            class="paylater-message"
+            data-i18n="payLaterMessage"
+        >
+            Your order has been placed using Pay Later.
+        </div>
+
+
+        <div class="paylater-row">
+
+            <span
+                class="paylater-label"
+                data-i18n="paymentDue"
+            >
+                Payment Due Date
+            </span>
+
+            <span
+                class="paylater-value"
+                id="payLaterDueDate"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="paylater-row">
+
+            <span
+                class="paylater-label"
+                data-i18n="amountDue"
+            >
+                Amount Due
+            </span>
+
+            <span
+                class="paylater-value"
+                id="payLaterAmount"
+            >
+                ₹0
+            </span>
+
+        </div>
+
+
+        <div
+            class="reminder-box"
+            data-i18n="payLaterReminder"
+        >
+            Reminder: Please complete the payment by the due date.
+        </div>
+
+    </div>
+
+
+    <!-- TRACKING -->
+
+    <div class="tracking-section">
+
+        <h2
+            class="section-title"
+            data-i18n="trackTitle"
+        >
+            Order Tracking
+        </h2>
+
+
+        <div class="tracking">
+
+            <div
+                class="tracking-step active"
+                id="stepPlaced"
+            >
+
+                <div class="tracking-dot">✓</div>
+
+                <div
+                    class="tracking-name"
+                    data-i18n="orderPlaced"
+                >
+                    Order Placed
+                </div>
+
+                <div
+                    class="tracking-status"
+                    data-i18n="orderReceived"
+                >
+                    Your order has been received.
+                </div>
+
+            </div>
+
+
+            <div
+                class="tracking-step"
+                id="stepProcessing"
+            >
+
+                <div class="tracking-dot">2</div>
+
+                <div
+                    class="tracking-name"
+                    data-i18n="processing"
+                >
+                    Processing
+                </div>
+
+                <div
+                    class="tracking-status"
+                    data-i18n="processingMessage"
+                >
+                    Seller is preparing your order.
+                </div>
+
+            </div>
+
+
+            <div
+                class="tracking-step"
+                id="stepShipped"
+            >
+
+                <div class="tracking-dot">3</div>
+
+                <div
+                    class="tracking-name"
+                    data-i18n="shipped"
+                >
+                    Shipped
+                </div>
+
+                <div
+                    class="tracking-status"
+                    data-i18n="shippedMessage"
+                >
+                    Your order has been shipped.
+                </div>
+
+            </div>
+
+
+            <div
+                class="tracking-step"
+                id="stepOut"
+            >
+
+                <div class="tracking-dot">4</div>
+
+                <div
+                    class="tracking-name"
+                    data-i18n="outForDelivery"
+                >
+                    Out for Delivery
+                </div>
+
+                <div
+                    class="tracking-status"
+                    data-i18n="outMessage"
+                >
+                    Your order is on the way.
+                </div>
+
+            </div>
+
+
+            <div
+                class="tracking-step"
+                id="stepDelivered"
+            >
+
+                <div class="tracking-dot">5</div>
+
+                <div
+                    class="tracking-name"
+                    data-i18n="delivered"
+                >
+                    Delivered
+                </div>
+
+                <div
+                    class="tracking-status"
+                    data-i18n="deliveredMessage"
+                >
+                    Order delivered successfully.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="order-note"
+        id="orderNote"
+        data-i18n="orderNote"
+    >
+        Your order has been received and is being processed.
+    </div>
+
+
+    <p
+        class="success-text"
+        style="text-align:center;"
+        data-i18n="continueMessage"
+    >
+        You can continue browsing our book collection or view your order details.
+    </p>
+
+
+    <div class="button-group">
+
+        <a
+            href="home.html"
+            class="action-button"
+            data-i18n="continueShopping"
+        >
+            Continue Shopping
+        </a>
+
+        <a
+            href="orders.html"
+            class="action-button secondary-button"
+            data-i18n="trackOrder"
+        >
+            Track Order
+        </a>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer data-i18n="footer">
+    © 2026 Literary Emporium. All rights reserved.
+</footer>
+
+
+<script src="language.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const orders =
+        JSON.parse(
+            localStorage.getItem("literaryEmporiumOrders")
+        ) || [];
+
+
+    const trackingOrderId =
+        localStorage.getItem(
+            "literaryEmporiumTrackingOrderId"
+        );
+
+
+    let order = null;
+
+
+    /* =========================
+       FIND EXACT ORDER
+    ========================= */
+
+    if (trackingOrderId) {
+
+        order = orders.find(function (item) {
+
+            return String(item.orderId) ===
+                   String(trackingOrderId);
+
+        });
+
+    }
+
+
+    /* FALLBACK TO LATEST ORDER */
+
+    if (!order && orders.length > 0) {
+
+        order = orders[0];
+
+    }
+
+
+    const orderIdElement =
+        document.getElementById("orderId");
+
+
+    if (!order) {
+
+        orderIdElement.textContent =
+            "Order information unavailable";
+
+        document.getElementById("orderItems").innerHTML =
+            '<div class="empty-order">Order details are unavailable.</div>';
+
+        return;
+
+    }
+
+
+    /* =========================
+       ORDER ID
+    ========================= */
+
+    orderIdElement.textContent =
+        order.orderId || "Order ID unavailable";
+
+
+    /* =========================
+       ORDER ITEMS
+    ========================= */
+
+    const orderItems =
+        document.getElementById("orderItems");
+
+
+    orderItems.innerHTML = "";
+
+
+    const items = Array.isArray(order.items)
+        ? order.items
+        : [];
+
+
+    if (items.length === 0) {
+
+        orderItems.innerHTML =
+            '<div class="empty-order">No book details available.</div>';
+
+    } else {
+
+        items.forEach(function (book) {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "order-item";
+
+
+const cover =
+    book.cover ||
+    book.image ||
+    "";
+            const title =
+                book.title || "Book";
+
+
+            const author =
+                book.author || "Unknown Author";
+
+
+            const quantity =
+                Number(book.quantity) || 1;
+
+
+            const price =
+                Number(book.price) || 0;
+
+
+            item.innerHTML = `
+
+                <img
+                    src="${escapeHTML(cover)}"
+                    alt="Book Cover"
+                    class="book-cover"
+                    onerror="this.onerror=null; this.style.display='none';"
+                >
+
+                <div class="book-info">
+
+                    <div class="book-title">
+                        ${escapeHTML(title)}
+                    </div>
+
+                    <div class="book-author">
+                        ${escapeHTML(author)}
+                    </div>
+
+                    <div class="book-details">
+
+                        <div>
+                            Quantity: ${quantity}
+                        </div>
+
+                        <div>
+                            Price: ₹${price.toFixed(2)}
+                        </div>
+
+                        <div>
+                            Item Total: ₹${(price * quantity).toFixed(2)}
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+
+            orderItems.appendChild(item);
+
+        });
+
+    }
+
+
+    /* =========================
+       PRICE SUMMARY
+    ========================= */
+
+    const subtotal =
+        Number(order.subtotal) || 0;
+
+
+    const deliveryCharge =
+        Number(order.deliveryCharge) || 0;
+
+
+    const total =
+        Number(order.total) ||
+        (subtotal + deliveryCharge);
+
+
+    document.getElementById("subtotal")
+        .textContent =
+        "₹" + subtotal.toFixed(2);
+
+
+    document.getElementById("delivery")
+        .textContent =
+        deliveryCharge > 0
+            ? "₹" + deliveryCharge.toFixed(2)
+            : "Free";
+
+
+    document.getElementById("total")
+        .textContent =
+        "₹" + total.toFixed(2);
+
+
+    /* =========================
+       PAYMENT DETAILS
+    ========================= */
+
+    document.getElementById("paymentMethod")
+        .textContent =
+        order.paymentMethod || "Not available";
+
+
+    document.getElementById("paymentStatus")
+        .textContent =
+        order.paymentStatus || "Pending";
+
+
+    /* =========================
+       DELIVERY INFORMATION
+    ========================= */
+
+    const expectedDelivery =
+        document.getElementById("expectedDelivery");
+
+
+    if (
+        order.deliveryEstimate &&
+        order.deliveryEstimate.dateRange
+    ) {
+
+        expectedDelivery.textContent =
+            order.deliveryEstimate.dateRange;
+
+    } else {
+
+        /*
+           Fallback for older orders.
+           Uses 3–5 days from order date.
+        */
+
+        let baseDate = new Date();
+
+
+        if (order.date) {
+
+            const parsedDate =
+                new Date(order.date);
+
+            if (!isNaN(parsedDate.getTime())) {
+                baseDate = parsedDate;
+            }
+
+        }
+
+
+        const earliest =
+            new Date(baseDate);
+
+        earliest.setDate(
+            earliest.getDate() + 3
+        );
+
+
+        const latest =
+            new Date(baseDate);
+
+        latest.setDate(
+            latest.getDate() + 5
+        );
+
+
+        expectedDelivery.textContent =
+            formatDate(earliest) +
+            " – " +
+            formatDate(latest);
+
+    }
+
+
+    /* =========================
+       PAY LATER
+    ========================= */
+
+    const payLaterBox =
+        document.getElementById("payLaterBox");
+
+
+    const isPayLater =
+        order.paymentMethod === "Pay Later" ||
+        (
+            order.payLater &&
+            order.payLater.enabled === true
+        );
+
+
+    if (isPayLater) {
+
+        payLaterBox.style.display = "block";
+
+
+        const dueDateElement =
+            document.getElementById(
+                "payLaterDueDate"
+            );
+
+
+        const amountElement =
+            document.getElementById(
+                "payLaterAmount"
+            );
+
+
+        let dueDate = null;
+
+
+        /*
+           First use the exact due date
+           saved during checkout.
+        */
+
+        if (
+            order.payLater &&
+            order.payLater.dueDate
+        ) {
+
+            const savedDueDate =
+                new Date(
+                    order.payLater.dueDate
+                );
+
+
+            if (!isNaN(savedDueDate.getTime())) {
+
+                dueDate = savedDueDate;
+
+            }
+
+        }
+
+
+        /*
+           Fallback:
+           Latest delivery date + 2 days.
+        */
+
+        if (!dueDate) {
+
+            let latestDelivery =
+                new Date();
+
+
+            if (
+                order.deliveryEstimate &&
+                order.deliveryEstimate.latestDate
+            ) {
+
+                const latest =
+                    new Date(
+                        order.deliveryEstimate.latestDate
+                    );
+
+
+                if (!isNaN(latest.getTime())) {
+
+                    latestDelivery = latest;
+
+                }
+
+            } else {
+
+                latestDelivery.setDate(
+                    latestDelivery.getDate() + 5
+                );
+
+            }
+
+
+            dueDate =
+                new Date(latestDelivery);
+
+
+            dueDate.setDate(
+                dueDate.getDate() + 2
+            );
+
+        }
+
+
+        dueDateElement.textContent =
+            formatDate(dueDate);
+
+
+        amountElement.textContent =
+            "₹" + total.toFixed(2);
+
+    } else {
+
+        payLaterBox.style.display = "none";
+
+    }
+
+
+    /* =========================
+       TRACKING
+    ========================= */
+
+    const status =
+        order.status || "Order Placed";
+
+
+    const statusMap = {
+
+        "Order Placed": [
+            "stepPlaced"
+        ],
+
+        "Processing": [
+            "stepPlaced",
+            "stepProcessing"
+        ],
+
+        "Shipped": [
+            "stepPlaced",
+            "stepProcessing",
+            "stepShipped"
+        ],
+
+        "Out for Delivery": [
+            "stepPlaced",
+            "stepProcessing",
+            "stepShipped",
+            "stepOut"
+        ],
+
+        "Delivered": [
+            "stepPlaced",
+            "stepProcessing",
+            "stepShipped",
+            "stepOut",
+            "stepDelivered"
+        ]
+
+    };
+
+
+    document
+        .querySelectorAll(".tracking-step")
+        .forEach(function (step) {
+
+            step.classList.remove("active");
+
+        });
+
+
+    if (status === "Cancelled") {
+
+        document
+            .getElementById("stepPlaced")
+            .classList.add("active");
+
+
+        document
+            .getElementById("orderNote")
+            .textContent =
+            "This order has been cancelled.";
+
+    } else {
+
+        const activeSteps =
+            statusMap[status] ||
+            statusMap["Order Placed"];
+
+
+        activeSteps.forEach(function (stepId) {
+
+            const step =
+                document.getElementById(stepId);
+
+
+            if (step) {
+
+                step.classList.add("active");
+
+            }
+
+        });
+
+
+        const notes = {
+
+            "Order Placed":
+                "Your order has been received and is being processed.",
+
+            "Processing":
+                "The seller is preparing your order.",
+
+            "Shipped":
+                "Your order has been shipped and is on the way.",
+
+            "Out for Delivery":
+                "Your order is out for delivery.",
+
+            "Delivered":
+                "Your order has been delivered successfully."
+
+        };
+
+
+        document
+            .getElementById("orderNote")
+            .textContent =
+            notes[status] ||
+            notes["Order Placed"];
+
+    }
+
+
+    /* =========================
+       DATE FORMAT
+    ========================= */
+
+    function formatDate(date) {
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       SAFE HTML
+    ========================= */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       PAGE TRANSLATIONS
+    ========================= */
+
+    const translations = {
+
+        en: {
+
+            subtitle: "Online Book Marketplace",
+            home: "Home",
+            wishlist: "Wishlist",
+            cart: "Cart",
+
+            orderSuccess:
+                "Order Placed Successfully",
+
+            thankYou:
+                "Thank you for shopping with Literary Emporium.",
+
+            orderIdLabel:
+                "Order ID",
+
+            orderDetails:
+                "Order Details",
+
+            subtotal:
+                "Subtotal",
+
+            delivery:
+                "Delivery",
+
+            total:
+                "Total",
+
+            paymentMethod:
+                "Payment Method",
+
+            paymentStatus:
+                "Payment Status",
+
+            deliveryInformation:
+                "Delivery Information",
+
+            deliveryTime:
+                "Delivery Time",
+
+            days:
+                "days",
+
+            expectedDelivery:
+                "Expected Delivery",
+
+            deliveryWindow:
+                "Delivery Window",
+
+            payLaterTitle:
+                "Pay Later",
+
+            payLaterMessage:
+                "Your order has been placed using Pay Later.",
+
+            paymentDue:
+                "Payment Due Date",
+
+            amountDue:
+                "Amount Due",
+
+            payLaterReminder:
+                "Reminder: Please complete the payment by the due date.",
+
+            trackTitle:
+                "Order Tracking",
+
+            orderPlaced:
+                "Order Placed",
+
+            orderReceived:
+                "Your order has been received.",
+
+            processing:
+                "Processing",
+
+            processingMessage:
+                "Seller is preparing your order.",
+
+            shipped:
+                "Shipped",
+
+            shippedMessage:
+                "Your order has been shipped.",
+
+            outForDelivery:
+                "Out for Delivery",
+
+            outMessage:
+                "Your order is on the way.",
+
+            delivered:
+                "Delivered",
+
+            deliveredMessage:
+                "Order delivered successfully.",
+
+            orderNote:
+                "Your order has been received and is being processed.",
+
+            continueMessage:
+                "You can continue browsing our book collection or view your order details.",
+
+            continueShopping:
+                "Continue Shopping",
+
+            trackOrder:
+                "Track Order",
+
+            footer:
+                "© 2026 Literary Emporium. All rights reserved."
+        },
+
+
+        ta: {
+
+            subtitle:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            home:
+                "முகப்பு",
+
+            wishlist:
+                "விருப்பப்பட்டியல்",
+
+            cart:
+                "கார்ட்",
+
+            orderSuccess:
+                "ஆர்டர் வெற்றிகரமாக வைக்கப்பட்டது",
+
+            thankYou:
+                "Literary Emporium-ல் வாங்கியதற்கு நன்றி.",
+
+            orderIdLabel:
+                "ஆர்டர் எண்",
+
+            orderDetails:
+                "ஆர்டர் விவரங்கள்",
+
+            subtotal:
+                "மொத்த தொகை",
+
+            delivery:
+                "டெலிவரி",
+
+            total:
+                "மொத்தம்",
+
+            paymentMethod:
+                "பணம் செலுத்தும் முறை",
+
+            paymentStatus:
+                "பணம் செலுத்திய நிலை",
+
+            deliveryInformation:
+                "டெலிவரி தகவல்கள்",
+
+            deliveryTime:
+                "டெலிவரி காலம்",
+
+            days:
+                "நாட்கள்",
+
+            expectedDelivery:
+                "எதிர்பார்க்கப்படும் டெலிவரி",
+
+            deliveryWindow:
+                "டெலிவரி நேரம்",
+
+            payLaterTitle:
+                "பின்னர் பணம் செலுத்துதல்",
+
+            payLaterMessage:
+                "Pay Later முறையைப் பயன்படுத்தி உங்கள் ஆர்டர் வைக்கப்பட்டுள்ளது.",
+
+            paymentDue:
+                "பணம் செலுத்த வேண்டிய தேதி",
+
+            amountDue:
+                "செலுத்த வேண்டிய தொகை",
+
+            payLaterReminder:
+                "நினைவூட்டல்: குறிப்பிட்ட தேதிக்குள் பணம் செலுத்தவும்.",
+
+            trackTitle:
+                "ஆர்டர் கண்காணிப்பு",
+
+            orderPlaced:
+                "ஆர்டர் வைக்கப்பட்டது",
+
+            orderReceived:
+                "உங்கள் ஆர்டர் பெறப்பட்டது.",
+
+            processing:
+                "செயலாக்கத்தில் உள்ளது",
+
+            processingMessage:
+                "விற்பனையாளர் உங்கள் ஆர்டரை தயாரித்து வருகிறார்.",
+
+            shipped:
+                "அனுப்பப்பட்டது",
+
+            shippedMessage:
+                "உங்கள் ஆர்டர் அனுப்பப்பட்டுள்ளது.",
+
+            outForDelivery:
+                "டெலிவரிக்காக புறப்பட்டது",
+
+            outMessage:
+                "உங்கள் ஆர்டர் வரும் வழியில் உள்ளது.",
+
+            delivered:
+                "வழங்கப்பட்டது",
+
+            deliveredMessage:
+                "ஆர்டர் வெற்றிகரமாக வழங்கப்பட்டது.",
+
+            orderNote:
+                "உங்கள் ஆர்டர் பெறப்பட்டு செயலாக்கத்தில் உள்ளது.",
+
+            continueMessage:
+                "புத்தகங்களை தொடர்ந்து பார்க்கலாம் அல்லது உங்கள் ஆர்டர் விவரங்களை பார்க்கலாம்.",
+
+            continueShopping:
+                "தொடர்ந்து வாங்கவும்",
+
+            trackOrder:
+                "ஆர்டரை கண்காணிக்கவும்",
+
+            footer:
+                "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        },
+
+
+        hi: {
+
+            subtitle:
+                "ऑनलाइन पुस्तक बाज़ार",
+
+            home:
+                "होम",
+
+            wishlist:
+                "विशलिस्ट",
+
+            cart:
+                "कार्ट",
+
+            orderSuccess:
+                "ऑर्डर सफलतापूर्वक किया गया",
+
+            thankYou:
+                "Literary Emporium से खरीदारी करने के लिए धन्यवाद।",
+
+            orderIdLabel:
+                "ऑर्डर आईडी",
+
+            orderDetails:
+                "ऑर्डर विवरण",
+
+            subtotal:
+                "उप-योग",
+
+            delivery:
+                "डिलीवरी",
+
+            total:
+                "कुल",
+
+            paymentMethod:
+                "भुगतान का तरीका",
+
+            paymentStatus:
+                "भुगतान स्थिति",
+
+            deliveryInformation:
+                "डिलीवरी जानकारी",
+
+            deliveryTime:
+                "डिलीवरी समय",
+
+            days:
+                "दिन",
+
+            expectedDelivery:
+                "अनुमानित डिलीवरी",
+
+            deliveryWindow:
+                "डिलीवरी समय सीमा",
+
+            payLaterTitle:
+                "बाद में भुगतान करें",
+
+            payLaterMessage:
+                "आपका ऑर्डर Pay Later के माध्यम से किया गया है।",
+
+            paymentDue:
+                "भुगतान की अंतिम तिथि",
+
+            amountDue:
+                "देय राशि",
+
+            payLaterReminder:
+                "रिमाइंडर: कृपया अंतिम तिथि तक भुगतान पूरा करें।",
+
+            trackTitle:
+                "ऑर्डर ट्रैकिंग",
+
+            orderPlaced:
+                "ऑर्डर किया गया",
+
+            orderReceived:
+                "आपका ऑर्डर प्राप्त हो गया है।",
+
+            processing:
+                "प्रक्रिया में",
+
+            processingMessage:
+                "विक्रेता आपका ऑर्डर तैयार कर रहा है।",
+
+            shipped:
+                "भेज दिया गया",
+
+            shippedMessage:
+                "आपका ऑर्डर भेज दिया गया है।",
+
+            outForDelivery:
+                "डिलीवरी के लिए निकला",
+
+            outMessage:
+                "आपका ऑर्डर रास्ते में है।",
+
+            delivered:
+                "डिलीवर किया गया",
+
+            deliveredMessage:
+                "ऑर्डर सफलतापूर्वक डिलीवर किया गया।",
+
+            orderNote:
+                "आपका ऑर्डर प्राप्त हो गया है और प्रक्रिया में है।",
+
+            continueMessage:
+                "आप पुस्तकें देखना जारी रख सकते हैं या अपने ऑर्डर का विवरण देख सकते हैं।",
+
+            continueShopping:
+                "खरीदारी जारी रखें",
+
+            trackOrder:
+                "ऑर्डर ट्रैक करें",
+
+            footer:
+                "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+        },
+
+
+        te: {
+
+            subtitle:
+                "ఆన్‌లైన్ పుస్తక మార్కెట్",
+
+            home:
+                "హోమ్",
+
+            wishlist:
+                "విష్‌లిస్ట్",
+
+            cart:
+                "కార్ట్",
+
+            orderSuccess:
+                "ఆర్డర్ విజయవంతంగా నమోదు చేయబడింది",
+
+            thankYou:
+                "Literary Emporiumలో కొనుగోలు చేసినందుకు ధన్యవాదాలు.",
+
+            orderIdLabel:
+                "ఆర్డర్ ఐడి",
+
+            orderDetails:
+                "ఆర్డర్ వివరాలు",
+
+            subtotal:
+                "ఉప మొత్తం",
+
+            delivery:
+                "డెలివరీ",
+
+            total:
+                "మొత్తం",
+
+            paymentMethod:
+                "చెల్లింపు విధానం",
+
+            paymentStatus:
+                "చెల్లింపు స్థితి",
+
+            deliveryInformation:
+                "డెలివరీ సమాచారం",
+
+            deliveryTime:
+                "డెలివరీ సమయం",
+
+            days:
+                "రోజులు",
+
+            expectedDelivery:
+                "అంచనా డెలివరీ",
+
+            deliveryWindow:
+                "డెలివరీ సమయ పరిమితి",
+
+            payLaterTitle:
+                "తర్వాత చెల్లించండి",
+
+            payLaterMessage:
+                "మీ ఆర్డర్ Pay Later ద్వారా నమోదు చేయబడింది.",
+
+            paymentDue:
+                "చెల్లింపు గడువు తేదీ",
+
+            amountDue:
+                "చెల్లించాల్సిన మొత్తం",
+
+            payLaterReminder:
+                "రిమైండర్: గడువు తేదీలోపు చెల్లింపును పూర్తి చేయండి.",
+
+            trackTitle:
+                "ఆర్డర్ ట్రాకింగ్",
+
+            orderPlaced:
+                "ఆర్డర్ నమోదు చేయబడింది",
+
+            orderReceived:
+                "మీ ఆర్డర్ అందింది.",
+
+            processing:
+                "ప్రాసెసింగ్",
+
+            processingMessage:
+                "విక్రేత మీ ఆర్డర్‌ను సిద్ధం చేస్తున్నారు.",
+
+            shipped:
+                "పంపబడింది",
+
+            shippedMessage:
+                "మీ ఆర్డర్ పంపబడింది.",
+
+            outForDelivery:
+                "డెలివరీకి బయలుదేరింది",
+
+            outMessage:
+                "మీ ఆర్డర్ మార్గంలో ఉంది.",
+
+            delivered:
+                "డెలివరీ పూర్తయింది",
+
+            deliveredMessage:
+                "ఆర్డర్ విజయవంతంగా డెలివరీ చేయబడింది.",
+
+            orderNote:
+                "మీ ఆర్డర్ అందింది మరియు ప్రాసెసింగ్‌లో ఉంది.",
+
+            continueMessage:
+                "మీరు పుస్తకాలను కొనసాగించి చూడవచ్చు లేదా మీ ఆర్డర్ వివరాలను చూడవచ్చు.",
+
+            continueShopping:
+                "కొనుగోలు కొనసాగించండి",
+
+            trackOrder:
+                "ఆర్డర్‌ను ట్రాక్ చేయండి",
+
+            footer:
+                "© 2026 Literary Emporium. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."
+        },
+
+
+        ml: {
+
+            subtitle:
+                "ഓൺലൈൻ പുസ്തക വിപണി",
+
+            home:
+                "ഹോം",
+
+            wishlist:
+                "വിഷ്‌ലിസ്റ്റ്",
+
+            cart:
+                "കാർട്ട്",
+
+            orderSuccess:
+                "ഓർഡർ വിജയകരമായി നൽകി",
+
+            thankYou:
+                "Literary Emporiumൽ നിന്ന് വാങ്ങിയതിന് നന്ദി.",
+
+            orderIdLabel:
+                "ഓർഡർ ഐഡി",
+
+            orderDetails:
+                "ഓർഡർ വിശദാംശങ്ങൾ",
+
+            subtotal:
+                "ഉപമൊത്തം",
+
+            delivery:
+                "ഡെലിവറി",
+
+            total:
+                "ആകെ",
+
+            paymentMethod:
+                "പണമടയ്ക്കൽ രീതി",
+
+            paymentStatus:
+                "പണമടയ്ക്കൽ നില",
+
+            deliveryInformation:
+                "ഡെലിവറി വിവരങ്ങൾ",
+
+            deliveryTime:
+                "ഡെലിവറി സമയം",
+
+            days:
+                "ദിവസങ്ങൾ",
+
+            expectedDelivery:
+                "പ്രതീക്ഷിക്കുന്ന ഡെലിവറി",
+
+            deliveryWindow:
+                "ഡെലിവറി സമയം",
+
+            payLaterTitle:
+                "പിന്നീട് പണമടയ്ക്കുക",
+
+            payLaterMessage:
+                "Pay Later ഉപയോഗിച്ച് നിങ്ങളുടെ ഓർഡർ നൽകി.",
+
+            paymentDue:
+                "പണമടയ്ക്കേണ്ട അവസാന തീയതി",
+
+            amountDue:
+                "അടയ്ക്കേണ്ട തുക",
+
+            payLaterReminder:
+                "ഓർമ്മപ്പെടുത്തൽ: അവസാന തീയതിക്കുള്ളിൽ പണമടയ്ക്കുക.",
+
+            trackTitle:
+                "ഓർഡർ ട്രാക്കിംഗ്",
+
+            orderPlaced:
+                "ഓർഡർ നൽകി",
+
+            orderReceived:
+                "നിങ്ങളുടെ ഓർഡർ ലഭിച്ചു.",
+
+            processing:
+                "പ്രോസസ്സിംഗ്",
+
+            processingMessage:
+                "വിൽപ്പനക്കാരൻ നിങ്ങളുടെ ഓർഡർ തയ്യാറാക്കുന്നു.",
+
+            shipped:
+                "അയച്ചു",
+
+            shippedMessage:
+                "നിങ്ങളുടെ ഓർഡർ അയച്ചു.",
+
+            outForDelivery:
+                "ഡെലിവറിക്കായി പുറപ്പെട്ടു",
+
+            outMessage:
+                "നിങ്ങളുടെ ഓർഡർ വഴിയിലാണ്.",
+
+            delivered:
+                "ഡെലിവർ ചെയ്തു",
+
+            deliveredMessage:
+                "ഓർഡർ വിജയകരമായി ഡെലിവർ ചെയ്തു.",
+
+            orderNote:
+                "നിങ്ങളുടെ ഓർഡർ ലഭിക്കുകയും പ്രോസസ്സിംഗ് ആരംഭിക്കുകയും ചെയ്തു.",
+
+            continueMessage:
+                "നിങ്ങൾക്ക് പുസ്തകങ്ങൾ തുടര்ந்து കാണുകയോ ഓർഡർ വിശദാംശങ്ങൾ കാണുകയോ ചെയ്യാം.",
+
+            continueShopping:
+                "ഷോപ്പിംഗ് തുടരുക",
+
+            trackOrder:
+                "ഓർഡർ ട്രാക്ക് ചെയ്യുക",
+
+            footer:
+                "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+        }
+
+    };
+
+
+    /* =========================
+       LANGUAGE
+    ========================= */
+
+    function applyPageLanguage(language) {
+
+        const selected =
+            translations[language] ||
+            translations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function (element) {
+
+                const key =
+                    element.getAttribute("data-i18n");
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            });
+
+    }
+
+
+    const languageSelector =
+        document.getElementById("languageSelector");
+
+
+    if (languageSelector) {
+
+        const savedLanguage =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        languageSelector.value =
+            savedLanguage;
+
+
+        applyPageLanguage(savedLanguage);
+
+
+        languageSelector.addEventListener(
+            "change",
+            function () {
+
+                const language =
+                    this.value;
+
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    language
+                );
+
+
+                applyPageLanguage(language);
+
+            }
+        );
+
+    }
+
+});
+
+</script>
+<script src="chatbot.js?v=3"></script>
+</body>
+</html>

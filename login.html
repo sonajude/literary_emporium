@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="buyerPortal">Buyer Portal | Literary Emporium</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f7f8f9;
+            color: #172b3a;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 430px;
+            text-align: center;
+        }
+
+        .language-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .language-select {
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid #aeb6bd;
+            border-radius: 2px;
+            background: white;
+            color: #26343f;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .brand {
+            margin-bottom: 55px;
+        }
+
+        .brand-name {
+            margin: 0;
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .brand-subtitle {
+            margin-top: 8px;
+            color: #737c84;
+            font-size: 13px;
+            letter-spacing: 0.4px;
+        }
+
+        .label {
+            margin-bottom: 14px;
+            color: #7a263a;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .description {
+            margin: 14px auto 35px;
+            max-width: 360px;
+            color: #69737c;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .buttons {
+            width: 100%;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .main-button {
+            width: 100%;
+            height: 48px;
+            margin-bottom: 12px;
+            border: 1px solid #172b3a;
+            border-radius: 2px;
+            background: #172b3a;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .second-button {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #aeb6bd;
+            border-radius: 2px;
+            background: transparent;
+            color: #26343f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .auth {
+            text-align: left;
+        }
+
+        .auth .label,
+        .auth h2,
+        .auth .description {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 35px;
+        }
+
+        .field {
+            margin-bottom: 26px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #26343f;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            height: 42px;
+            padding: 8px 2px;
+            border: none;
+            border-bottom: 1px solid #aeb6bd;
+            background: transparent;
+            color: #172b3a;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 2px solid #172b3a;
+        }
+
+        input::placeholder {
+            color: #9aa2a9;
+        }
+
+        .submit {
+            width: 100%;
+            height: 48px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 2px;
+            background: #172b3a;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .links {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .link-button {
+            display: block;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            color: #7a263a;
+            font-size: 13px;
+        }
+
+        .back-button {
+            color: #6d767e;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .validation-message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .validation-message.error {
+            color: #8a2638;
+        }
+
+        .validation-message.success {
+            color: #315c49;
+        }
+
+        @media (max-width: 600px) {
+
+            .content {
+                max-width: 100%;
+            }
+
+            .brand {
+                margin-bottom: 40px;
+            }
+
+            .brand-name {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .language-area {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <main class="page">
+
+        <div class="content">
+
+            <!-- LANGUAGE -->
+            <div class="language-area">
+
+                <select id="languageSelect" class="language-select" aria-label="Language">
+
+                    <option value="en">English</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="ml">മലയാളം</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BRAND -->
+            <div class="brand">
+
+                <h1 class="brand-name">
+                    LITERARY EMPORIUM
+                </h1>
+
+                <p class="brand-subtitle" data-i18n="onlineBookMarketplace">
+                    Online Book Marketplace
+                </p>
+
+            </div>
+
+
+            <!-- ACCOUNT CHOICE -->
+            <section id="choiceSection">
+
+                <div class="label" data-i18n="buyerPortal">
+                    BUYER PORTAL
+                </div>
+
+                <h2 data-i18n="welcome">
+                    Welcome
+                </h2>
+
+                <p class="description" data-i18n="chooseContinue">
+                    Choose how you would like to continue.
+                </p>
+
+                <div class="buttons">
+
+                    <button
+                        type="button"
+                        class="main-button"
+                        onclick="showLogin()"
+                        data-i18n="alreadyAccount">
+                        I Already Have an Account
+                    </button>
+
+                    <button
+                        type="button"
+                        class="second-button"
+                        onclick="showRegister()"
+                        data-i18n="newBuyer">
+                        I am a New Buyer
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- LOGIN -->
+            <section
+                id="loginSection"
+                class="auth hidden">
+
+                <div class="label" data-i18n="buyerLogin">
+                    BUYER LOGIN
+                </div>
+
+                <h2 data-i18n="signIn">
+                    Sign In
+                </h2>
+
+                <p class="description" data-i18n="signInDescription">
+                    Sign in to continue to Literary Emporium.
+                </p>
+
+                <form id="loginForm">
+
+                    <div class="field">
+
+                        <label
+                            for="loginEmail"
+                            data-i18n="emailAddress">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            data-i18n-placeholder="enterEmail"
+                            placeholder="Enter your email address"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label
+                            for="loginPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            data-i18n-placeholder="enterPassword"
+                            placeholder="Enter your password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit"
+                        data-i18n="login">
+                        Login
+                    </button>
+
+                    <p
+                        id="loginMessage"
+                        class="validation-message">
+                    </p>
+
+                </form>
+
+
+                <div class="links">
+
+                    <button
+                        type="button"
+                        class="link-button"
+                        onclick="showRegister()"
+                        data-i18n="newBuyerCreate">
+                        New buyer? Create an account
+                    </button>
+
+                    <button
+                        type="button"
+                        class="link-button back-button"
+                        onclick="showChoice()"
+                        data-i18n="back">
+                        Back
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- REGISTRATION -->
+            <section
+                id="registerSection"
+                class="auth hidden">
+
+                <div class="label" data-i18n="buyerRegistration">
+                    BUYER REGISTRATION
+                </div>
+
+                <h2 data-i18n="createAccount">
+                    Create Your Account
+                </h2>
+
+                <p class="description" data-i18n="registrationDescription">
+                    Register as a new buyer to access the marketplace.
+                </p>
+
+
+                <form id="registerForm">
+
+                    <div class="field">
+
+                        <label
+                            for="fullName"
+                            data-i18n="fullName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            data-i18n-placeholder="enterFullName"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label
+                            for="registerEmail"
+                            data-i18n="emailAddress">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            data-i18n-placeholder="enterEmail"
+                            placeholder="Enter your email address"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label
+                            for="registerPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            data-i18n-placeholder="createPassword"
+                            placeholder="Create a password"
+                            required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label
+                            for="confirmPassword"
+                            data-i18n="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            data-i18n-placeholder="confirmYourPassword"
+                            placeholder="Confirm your password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit"
+                        data-i18n="createAccount">
+                        Create Account
+                    </button>
+
+                    <p
+                        id="registerMessage"
+                        class="validation-message">
+                    </p>
+
+                </form>
+
+
+                <div class="links">
+
+                    <button
+                        type="button"
+                        class="link-button"
+                        onclick="showLogin()"
+                        data-i18n="alreadyAccountLogin">
+                        Already have an account? Login
+                    </button>
+
+                    <button
+                        type="button"
+                        class="link-button back-button"
+                        onclick="showChoice()"
+                        data-i18n="back">
+                        Back
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- LANGUAGE -->
+    <script src="language.js"></script>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            if (typeof setupLanguageSelector === "function") {
+                setupLanguageSelector();
+            }
+
+            if (typeof applyLanguage === "function") {
+                applyLanguage();
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

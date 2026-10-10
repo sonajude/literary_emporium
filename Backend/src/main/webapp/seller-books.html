@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Books | Literary Emporium</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 22px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #c7ced8;
+            margin-top: 4px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .language-select {
+            padding: 8px 10px;
+            border: 1px solid #c7ced8;
+            background: #172337;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 25px;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .page-heading p {
+            margin-top: 10px;
+            color: #687385;
+            font-size: 14px;
+        }
+
+        .book-count {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4f5b6b;
+        }
+
+        .add-book-section {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 28px;
+            margin-bottom: 28px;
+        }
+
+        .add-book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .add-book-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #172337;
+        }
+
+        .add-book-header p {
+            margin: 5px 0 0;
+            font-size: 13px;
+            color: #687385;
+        }
+
+        .add-book-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #354052;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #cfd5dc;
+            background: #fff;
+            color: #172337;
+            padding: 11px 12px;
+            font-size: 13px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 105px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #172337;
+        }
+
+        .form-help {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #7a8492;
+        }
+
+        .add-book-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 4px;
+        }
+
+        .add-book-button,
+        .clear-book-button {
+            padding: 11px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #172337;
+        }
+
+        .add-book-button {
+            background: #172337;
+            color: white;
+        }
+
+        .add-book-button:hover {
+            background: #26364d;
+        }
+
+        .clear-book-button {
+            background: white;
+            color: #172337;
+        }
+
+        .clear-book-button:hover {
+            background: #eef1f4;
+        }
+
+        .form-message {
+            grid-column: 1 / -1;
+            min-height: 18px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-message.success {
+            color: #315c49;
+        }
+
+        .form-message.error {
+            color: #8a2638;
+        }
+
+        @media (max-width: 700px) {
+            .add-book-section {
+                padding: 20px;
+            }
+
+            .add-book-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .add-book-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width,
+            .add-book-actions,
+            .form-message {
+                grid-column: auto;
+            }
+
+            .add-book-actions {
+                flex-wrap: wrap;
+            }
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #d9dee5;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #eef1f4;
+            color: #263449;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #d9dee5;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e3e7ec;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .book-cover {
+            width: 65px;
+            height: 85px;
+            object-fit: cover;
+            border: 1px solid #d1d6dd;
+            display: block;
+        }
+
+        .no-cover {
+            width: 65px;
+            height: 85px;
+            border: 1px solid #d1d6dd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 11px;
+            color: #7a8492;
+            background: #f4f6f8;
+        }
+
+        .availability {
+            color: #315c49;
+            font-size: 13px;
+        }
+
+        .remove-button {
+            padding: 9px 15px;
+            border: 1px solid #8a2638;
+            background: white;
+            color: #8a2638;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .remove-button:hover {
+            background: #f8edef;
+        }
+
+        .empty-message {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 35px;
+            text-align: center;
+            color: #687385;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 80px;
+            background: #172337;
+            color: #c7ced8;
+            text-align: center;
+            padding: 22px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            main {
+                margin: 30px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div>
+        <div class="brand">
+            LITERARY EMPORIUM
+        </div>
+
+        <div
+            class="subtitle"
+            data-i18n="onlineBookMarketplace">
+            Online Book Marketplace
+        </div>
+    </div>
+
+    <div class="header-right">
+
+        <select
+            id="languageSelector"
+            class="language-select"
+            aria-label="Select Language">
+
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+            <option value="te">తెలుగు</option>
+            <option value="ml">മലയാളം</option>
+
+        </select>
+
+        <a
+            href="seller-dashboard.html"
+            data-i18n="dashboard">
+            Dashboard
+        </a>
+
+        <a
+            href="seller-login.html"
+            data-i18n="logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <div class="page-heading">
+
+        <h1 data-i18n="manageBooks">
+            Manage Books
+        </h1>
+
+        <p data-i18n="manageBooksDescription">
+            View and manage the books added to your catalogue.
+        </p>
+
+        <div class="book-count">
+
+            <span data-i18n="totalBooks">
+                Total Books:
+            </span>
+
+            <strong id="bookCount">0</strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ADD NEW BOOK -->
+    <section class="add-book-section">
+
+        <div class="add-book-header">
+            <div>
+                <h2 data-i18n="addNewBook">Add New Book</h2>
+                <p data-i18n="addBookDescription">Add a new book to your seller catalogue.</p>
+            </div>
+        </div>
+
+        <form id="addBookForm" class="add-book-form">
+
+            <div class="form-group">
+                <label for="bookTitleInput" data-i18n="bookTitle">Book Title</label>
+                <input type="text" id="bookTitleInput" required maxlength="150" data-i18n-placeholder="bookTitlePlaceholder" placeholder="Enter book title">
+            </div>
+
+            <div class="form-group">
+                <label for="bookAuthorInput" data-i18n="author">Author</label>
+                <input type="text" id="bookAuthorInput" required maxlength="120" data-i18n-placeholder="authorPlaceholder" placeholder="Enter author name">
+            </div>
+
+            <div class="form-group">
+                <label for="bookCategoryInput" data-i18n="category">Category</label>
+                <select id="bookCategoryInput" required>
+                    <option value="" data-i18n="selectCategory">Select Category</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Action / Adventure">Action / Adventure</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Mystery / Thriller">Mystery / Thriller</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Biography">Biography</option>
+                    <option value="History">History</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Self-Help">Self-Help</option>
+                    <option value="Children">Children</option>
+                    <option value="Fantasy">Fantasy</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bookPriceInput" data-i18n="price">Price</label>
+                <input type="number" id="bookPriceInput" min="1" step="0.01" required data-i18n-placeholder="pricePlaceholder" placeholder="Enter price">
+            </div>
+
+            <div class="form-group">
+                <label for="bookStockInput" data-i18n="stock">Stock</label>
+                <input type="number" id="bookStockInput" min="0" step="1" required data-i18n-placeholder="stockPlaceholder" placeholder="Enter stock quantity">
+            </div>
+
+            <div class="form-group">
+                <label for="bookImageInput" data-i18n="coverImage">Book Cover</label>
+                <input type="file" id="bookImageInput" accept="image/*">
+                <span class="form-help" data-i18n="coverHelp">Optional. JPG, PNG or WEBP image.</span>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="bookDescriptionInput" data-i18n="description">Description</label>
+                <textarea id="bookDescriptionInput" maxlength="600" required data-i18n-placeholder="descriptionPlaceholder" placeholder="Enter a short description of the book"></textarea>
+            </div>
+
+            <div id="addBookMessage" class="form-message"></div>
+
+            <div class="add-book-actions">
+                <button type="submit" class="add-book-button" data-i18n="addBookButton">Add Book</button>
+                <button type="button" class="clear-book-button" id="clearBookButton" data-i18n="clearForm">Clear</button>
+            </div>
+
+        </form>
+
+    </section>
+
+    <div
+        id="emptyMessage"
+        class="empty-message"
+        style="display: none;"
+        data-i18n="noBooksAdded">
+        No books have been added yet.
+    </div>
+
+
+    <div
+        id="tableContainer"
+        class="table-container"
+        style="display: none;">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th data-i18n="cover">
+                        Cover
+                    </th>
+
+                    <th data-i18n="bookTitle">
+                        Book Title
+                    </th>
+
+                    <th data-i18n="author">
+                        Author
+                    </th>
+
+                    <th data-i18n="category">
+                        Category
+                    </th>
+
+                    <th data-i18n="price">
+                        Price
+                    </th>
+
+                    <th data-i18n="availability">
+                        Availability
+                    </th>
+
+                    <th data-i18n="action">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="sellerBooksTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    © 2026 Literary Emporium.
+
+    <span data-i18n="allRightsReserved">
+        All rights reserved.
+    </span>
+
+</footer>
+
+
+<script src="language.js"></script>
+
+<script>
+
+    function getSellerBooks() {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumSellerBooks"
+            )
+        ) || [];
+
+    }
+
+
+    function displaySellerBooks() {
+
+        const sellerBooksTable =
+            document.getElementById(
+                "sellerBooksTable"
+            );
+
+        const emptyMessage =
+            document.getElementById(
+                "emptyMessage"
+            );
+
+        const tableContainer =
+            document.getElementById(
+                "tableContainer"
+            );
+
+        const bookCount =
+            document.getElementById(
+                "bookCount"
+            );
+
+
+        const sellerBooks =
+            getSellerBooks();
+
+
+        sellerBooksTable.innerHTML = "";
+
+        bookCount.textContent =
+            sellerBooks.length;
+
+
+        if (sellerBooks.length === 0) {
+
+            emptyMessage.style.display =
+                "block";
+
+            tableContainer.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        emptyMessage.style.display =
+            "none";
+
+        tableContainer.style.display =
+            "block";
+
+
+        sellerBooks.forEach(
+            function(book, index) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                let coverHTML;
+
+
+                if (book.image) {
+
+                    coverHTML = `
+                        <img
+                            src="${book.image}"
+                            alt="Book cover"
+                            class="book-cover"
+                        >
+                    `;
+
+                } else {
+
+                    coverHTML = `
+                        <div class="no-cover">
+                            ${getTranslation("noCover")}
+                        </div>
+                    `;
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${coverHTML}
+                    </td>
+
+                    <td>
+                        ${book.title || ""}
+                    </td>
+
+                    <td>
+                        ${book.author || ""}
+                    </td>
+
+                    <td>
+                        ${book.category || ""}
+                    </td>
+
+                    <td>
+                        ₹${Number(book.price || 0).toFixed(0)}
+                    </td>
+
+                    <td>
+                        <span class="availability">
+                            ${book.availability || ""}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="remove-button"
+                            onclick="removeBook(${index})">
+
+                            ${getTranslation("remove")}
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                sellerBooksTable.appendChild(row);
+
+            }
+        );
+
+    }
+
+
+
+
+    function showAddBookMessage(message, type) {
+
+        const element = document.getElementById("addBookMessage");
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent = message || "";
+        element.className = "form-message" + (type ? " " + type : "");
+    }
+
+
+    function clearAddBookForm() {
+
+        const form = document.getElementById("addBookForm");
+
+        if (form) {
+            form.reset();
+        }
+
+        showAddBookMessage("", "");
+    }
+
+
+    function addNewBook(event) {
+
+        event.preventDefault();
+
+        const title = document.getElementById("bookTitleInput").value.trim();
+        const author = document.getElementById("bookAuthorInput").value.trim();
+        const category = document.getElementById("bookCategoryInput").value;
+        const price = Number(document.getElementById("bookPriceInput").value);
+        const stock = Number(document.getElementById("bookStockInput").value);
+        const description = document.getElementById("bookDescriptionInput").value.trim();
+        const imageInput = document.getElementById("bookImageInput");
+
+        if (!title || !author || !category || !description) {
+            showAddBookMessage(getTranslation("fillAllFields"), "error");
+            return;
+        }
+
+        if (!Number.isFinite(price) || price <= 0) {
+            showAddBookMessage(getTranslation("invalidPrice"), "error");
+            return;
+        }
+
+        if (!Number.isInteger(stock) || stock < 0) {
+            showAddBookMessage(getTranslation("invalidStock"), "error");
+            return;
+        }
+
+        const currentSeller = JSON.parse(
+            localStorage.getItem("literaryEmporiumCurrentSeller")
+        ) || {};
+
+        const sellerEmail = (currentSeller.email || "").trim().toLowerCase();
+        const sellerName = currentSeller.name || "Seller";
+
+        if (!sellerEmail) {
+            showAddBookMessage(getTranslation("sellerLoginRequired"), "error");
+            return;
+        }
+
+        const saveBook = function(imageData) {
+
+            const books = getSellerBooks();
+
+            const newBook = {
+                id: "SELLER-BOOK-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+                sellerEmail: sellerEmail,
+                sellerName: sellerName,
+                title: title,
+                author: author,
+                category: category,
+                description: description,
+                price: Number(price.toFixed(2)),
+                stock: stock,
+                availability: stock > 0 ? "Available" : "Out of Stock",
+                image: imageData || "",
+                createdAt: new Date().toISOString()
+            };
+
+            books.push(newBook);
+
+            localStorage.setItem(
+                "literaryEmporiumSellerBooks",
+                JSON.stringify(books)
+            );
+
+            clearAddBookForm();
+            showAddBookMessage(getTranslation("bookAddedSuccess"), "success");
+            displaySellerBooks();
+        };
+
+        if (imageInput.files && imageInput.files[0]) {
+
+            const file = imageInput.files[0];
+
+            if (!file.type.startsWith("image/")) {
+                showAddBookMessage(getTranslation("invalidImage"), "error");
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                showAddBookMessage(getTranslation("imageTooLarge"), "error");
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                saveBook(reader.result);
+            };
+
+            reader.onerror = function() {
+                showAddBookMessage(getTranslation("imageReadError"), "error");
+            };
+
+            reader.readAsDataURL(file);
+            return;
+        }
+
+        saveBook("");
+    }
+
+
+    const addBookForm = document.getElementById("addBookForm");
+
+    if (addBookForm) {
+        addBookForm.addEventListener("submit", addNewBook);
+    }
+
+
+    const clearBookButton = document.getElementById("clearBookButton");
+
+    if (clearBookButton) {
+        clearBookButton.addEventListener("click", clearAddBookForm);
+    }
+
+    function removeBook(index) {
+
+        const sellerBooks =
+            getSellerBooks();
+
+
+        if (
+            !confirm(
+                getTranslation(
+                    "removeConfirmation"
+                )
+            )
+        ) {
+            return;
+        }
+
+
+        sellerBooks.splice(index, 1);
+
+
+        localStorage.setItem(
+            "literaryEmporiumSellerBooks",
+            JSON.stringify(sellerBooks)
+        );
+
+
+        displaySellerBooks();
+
+    }
+
+
+    const translations = {
+
+        en: {
+            onlineBookMarketplace:
+                "Online Book Marketplace",
+
+            dashboard:
+                "Dashboard",
+
+            logout:
+                "Logout",
+
+            manageBooks:
+                "Manage Books",
+
+
+            manageBooksDescription:
+                "View and manage the books added to your catalogue.",
+
+            totalBooks:
+                "Total Books:",
+
+            noBooksAdded:
+                "No books have been added yet.",
+
+            cover:
+                "Cover",
+
+            bookTitle:
+                "Book Title",
+
+            author:
+                "Author",
+
+            category:
+                "Category",
+
+            price:
+                "Price",
+
+            availability:
+                "Availability",
+
+            action:
+                "Action",
+
+            remove:
+                "Remove",
+
+            noCover:
+                "No Cover",
+
+            removeConfirmation:
+                "Are you sure you want to remove this book?",
+
+            allRightsReserved:
+                "All rights reserved."
+        },
+
+
+        ta: {
+            onlineBookMarketplace:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            dashboard:
+                "டாஷ்போர்டு",
+
+            logout:
+                "வெளியேறு",
+
+            manageBooks:
+                "புத்தகங்களை நிர்வகிக்கவும்",
+
+
+            addNewBook: "புதிய புத்தகம் சேர்க்கவும்",
+            addBookDescription: "உங்கள் விற்பனையாளர் பட்டியலில் புதிய புத்தகத்தைச் சேர்க்கவும்.",
+            bookTitlePlaceholder: "புத்தகத்தின் பெயரை உள்ளிடவும்",
+            authorPlaceholder: "ஆசிரியர் பெயரை உள்ளிடவும்",
+            selectCategory: "வகையைத் தேர்ந்தெடுக்கவும்",
+            pricePlaceholder: "விலையை உள்ளிடவும்",
+            stock: "இருப்பு",
+            stockPlaceholder: "இருப்பு எண்ணிக்கையை உள்ளிடவும்",
+            coverImage: "புத்தக அட்டை",
+            coverHelp: "விருப்பம். JPG, PNG அல்லது WEBP படத்தைத் தேர்ந்தெடுக்கலாம்.",
+            description: "விளக்கம்",
+            descriptionPlaceholder: "புத்தகத்தின் சுருக்கமான விளக்கத்தை உள்ளிடவும்",
+            addBookButton: "புத்தகம் சேர்க்கவும்",
+            clearForm: "தெளிவாக்கு",
+            fillAllFields: "தேவையான அனைத்து புலங்களையும் நிரப்பவும்.",
+            invalidPrice: "0-ஐ விட அதிகமான சரியான விலையை உள்ளிடவும்.",
+            invalidStock: "சரியான இருப்பு எண்ணிக்கையை உள்ளிடவும்.",
+            sellerLoginRequired: "புத்தகம் சேர்க்கும் முன் விற்பனையாளராக உள்நுழையவும்.",
+            invalidImage: "சரியான படக் கோப்பைத் தேர்ந்தெடுக்கவும்.",
+            imageTooLarge: "புத்தக அட்டை படம் 2 MB அல்லது அதற்குள் இருக்க வேண்டும்.",
+            imageReadError: "தேர்ந்தெடுத்த படத்தைப் படிக்க முடியவில்லை.",
+            bookAddedSuccess: "புத்தகம் உங்கள் பட்டியலில் வெற்றிகரமாக சேர்க்கப்பட்டது.",
+            manageBooksDescription:
+                "உங்கள் பட்டியலில் சேர்க்கப்பட்டுள்ள புத்தகங்களைப் பார்க்கவும் நிர்வகிக்கவும்.",
+
+            totalBooks:
+                "மொத்த புத்தகங்கள்:",
+
+            noBooksAdded:
+                "இதுவரை எந்த புத்தகமும் சேர்க்கப்படவில்லை.",
+
+            cover:
+                "அட்டை",
+
+            bookTitle:
+                "புத்தகத் தலைப்பு",
+
+            author:
+                "ஆசிரியர்",
+
+            category:
+                "வகை",
+
+            price:
+                "விலை",
+
+            availability:
+                "கிடைக்கும் நிலை",
+
+            action:
+                "செயல்",
+
+            remove:
+                "நீக்கவும்",
+
+            noCover:
+                "அட்டை இல்லை",
+
+            removeConfirmation:
+                "இந்த புத்தகத்தை நீக்க விரும்புகிறீர்களா?",
+
+            allRightsReserved:
+                "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        },
+
+
+        hi: {
+            onlineBookMarketplace:
+                "ऑनलाइन बुक मार्केटप्लेस",
+
+            dashboard:
+                "डैशबोर्ड",
+
+            logout:
+                "लॉग आउट",
+
+            manageBooks:
+                "पुस्तकें प्रबंधित करें",
+
+
+            addNewBook: "नई पुस्तक जोड़ें",
+            addBookDescription: "अपने विक्रेता कैटलॉग में नई पुस्तक जोड़ें।",
+            bookTitlePlaceholder: "पुस्तक का शीर्षक दर्ज करें",
+            authorPlaceholder: "लेखक का नाम दर्ज करें",
+            selectCategory: "श्रेणी चुनें",
+            pricePlaceholder: "कीमत दर्ज करें",
+            stock: "स्टॉक",
+            stockPlaceholder: "स्टॉक मात्रा दर्ज करें",
+            coverImage: "बुक कवर",
+            coverHelp: "वैकल्पिक। JPG, PNG या WEBP छवि।",
+            description: "विवरण",
+            descriptionPlaceholder: "पुस्तक का संक्षिप्त विवरण दर्ज करें",
+            addBookButton: "पुस्तक जोड़ें",
+            clearForm: "साफ़ करें",
+            fillAllFields: "कृपया सभी आवश्यक फ़ील्ड भरें।",
+            invalidPrice: "0 से अधिक मान्य कीमत दर्ज करें।",
+            invalidStock: "मान्य स्टॉक मात्रा दर्ज करें।",
+            sellerLoginRequired: "पुस्तक जोड़ने से पहले विक्रेता के रूप में लॉगिन करें।",
+            invalidImage: "मान्य छवि फ़ाइल चुनें।",
+            imageTooLarge: "बुक कवर छवि 2 MB या उससे कम होनी चाहिए।",
+            imageReadError: "चयनित छवि पढ़ी नहीं जा सकी।",
+            bookAddedSuccess: "पुस्तक आपके कैटलॉग में सफलतापूर्वक जोड़ दी गई।",
+            manageBooksDescription:
+                "अपने कैटलॉग में जोड़ी गई पुस्तकों को देखें और प्रबंधित करें।",
+
+            totalBooks:
+                "कुल पुस्तकें:",
+
+            noBooksAdded:
+                "अभी तक कोई पुस्तक नहीं जोड़ी गई है।",
+
+            cover:
+                "कवर",
+
+            bookTitle:
+                "पुस्तक का शीर्षक",
+
+            author:
+                "लेखक",
+
+            category:
+                "श्रेणी",
+
+            price:
+                "कीमत",
+
+            availability:
+                "उपलब्धता",
+
+            action:
+                "कार्य",
+
+            remove:
+                "हटाएं",
+
+            noCover:
+                "कवर नहीं है",
+
+            removeConfirmation:
+                "क्या आप इस पुस्तक को हटाना चाहते हैं?",
+
+            allRightsReserved:
+                "सर्वाधिकार सुरक्षित।"
+        },
+
+
+        te: {
+            onlineBookMarketplace:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్",
+
+            dashboard:
+                "డాష్‌బోర్డ్",
+
+            logout:
+                "లాగ్ అవుట్",
+
+            manageBooks:
+                "పుస్తకాలను నిర్వహించండి",
+
+
+            addNewBook: "కొత్త పుస్తకం జోడించండి",
+            addBookDescription: "మీ విక్రేత క్యాటలాగ్‌లో కొత్త పుస్తకాన్ని జోడించండి.",
+            bookTitlePlaceholder: "పుస్తక శీర్షికను నమోదు చేయండి",
+            authorPlaceholder: "రచయిత పేరును నమోదు చేయండి",
+            selectCategory: "వర్గాన్ని ఎంచుకోండి",
+            pricePlaceholder: "ధరను నమోదు చేయండి",
+            stock: "స్టాక్",
+            stockPlaceholder: "స్టాక్ పరిమాణాన్ని నమోదు చేయండి",
+            coverImage: "పుస్తక కవర్",
+            coverHelp: "ఐచ్చికం. JPG, PNG లేదా WEBP చిత్రం.",
+            description: "వివరణ",
+            descriptionPlaceholder: "పుస్తకం యొక్క సంక్షిప్త వివరణను నమోదు చేయండి",
+            addBookButton: "పుస్తకం జోడించండి",
+            clearForm: "క్లియర్",
+            fillAllFields: "అవసరమైన అన్ని ఫీల్డ్‌లను పూర్తి చేయండి.",
+            invalidPrice: "0 కంటే ఎక్కువ సరైన ధరను నమోదు చేయండి.",
+            invalidStock: "సరైన స్టాక్ పరిమాణాన్ని నమోదు చేయండి.",
+            sellerLoginRequired: "పుస్తకం జోడించే ముందు విక్రేతగా లాగిన్ అవ్వండి.",
+            invalidImage: "సరైన చిత్రం ఫైల్‌ను ఎంచుకోండి.",
+            imageTooLarge: "పుస్తక కవర్ చిత్రం 2 MB లేదా అంతకంటే తక్కువ ఉండాలి.",
+            imageReadError: "ఎంచుకున్న చిత్రాన్ని చదవలేకపోయాము.",
+            bookAddedSuccess: "పుస్తకం మీ క్యాటలాగ్‌లో విజయవంతంగా జోడించబడింది.",
+            manageBooksDescription:
+                "మీ కేటలాగ్‌లో జోడించిన పుస్తకాలను చూడండి మరియు నిర్వహించండి.",
+
+            totalBooks:
+                "మొత్తం పుస్తకాలు:",
+
+            noBooksAdded:
+                "ఇంకా పుస్తకాలు జోడించబడలేదు.",
+
+            cover:
+                "కవర్",
+
+            bookTitle:
+                "పుస్తక శీర్షిక",
+
+            author:
+                "రచయిత",
+
+            category:
+                "వర్గం",
+
+            price:
+                "ధర",
+
+            availability:
+                "అందుబాటు",
+
+            action:
+                "చర్య",
+
+            remove:
+                "తొలగించండి",
+
+            noCover:
+                "కవర్ లేదు",
+
+            removeConfirmation:
+                "మీరు ఈ పుస్తకాన్ని తొలగించాలనుకుంటున్నారా?",
+
+            allRightsReserved:
+                "అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."
+        },
+
+
+        ml: {
+            onlineBookMarketplace:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ്",
+
+            dashboard:
+                "ഡാഷ്ബോർഡ്",
+
+            logout:
+                "പുറത്തുകടക്കുക",
+
+            manageBooks:
+                "പുസ്തകങ്ങൾ നിയന്ത്രിക്കുക",
+
+
+            addNewBook: "പുതിയ പുസ്തകം ചേർക്കുക",
+            addBookDescription: "നിങ്ങളുടെ വിൽപ്പനക്കാരന്റെ കാറ്റലോഗിലേക്ക് ഒരു പുതിയ പുസ്തകം ചേർക്കുക.",
+            bookTitlePlaceholder: "പുസ്തകത്തിന്റെ പേര് നൽകുക",
+            authorPlaceholder: "രചയിതാവിന്റെ പേര് നൽകുക",
+            selectCategory: "വിഭാഗം തിരഞ്ഞെടുക്കുക",
+            pricePlaceholder: "വില നൽകുക",
+            stock: "സ്റ്റോക്ക്",
+            stockPlaceholder: "സ്റ്റോക്ക് അളവ് നൽകുക",
+            coverImage: "പുസ്തക കവർ",
+            coverHelp: "ഐച്ഛികം. JPG, PNG അല്ലെങ്കിൽ WEBP ചിത്രം.",
+            description: "വിവരണം",
+            descriptionPlaceholder: "പുസ്തകത്തിന്റെ ചെറിയ വിവരണം നൽകുക",
+            addBookButton: "പുസ്തകം ചേർക്കുക",
+            clearForm: "വൃത്തിയാക്കുക",
+            fillAllFields: "ആവശ്യമായ എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കുക.",
+            invalidPrice: "0-ൽ കൂടുതലുള്ള സാധുവായ വില നൽകുക.",
+            invalidStock: "സാധുവായ സ്റ്റോക്ക് അളവ് നൽകുക.",
+            sellerLoginRequired: "പുസ്തകം ചേർക്കുന്നതിന് മുമ്പ് വിൽപ്പനക്കാരനായി ലോഗിൻ ചെയ്യുക.",
+            invalidImage: "സാധുവായ ചിത്രം തിരഞ്ഞെടുക്കുക.",
+            imageTooLarge: "പുസ്തക കവർ ചിത്രം 2 MB അല്ലെങ്കിൽ അതിൽ കുറവായിരിക്കണം.",
+            imageReadError: "തിരഞ്ഞെടുത്ത ചിത്രം വായിക്കാൻ കഴിഞ്ഞില്ല.",
+            bookAddedSuccess: "പുസ്തകം നിങ്ങളുടെ കാറ്റലോഗിൽ വിജയകരമായി ചേർത്തു.",
+            manageBooksDescription:
+                "നിങ്ങളുടെ കാറ്റലോഗിൽ ചേർത്ത പുസ്തകങ്ങൾ കാണുകയും നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+
+            totalBooks:
+                "ആകെ പുസ്തകങ്ങൾ:",
+
+            noBooksAdded:
+                "ഇതുവരെ പുസ്തകങ്ങളൊന്നും ചേർത്തിട്ടില്ല.",
+
+            cover:
+                "കവർ",
+
+            bookTitle:
+                "പുസ്തകത്തിന്റെ പേര്",
+
+            author:
+                "രചയിതാവ്",
+
+            category:
+                "വിഭാഗം",
+
+            price:
+                "വില",
+
+            availability:
+                "ലഭ്യത",
+
+            action:
+                "പ്രവർത്തനം",
+
+            remove:
+                "നീക്കം ചെയ്യുക",
+
+            noCover:
+                "കവർ ഇല്ല",
+
+            removeConfirmation:
+                "ഈ പുസ്തകം നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?",
+
+            allRightsReserved:
+                "എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+        }
+
+    };
+
+
+    function getCurrentLanguage() {
+
+        return (
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en"
+        );
+
+    }
+
+
+    function getTranslation(key) {
+
+        const language =
+            getCurrentLanguage();
+
+        return (
+            translations[language]?.[key] ||
+            translations.en[key] ||
+            key
+        );
+
+    }
+
+
+    function applySellerBookLanguage() {
+
+        const language =
+            getCurrentLanguage();
+
+        const selected =
+            translations[language] ||
+            translations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            });
+
+        displaySellerBooks();
+
+    }
+
+
+    const languageSelector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (languageSelector) {
+
+        languageSelector.value =
+            getCurrentLanguage();
+
+
+        languageSelector.addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    this.value
+                );
+
+                applySellerBookLanguage();
+
+                if (
+                    typeof setLanguage ===
+                    "function"
+                ) {
+
+                    setLanguage(this.value);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    applySellerBookLanguage();
+
+</script>
+<script src="chatbot.js?v=3"></script>
+</body>
+</html>

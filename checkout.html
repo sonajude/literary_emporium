@@ -1,0 +1,2591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout | Literary Emporium</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="language.js"></script>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #172536;
+        }
+
+        header {
+            background: #172536;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .language-select {
+            background: white;
+            color: #172536;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #68727d;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dfe3e7;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 1px solid #e3e6e9;
+            padding-bottom: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #cfd5da;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #315c49;
+        }
+
+        .readonly-field {
+            background: #f1f3f5;
+        }
+
+        .saved-address-box {
+            background: #f7f8f9;
+            border-left: 4px solid #315c49;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .saved-address-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .address-message {
+            font-size: 13px;
+            margin: 8px 0;
+            color: #6f2638;
+        }
+
+        .validation-message {
+            margin-top: 5px;
+            color: #7b2938;
+            font-size: 12px;
+            display: none;
+        }
+
+        .validation-message.show {
+            display: block;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .primary-btn {
+            background: #172536;
+            color: white;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            background: #26394d;
+        }
+
+        .secondary-btn {
+            background: #e9ecef;
+            color: #172536;
+        }
+
+        .secondary-btn:hover:not(:disabled) {
+            background: #dfe3e7;
+        }
+
+        .payment-option {
+            border: 1px solid #d6dbe0;
+            border-radius: 6px;
+            padding: 13px;
+            margin-bottom: 10px;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-option:hover {
+            border-color: #315c49;
+        }
+
+        .payment-option input {
+            width: auto;
+        }
+
+        .payment-details {
+            display: none;
+            margin: 15px 0;
+            padding: 18px;
+
+            background: #f7f8f9;
+            border: 1px solid #e1e4e7;
+            border-radius: 6px;
+        }
+
+        .payment-details.active {
+            display: block;
+        }
+
+        .qr-container {
+            text-align: center;
+        }
+
+        .qr-container img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+
+            border: 1px solid #ddd;
+            padding: 8px;
+            background: white;
+        }
+
+        .summary-item {
+            display: flex;
+            gap: 13px;
+
+            padding: 15px 0;
+            border-bottom: 1px solid #e4e7ea;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .book-cover {
+            width: 70px;
+            height: 90px;
+            object-fit: cover;
+
+            border: 1px solid #ddd;
+            border-radius: 4px;
+
+            background: #eef0f2;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-info h3 {
+            font-size: 15px;
+            margin: 0 0 5px;
+        }
+
+        .book-info p {
+            font-size: 13px;
+            margin: 4px 0;
+            color: #68727d;
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 8px 0;
+
+            font-size: 14px;
+        }
+
+        .total-line {
+            border-top: 1px solid #dfe3e7;
+
+            margin-top: 10px;
+            padding-top: 15px;
+
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .delivery-box {
+            background: #f7f8f9;
+            border: 1px solid #dfe3e7;
+            border-radius: 6px;
+
+            padding: 15px;
+            margin-top: 18px;
+        }
+
+        .delivery-box h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+        }
+
+        .delivery-row {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 15px;
+            margin: 8px 0;
+
+            font-size: 14px;
+        }
+
+        .delivery-row span:last-child {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .paylater-box {
+            display: none;
+
+            background: #f7f8f9;
+            border: 1px solid #dfe3e7;
+
+            padding: 15px;
+            border-radius: 6px;
+
+            margin-top: 15px;
+        }
+
+        .paylater-box.active {
+            display: block;
+        }
+
+        .paylater-box h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .timeline {
+            margin-top: 15px;
+            border-left: 2px solid #315c49;
+            padding-left: 18px;
+        }
+
+        .timeline-item {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: "";
+
+            width: 9px;
+            height: 9px;
+
+            background: #315c49;
+            border-radius: 50%;
+
+            position: absolute;
+            left: -24px;
+            top: 5px;
+        }
+
+        .timeline-item strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .timeline-item span {
+            font-size: 13px;
+            color: #68727d;
+        }
+
+        .checkout-button {
+            width: 100%;
+            margin-top: 20px;
+
+            padding: 14px;
+
+            background: #315c49;
+            color: white;
+
+            font-size: 15px;
+        }
+
+        .checkout-button:hover:not(:disabled) {
+            background: #274b3c;
+        }
+
+        .message {
+            margin-top: 12px;
+
+            padding: 10px 12px;
+
+            font-size: 13px;
+
+            display: none;
+            border-radius: 4px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            background: #f9e8e8;
+            color: #7b2938;
+            border: 1px solid #e4caca;
+        }
+
+        .message.success {
+            background: #e8f2ec;
+            color: #24563b;
+            border: 1px solid #c7dccf;
+        }
+
+        .empty-cart {
+            text-align: center;
+
+            padding: 50px 20px;
+
+            background: white;
+            border: 1px solid #dfe3e7;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                flex-wrap: wrap;
+            }
+
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            main {
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .delivery-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .delivery-row span:last-child {
+                text-align: left;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="brand">
+        Literary Emporium
+    </div>
+
+    <nav>
+
+        <a
+            href="home.html"
+            data-i18n="navHome"
+        >
+            Home
+        </a>
+
+        <a
+            href="cart.html"
+            data-i18n="navCart"
+        >
+            Cart
+        </a>
+
+        <a
+            href="wishlist.html"
+            data-i18n="navWishlist"
+        >
+            Wishlist
+        </a>
+
+        <select
+            id="languageSelect"
+            class="language-select"
+            aria-label="Language"
+        >
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+            <option value="te">తెలుగు</option>
+            <option value="ml">മലയാളം</option>
+        </select>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="page-title">
+
+        <h1 data-i18n="checkoutTitle">
+            Checkout
+        </h1>
+
+        <p data-i18n="checkoutSubtitle">
+            Review your order and complete the delivery details.
+        </p>
+
+    </div>
+
+
+    <div
+        id="emptyCart"
+        class="empty-cart"
+        style="display:none;"
+    >
+
+        <h2 data-i18n="emptyCartTitle">
+            Your cart is empty
+        </h2>
+
+        <p data-i18n="emptyCartText">
+            Add books to your cart before proceeding to checkout.
+        </p>
+
+        <button
+            type="button"
+            class="primary-btn"
+            id="continueShoppingButton"
+            data-i18n="continueShopping"
+        >
+            Continue Shopping
+        </button>
+
+    </div>
+
+
+    <div
+        id="checkoutContent"
+        class="checkout-grid"
+    >
+
+
+        <div>
+
+            <div class="card">
+
+                <h2 data-i18n="deliveryInformation">
+                    Delivery Information
+                </h2>
+
+                <form
+                    id="checkoutForm"
+                    novalidate
+                >
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="customerName"
+                            data-i18n="fullName"
+                        >
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            maxlength="60"
+                            required
+                        >
+
+                        <div
+                            id="nameValidation"
+                            class="validation-message"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="customerEmail"
+                            data-i18n="email"
+                        >
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            class="readonly-field"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="customerPhone"
+                            data-i18n="phoneNumber"
+                        >
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            maxlength="10"
+                            inputmode="numeric"
+                            placeholder="10-digit Indian mobile number"
+                            data-i18n-placeholder="phonePlaceholder"
+                            required
+                        >
+
+                        <div
+                            id="phoneValidation"
+                            class="validation-message"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label data-i18n="deliveryAddress">
+                            Delivery Address
+                        </label>
+
+                        <div
+                            id="savedAddressBox"
+                            class="saved-address-box"
+                            style="display:none;"
+                        ></div>
+
+
+                        <div
+                            id="addressEditor"
+                            style="display:none;"
+                        >
+
+                            <textarea
+                                id="customerAddress"
+                                maxlength="300"
+                                placeholder="Enter your complete delivery address"
+                                data-i18n-placeholder="addressPlaceholder"
+                                required
+                            ></textarea>
+
+                            <div
+                                id="addressValidation"
+                                class="validation-message"
+                            ></div>
+
+                            <div
+                                id="addressMessage"
+                                class="address-message"
+                            ></div>
+
+                            <div class="button-row">
+
+                                <button
+                                    type="button"
+                                    id="saveAddressBtn"
+                                    class="primary-btn"
+                                    data-i18n="saveAddress"
+                                >
+                                    Save Address
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="cancelEditBtn"
+                                    class="secondary-btn"
+                                    style="display:none;"
+                                    data-i18n="cancel"
+                                >
+                                    Cancel
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="button-row">
+
+                            <button
+                                type="button"
+                                id="editAddressBtn"
+                                class="secondary-btn"
+                                style="display:none;"
+                                data-i18n="editAddress"
+                            >
+                                Edit Address
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="checkoutMessage"
+                        class="message"
+                    ></div>
+
+                </form>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2 data-i18n="paymentMethod">
+                    Payment Method
+                </h2>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Bank Account"
+                    >
+
+                    <span data-i18n="bankAccount">
+                        Bank Account
+                    </span>
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="GPay"
+                    >
+
+                    <span>
+                        GPay
+                    </span>
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="PhonePe"
+                    >
+
+                    <span>
+                        PhonePe
+                    </span>
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Pay Later"
+                    >
+
+                    <span data-i18n="payLater">
+                        Pay Later
+                    </span>
+
+                </label>
+
+
+                <div
+                    id="gpayDetails"
+                    class="payment-details"
+                >
+
+                    <div class="qr-container">
+
+                        <h3>GPay</h3>
+
+                        <p data-i18n="scanToPay">
+                            Scan the QR code to complete payment.
+                        </p>
+
+                        <img
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=GPay-Demo-Literary-Emporium"
+                            alt="GPay Demo QR Code"
+                        >
+
+                        <p data-i18n="demoPayment">
+                            Demo payment only.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="phonepeDetails"
+                    class="payment-details"
+                >
+
+                    <div class="qr-container">
+
+                        <h3>PhonePe</h3>
+
+                        <p data-i18n="scanToPay">
+                            Scan the QR code to complete payment.
+                        </p>
+
+                        <img
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PhonePe-Demo-Literary-Emporium"
+                            alt="PhonePe Demo QR Code"
+                        >
+
+                        <p data-i18n="demoPayment">
+                            Demo payment only.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="payLaterDetails"
+                    class="paylater-box"
+                >
+
+                    <h3 data-i18n="payLaterTitle">
+                        Pay Later
+                    </h3>
+
+                    <p>
+
+                        <span data-i18n="paymentDueOn">
+                            Payment due on:
+                        </span>
+
+                        <strong id="payLaterDueDate"></strong>
+
+                    </p>
+
+
+                    <div class="timeline">
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="orderPlaced">
+                                Order Placed
+                            </strong>
+
+                            <span data-i18n="payLaterReminder1">
+                                Your order is confirmed.
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="delivery">
+                                Delivery
+                            </strong>
+
+                            <span id="payLaterDeliveryText"></span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="paymentDue">
+                                Payment Due
+                            </strong>
+
+                            <span id="payLaterDueText"></span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="reminder">
+                                Reminder
+                            </strong>
+
+                            <span data-i18n="payLaterReminder2">
+                                A payment reminder will be shown in the order details.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="card">
+
+                <h2 data-i18n="orderSummary">
+                    Order Summary
+                </h2>
+
+
+                <div id="checkoutItems"></div>
+
+
+                <div class="price-line">
+
+                    <span data-i18n="subtotal">
+                        Subtotal
+                    </span>
+
+                    <span id="checkoutSubtotal">
+                        ₹0
+                    </span>
+
+                </div>
+
+
+                <div class="price-line">
+
+                    <span data-i18n="delivery">
+                        Delivery
+                    </span>
+
+                    <span id="checkoutDelivery">
+                        Free
+                    </span>
+
+                </div>
+
+
+                <div class="price-line total-line">
+
+                    <span data-i18n="total">
+                        Total
+                    </span>
+
+                    <span id="checkoutTotal">
+                        ₹0
+                    </span>
+
+                </div>
+
+
+                <div class="delivery-box">
+
+                    <h3 data-i18n="deliveryEstimate">
+                        Delivery Estimate
+                    </h3>
+
+
+                    <div class="delivery-row">
+
+                        <span data-i18n="expectedDelivery">
+                            Expected Delivery
+                        </span>
+
+                        <span id="deliveryDateRange">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="delivery-row">
+
+                        <span data-i18n="deliveryDays">
+                            Delivery Time
+                        </span>
+
+                        <span data-i18n="threeToFiveDays">
+                            3–5 days
+                        </span>
+
+                    </div>
+
+
+                    <div class="delivery-row">
+
+                        <span data-i18n="deliveryWindow">
+                            Delivery Window
+                        </span>
+
+                        <span>
+                            9:00 AM – 8:00 PM
+                        </span>
+
+                    </div>
+
+
+                    <div class="timeline">
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="orderPlaced">
+                                Order Placed
+                            </strong>
+
+                            <span data-i18n="orderPlacedText">
+                                Your order is confirmed.
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="processing">
+                                Processing
+                            </strong>
+
+                            <span data-i18n="processingText">
+                                Your books are being prepared.
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="shipped">
+                                Shipped
+                            </strong>
+
+                            <span data-i18n="shippedText">
+                                Your order will be handed over for delivery.
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="outForDelivery">
+                                Out for Delivery
+                            </strong>
+
+                            <span data-i18n="outForDeliveryText">
+                                Your order is on the way.
+                            </span>
+
+                        </div>
+
+
+                        <div class="timeline-item">
+
+                            <strong data-i18n="delivered">
+                                Delivered
+                            </strong>
+
+                            <span data-i18n="deliveredText">
+                                Your books will be delivered to your address.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="placeOrderButton"
+                    class="checkout-button"
+                    data-i18n="placeOrder"
+                >
+                    Place Order
+                </button>
+
+
+                <div
+                    id="orderMessage"
+                    class="message"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script src="script.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        "use strict";
+
+
+        const cartKey =
+            "literaryEmporiumCart";
+
+        const addressPrefix =
+            "literaryEmporiumSavedAddress_";
+
+        const ordersKey =
+            "literaryEmporiumOrders";
+
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(
+                    cartKey
+                ) || "[]"
+            );
+
+
+        const checkoutContent =
+            document.getElementById(
+                "checkoutContent"
+            );
+
+        const emptyCart =
+            document.getElementById(
+                "emptyCart"
+            );
+
+
+        const loggedUser =
+            JSON.parse(
+                localStorage.getItem(
+                    "literaryEmporiumLoggedInUser"
+                ) || "null"
+            );
+
+
+        /* =====================================================
+           BASIC CHECKS
+           ===================================================== */
+
+        if (!loggedUser) {
+
+            alert(
+                "Please login before checkout."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        if (
+            !Array.isArray(cart) ||
+            cart.length === 0
+        ) {
+
+            checkoutContent.style.display =
+                "none";
+
+            emptyCart.style.display =
+                "block";
+
+
+            const continueButton =
+                document.getElementById(
+                    "continueShoppingButton"
+                );
+
+
+            if (continueButton) {
+
+                continueButton.addEventListener(
+                    "click",
+                    function () {
+
+                        window.location.href =
+                            "home.html";
+
+                    }
+                );
+
+            }
+
+            return;
+        }
+
+
+        /* =====================================================
+           USER DETAILS
+           ===================================================== */
+
+        const customerName =
+            document.getElementById(
+                "customerName"
+            );
+
+        const customerEmail =
+            document.getElementById(
+                "customerEmail"
+            );
+
+        const customerPhone =
+            document.getElementById(
+                "customerPhone"
+            );
+
+
+        customerName.value =
+            String(
+                loggedUser.name ||
+                loggedUser.fullName ||
+                ""
+            ).trim();
+
+
+        customerEmail.value =
+            String(
+                loggedUser.email ||
+                ""
+            ).trim();
+
+
+        /* =====================================================
+           ADDRESS
+           ===================================================== */
+
+        const addressKey =
+            addressPrefix +
+            encodeURIComponent(
+                loggedUser.email || ""
+            );
+
+
+        const savedAddressBox =
+            document.getElementById(
+                "savedAddressBox"
+            );
+
+        const addressEditor =
+            document.getElementById(
+                "addressEditor"
+            );
+
+        const customerAddress =
+            document.getElementById(
+                "customerAddress"
+            );
+
+        const addressMessage =
+            document.getElementById(
+                "addressMessage"
+            );
+
+        const saveAddressBtn =
+            document.getElementById(
+                "saveAddressBtn"
+            );
+
+        const editAddressBtn =
+            document.getElementById(
+                "editAddressBtn"
+            );
+
+        const cancelEditBtn =
+            document.getElementById(
+                "cancelEditBtn"
+            );
+
+
+        function getSavedAddress() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem(
+                        addressKey
+                    ) || "null"
+                );
+
+            } catch (error) {
+
+                return null;
+
+            }
+
+        }
+
+
+        function displaySavedAddress() {
+
+            const saved =
+                getSavedAddress();
+
+
+            addressMessage.textContent =
+                "";
+
+
+            if (
+                !saved ||
+                !saved.address
+            ) {
+
+                savedAddressBox.style.display =
+                    "none";
+
+                addressEditor.style.display =
+                    "block";
+
+                editAddressBtn.style.display =
+                    "none";
+
+                cancelEditBtn.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            savedAddressBox.innerHTML = `
+                <strong>
+                    Saved Delivery Address
+                </strong>
+
+                ${escapeHTML(
+                    saved.address
+                )}
+
+                <br>
+
+                <strong style="margin-top:8px;">
+                    Phone
+                </strong>
+
+                ${escapeHTML(
+                    saved.phone || ""
+                )}
+            `;
+
+
+            savedAddressBox.style.display =
+                "block";
+
+            addressEditor.style.display =
+                "none";
+
+            editAddressBtn.style.display =
+                "inline-block";
+
+        }
+
+
+        function openAddressEditor() {
+
+            const saved =
+                getSavedAddress();
+
+
+            addressEditor.style.display =
+                "block";
+
+            editAddressBtn.style.display =
+                "none";
+
+            cancelEditBtn.style.display =
+                saved
+                    ? "inline-block"
+                    : "none";
+
+
+            customerAddress.value =
+                saved && saved.address
+                    ? saved.address
+                    : "";
+
+
+            if (
+                saved &&
+                saved.phone
+            ) {
+
+                customerPhone.value =
+                    saved.phone;
+
+            }
+
+
+            customerAddress.focus();
+
+        }
+
+
+        function saveAddress() {
+
+            const address =
+                customerAddress.value.trim();
+
+            const phone =
+                customerPhone.value.trim();
+
+
+            addressMessage.textContent =
+                "";
+
+
+            if (address.length < 10) {
+
+                addressMessage.textContent =
+                    "Please enter a complete delivery address.";
+
+                customerAddress.focus();
+
+                return false;
+            }
+
+
+            if (address.length > 300) {
+
+                addressMessage.textContent =
+                    "Address must not exceed 300 characters.";
+
+                customerAddress.focus();
+
+                return false;
+            }
+
+
+            if (
+                !/^[6-9][0-9]{9}$/.test(phone)
+            ) {
+
+                addressMessage.textContent =
+                    "Please enter a valid 10-digit Indian mobile number.";
+
+                customerPhone.focus();
+
+                return false;
+            }
+
+
+            const addressData = {
+
+                address:
+                    address,
+
+                phone:
+                    phone
+
+            };
+
+
+            localStorage.setItem(
+                addressKey,
+                JSON.stringify(
+                    addressData
+                )
+            );
+
+
+            addressMessage.textContent =
+                "Address saved successfully.";
+
+
+            window.setTimeout(
+                function () {
+
+                    addressMessage.textContent =
+                        "";
+
+                    displaySavedAddress();
+
+                },
+                600
+            );
+
+
+            return true;
+        }
+
+
+        saveAddressBtn.addEventListener(
+            "click",
+            saveAddress
+        );
+
+
+        editAddressBtn.addEventListener(
+            "click",
+            openAddressEditor
+        );
+
+
+        cancelEditBtn.addEventListener(
+            "click",
+            function () {
+
+                addressMessage.textContent =
+                    "";
+
+                displaySavedAddress();
+
+            }
+        );
+
+
+        displaySavedAddress();
+
+
+        /* =====================================================
+           CART SUMMARY
+           ===================================================== */
+
+        const checkoutItems =
+            document.getElementById(
+                "checkoutItems"
+            );
+
+        const checkoutSubtotal =
+            document.getElementById(
+                "checkoutSubtotal"
+            );
+
+        const checkoutDelivery =
+            document.getElementById(
+                "checkoutDelivery"
+            );
+
+        const checkoutTotal =
+            document.getElementById(
+                "checkoutTotal"
+            );
+
+
+        let subtotal = 0;
+
+
+        checkoutItems.innerHTML =
+            "";
+
+
+        cart.forEach(
+            function (book) {
+
+                const price =
+                    Number(
+                        book.price
+                    ) || 0;
+
+
+                const quantity =
+                    Math.max(
+                        1,
+                        Number(
+                            book.quantity
+                        ) || 1
+                    );
+
+
+                const itemTotal =
+                    price * quantity;
+
+
+                subtotal +=
+                    itemTotal;
+
+
+                const cover =
+                    book.cover ||
+                    book.image ||
+                    "";
+
+
+                const coverHTML =
+                    cover
+                        ? `
+                            <img
+                                src="${escapeHTML(
+                                    cover
+                                )}"
+                                class="book-cover"
+                                alt="Book Cover"
+                                onerror="
+                                    this.onerror=null;
+                                    this.style.display='none';
+                                "
+                            >
+                        `
+                        : `
+                            <div
+                                class="book-cover"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:10px;
+                                    text-align:center;
+                                    padding:5px;
+                                "
+                            >
+                                Literary Emporium
+                            </div>
+                        `;
+
+
+                checkoutItems.innerHTML += `
+                    <div class="summary-item">
+
+                        ${coverHTML}
+
+                        <div class="book-info">
+
+                            <h3>
+                                ${escapeHTML(
+                                    book.title ||
+                                    "Book"
+                                )}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(
+                                    book.author ||
+                                    "Unknown Author"
+                                )}
+                            </p>
+
+                            <p>
+                                Quantity:
+                                ${quantity}
+                            </p>
+
+                            <p>
+                                ₹${price.toFixed(2)}
+                                ×
+                                ${quantity}
+                            </p>
+
+                            <strong>
+                                ₹${itemTotal.toFixed(2)}
+                            </strong>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }
+        );
+
+
+        /* =====================================================
+           DELIVERY
+           ===================================================== */
+
+        const delivery =
+            subtotal > 0 &&
+            subtotal < 500
+                ? 79
+                : 0;
+
+
+        const total =
+            subtotal +
+            delivery;
+
+
+        checkoutSubtotal.textContent =
+            "₹" +
+            subtotal.toFixed(2);
+
+
+        checkoutDelivery.textContent =
+            delivery === 0
+                ? "Free"
+                : "₹" +
+                  delivery.toFixed(2);
+
+
+        checkoutTotal.textContent =
+            "₹" +
+            total.toFixed(2);
+
+
+        /* =====================================================
+           DELIVERY DATES
+           ===================================================== */
+
+        const today =
+            new Date();
+
+
+        const earliestDate =
+            new Date(today);
+
+
+        earliestDate.setDate(
+            earliestDate.getDate() + 3
+        );
+
+
+        const latestDate =
+            new Date(today);
+
+
+        latestDate.setDate(
+            latestDate.getDate() + 5
+        );
+
+
+        function formatDate(date) {
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        const deliveryRange =
+            formatDate(
+                earliestDate
+            ) +
+            " – " +
+            formatDate(
+                latestDate
+            );
+
+
+        document.getElementById(
+            "deliveryDateRange"
+        ).textContent =
+            deliveryRange;
+
+
+        /* =====================================================
+           PAY LATER
+           ===================================================== */
+
+        const payLaterDate =
+            new Date(
+                latestDate
+            );
+
+
+        payLaterDate.setDate(
+            payLaterDate.getDate() + 2
+        );
+
+
+        document.getElementById(
+            "payLaterDueDate"
+        ).textContent =
+            formatDate(
+                payLaterDate
+            );
+
+
+        document.getElementById(
+            "payLaterDeliveryText"
+        ).textContent =
+            "Expected between " +
+            deliveryRange;
+
+
+        document.getElementById(
+            "payLaterDueText"
+        ).textContent =
+            "Payment due by " +
+            formatDate(
+                payLaterDate
+            );
+
+
+        /* =====================================================
+           PAYMENT OPTIONS
+           ===================================================== */
+
+        const paymentInputs =
+            document.querySelectorAll(
+                'input[name="payment"]'
+            );
+
+
+        const gpayDetails =
+            document.getElementById(
+                "gpayDetails"
+            );
+
+        const phonepeDetails =
+            document.getElementById(
+                "phonepeDetails"
+            );
+
+        const payLaterDetails =
+            document.getElementById(
+                "payLaterDetails"
+            );
+
+
+        paymentInputs.forEach(
+            function (input) {
+
+                input.addEventListener(
+                    "change",
+                    function () {
+
+                        gpayDetails.classList.remove(
+                            "active"
+                        );
+
+                        phonepeDetails.classList.remove(
+                            "active"
+                        );
+
+                        payLaterDetails.classList.remove(
+                            "active"
+                        );
+
+
+                        if (
+                            input.value ===
+                            "GPay"
+                        ) {
+
+                            gpayDetails.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        if (
+                            input.value ===
+                            "PhonePe"
+                        ) {
+
+                            phonepeDetails.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        if (
+                            input.value ===
+                            "Pay Later"
+                        ) {
+
+                            payLaterDetails.classList.add(
+                                "active"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           VALIDATION
+           ===================================================== */
+
+        const nameValidation =
+            document.getElementById(
+                "nameValidation"
+            );
+
+        const phoneValidation =
+            document.getElementById(
+                "phoneValidation"
+            );
+
+        const addressValidation =
+            document.getElementById(
+                "addressValidation"
+            );
+
+        const placeOrderButton =
+            document.getElementById(
+                "placeOrderButton"
+            );
+
+        const orderMessage =
+            document.getElementById(
+                "orderMessage"
+            );
+
+
+        let isSubmitting =
+            false;
+
+
+        function clearValidationMessages() {
+
+            nameValidation.textContent =
+                "";
+
+            phoneValidation.textContent =
+                "";
+
+            addressValidation.textContent =
+                "";
+
+
+            nameValidation.classList.remove(
+                "show"
+            );
+
+            phoneValidation.classList.remove(
+                "show"
+            );
+
+            addressValidation.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        function showOrderMessage(
+            text,
+            type
+        ) {
+
+            orderMessage.textContent =
+                text;
+
+
+            orderMessage.className =
+                "message show " +
+                (
+                    type === "success"
+                        ? "success"
+                        : "error"
+                );
+
+        }
+
+
+        /* =====================================================
+           PLACE ORDER
+           ===================================================== */
+
+        placeOrderButton.addEventListener(
+            "click",
+            function () {
+
+                if (isSubmitting) {
+                    return;
+                }
+
+
+                clearValidationMessages();
+
+
+                orderMessage.className =
+                    "message";
+
+
+                /* NAME */
+
+                const name =
+                    customerName.value.trim();
+
+
+                if (name.length < 2) {
+
+                    nameValidation.textContent =
+                        "Please enter your full name.";
+
+                    nameValidation.classList.add(
+                        "show"
+                    );
+
+                    customerName.focus();
+
+                    return;
+                }
+
+
+                if (name.length > 60) {
+
+                    nameValidation.textContent =
+                        "Name must not exceed 60 characters.";
+
+                    nameValidation.classList.add(
+                        "show"
+                    );
+
+                    customerName.focus();
+
+                    return;
+                }
+
+
+                if (
+                    !/^[A-Za-zÀ-ÿ\u0900-\u0D7F\u0B80-\u0BFF\s.'-]+$/.test(
+                        name
+                    )
+                ) {
+
+                    nameValidation.textContent =
+                        "Please enter a valid name.";
+
+                    nameValidation.classList.add(
+                        "show"
+                    );
+
+                    customerName.focus();
+
+                    return;
+                }
+
+
+                /* EMAIL */
+
+                const email =
+                    customerEmail.value.trim();
+
+
+                if (
+                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                        email
+                    )
+                ) {
+
+                    showOrderMessage(
+                        "Please use a valid registered email address.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                /* PHONE */
+
+                const phone =
+                    customerPhone.value.trim();
+
+
+                if (
+                    !/^[6-9][0-9]{9}$/.test(
+                        phone
+                    )
+                ) {
+
+                    phoneValidation.textContent =
+                        "Please enter a valid 10-digit Indian mobile number.";
+
+                    phoneValidation.classList.add(
+                        "show"
+                    );
+
+                    customerPhone.focus();
+
+                    return;
+                }
+
+
+                /* ADDRESS */
+
+                let saved =
+                    getSavedAddress();
+
+
+                if (
+                    addressEditor.style.display !==
+                    "none"
+                ) {
+
+                    const typedAddress =
+                        customerAddress.value.trim();
+
+
+                    if (
+                        typedAddress.length < 10
+                    ) {
+
+                        addressValidation.textContent =
+                            "Please enter a complete delivery address.";
+
+                        addressValidation.classList.add(
+                            "show"
+                        );
+
+                        customerAddress.focus();
+
+                        return;
+                    }
+
+
+                    if (
+                        typedAddress.length > 300
+                    ) {
+
+                        addressValidation.textContent =
+                            "Address must not exceed 300 characters.";
+
+                        addressValidation.classList.add(
+                            "show"
+                        );
+
+                        customerAddress.focus();
+
+                        return;
+                    }
+
+
+                    saved = {
+
+                        address:
+                            typedAddress,
+
+                        phone:
+                            phone
+
+                    };
+
+
+                    localStorage.setItem(
+                        addressKey,
+                        JSON.stringify(
+                            saved
+                        )
+                    );
+
+                }
+
+
+                if (
+                    !saved ||
+                    !saved.address ||
+                    saved.address.trim().length < 10
+                ) {
+
+                    addressValidation.textContent =
+                        "Please save your delivery address before placing the order.";
+
+                    addressValidation.classList.add(
+                        "show"
+                    );
+
+                    return;
+                }
+
+
+                /* PAYMENT */
+
+                const selectedPayment =
+                    document.querySelector(
+                        'input[name="payment"]:checked'
+                    );
+
+
+                if (!selectedPayment) {
+
+                    showOrderMessage(
+                        "Please select a payment method.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                const paymentMethod =
+                    selectedPayment.value;
+
+
+                const paymentStatus =
+                    paymentMethod ===
+                    "Pay Later"
+
+                        ? "Pay Later"
+
+                        : "Payment Confirmed";
+
+
+                /* =================================================
+                   CREATE ORDER ID + CREATED TIME
+
+                   IMPORTANT:
+                   The same timestamp is stored in createdAt.
+                   Cancel Order uses this for the 48-hour rule.
+                   ================================================= */
+
+                const createdAt =
+                    new Date().toISOString();
+
+
+                const orderId =
+                    "ORD-" +
+                    Date.now();
+
+
+                /* =================================================
+                   CREATE ORDER
+                   ================================================= */
+
+                const newOrder = {
+
+                    orderId:
+                        orderId,
+
+
+                    createdAt:
+                        createdAt,
+
+
+                    customer: {
+
+                        name:
+                            name,
+
+                        email:
+                            email,
+
+                        phone:
+                            phone,
+
+                        address:
+                            saved.address
+
+                    },
+
+
+                    items:
+                        cart.map(
+                            function (book) {
+
+                                return {
+
+                                    title:
+                                        book.title || "",
+
+                                    author:
+                                        book.author || "",
+
+                                    price:
+                                        Number(
+                                            book.price
+                                        ) || 0,
+
+                                    quantity:
+                                        Math.max(
+                                            1,
+                                            Number(
+                                                book.quantity
+                                            ) || 1
+                                        ),
+
+                                    cover:
+                                        book.cover ||
+                                        book.image ||
+                                        ""
+
+                                };
+
+                            }
+                        ),
+
+
+                    subtotal:
+                        subtotal,
+
+
+                    deliveryCharge:
+                        delivery,
+
+
+                    total:
+                        total,
+
+
+                    paymentMethod:
+                        paymentMethod,
+
+
+                    paymentStatus:
+                        paymentStatus,
+
+
+                    status:
+                        "Order Placed",
+
+
+                    date:
+                        new Date().toLocaleString(
+                            "en-IN"
+                        ),
+
+
+                    deliveryEstimate: {
+
+                        minDays:
+                            3,
+
+                        maxDays:
+                            5,
+
+                        earliestDate:
+                            earliestDate.toISOString(),
+
+                        latestDate:
+                            latestDate.toISOString(),
+
+                        dateRange:
+                            deliveryRange,
+
+                        deliveryWindow:
+                            "9:00 AM – 8:00 PM"
+
+                    },
+
+
+                    payLater:
+                        paymentMethod ===
+                        "Pay Later"
+
+                            ? {
+
+                                enabled:
+                                    true,
+
+                                dueDate:
+                                    payLaterDate.toISOString(),
+
+                                dueDateFormatted:
+                                    formatDate(
+                                        payLaterDate
+                                    ),
+
+                                reminder:
+                                    true
+
+                            }
+
+                            : {
+
+                                enabled:
+                                    false
+
+                            }
+
+                };
+
+
+                /* =================================================
+                   SAVE ORDER
+                   ================================================= */
+
+                let orders = [];
+
+
+                try {
+
+                    orders =
+                        JSON.parse(
+                            localStorage.getItem(
+                                ordersKey
+                            ) || "[]"
+                        );
+
+
+                    if (
+                        !Array.isArray(
+                            orders
+                        )
+                    ) {
+
+                        orders = [];
+
+                    }
+
+                } catch (error) {
+
+                    orders = [];
+
+                }
+
+
+                orders.unshift(
+                    newOrder
+                );
+
+
+                localStorage.setItem(
+                    ordersKey,
+                    JSON.stringify(
+                        orders
+                    )
+                );
+
+
+                /* =================================================
+                   TRACKING
+                   ================================================= */
+
+                localStorage.setItem(
+                    "literaryEmporiumTrackingOrderId",
+                    orderId
+                );
+
+
+                /* =================================================
+                   CLEAR CART
+                   ================================================= */
+
+                localStorage.removeItem(
+                    cartKey
+                );
+
+
+                /* =================================================
+                   PREVENT DOUBLE SUBMIT
+                   ================================================= */
+
+                isSubmitting =
+                    true;
+
+
+                placeOrderButton.disabled =
+                    true;
+
+
+                placeOrderButton.textContent =
+                    "Order Placed";
+
+
+                showOrderMessage(
+                    "Order placed successfully.",
+                    "success"
+                );
+
+
+                /* =================================================
+                   REDIRECT
+                   ================================================= */
+
+                window.setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "order-success.html";
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           ESCAPE HTML
+           ===================================================== */
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+<script src="chatbot.js?v=3"></script>
+
+</body>
+
+</html>

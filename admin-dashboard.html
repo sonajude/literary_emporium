@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administrator Dashboard | Literary Emporium</title>
+
+    <script src="language.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px 7%;
+            border-bottom: 3px solid #6d2638;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #cbd2da;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-selector {
+            padding: 9px 12px;
+            border: 1px solid #d7dde4;
+            background: white;
+            color: #172337;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .logout-button {
+            padding: 10px 18px;
+            border: 1px solid #d7dde4;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .logout-button:hover {
+            background: #26364d;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
+
+        .welcome-section {
+            margin-bottom: 38px;
+        }
+
+        .welcome-section h1 {
+            font-size: 29px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            color: #687586;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .admin-info {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #526070;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 45px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 25px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #687586;
+            margin-bottom: 14px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: 600;
+            color: #172337;
+        }
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .management-card {
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 28px;
+        }
+
+        .management-card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .management-card p {
+            color: #687586;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .management-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .management-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 11px 18px;
+            border: 1px solid #172337;
+            background: #172337;
+            color: white;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .management-button:hover {
+            background: #26364d;
+        }
+
+        .secondary-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 11px 18px;
+            border: 1px solid #6d2638;
+            background: white;
+            color: #6d2638;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .secondary-button:hover {
+            background: #f5f0f1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #e9edf1;
+            color: #667384;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 800px) {
+
+            .overview-grid,
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .language-selector {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            main {
+                padding: 35px 18px;
+            }
+
+            .welcome-section h1 {
+                font-size: 24px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .language-selector,
+            .logout-button {
+                width: 100%;
+            }
+
+            .management-buttons {
+                flex-direction: column;
+            }
+
+            .management-button,
+            .secondary-button {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-content">
+
+        <div>
+            <div class="brand">
+                LITERARY EMPORIUM
+            </div>
+
+            <div class="subtitle"
+                 data-i18n="adminPanel">
+                Administrator Panel
+            </div>
+        </div>
+
+        <div class="header-actions">
+
+            <select
+                id="languageSelector"
+                class="language-selector"
+                aria-label="Language">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+            <button
+                type="button"
+                class="logout-button"
+                id="adminLogoutButton"
+                data-i18n="logout">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="welcome-section">
+
+        <h1 data-i18n="dashboardTitle">
+            Administrator Dashboard
+        </h1>
+
+        <p data-i18n="dashboardDescription">
+            Monitor and manage the Literary Emporium marketplace
+            from one central administration panel.
+        </p>
+
+        <div
+            class="admin-info"
+            id="adminInfo">
+
+            Administrator
+
+        </div>
+
+    </section>
+
+
+    <!-- MARKETPLACE OVERVIEW -->
+
+    <section>
+
+        <h2
+            class="section-title"
+            data-i18n="marketplaceOverview">
+
+            Marketplace Overview
+
+        </h2>
+
+
+        <div class="overview-grid">
+
+            <div class="stat-card">
+
+                <div
+                    class="stat-label"
+                    data-i18n="totalBooks">
+
+                    Total Books
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalBooks">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div
+                    class="stat-label"
+                    data-i18n="totalSellers">
+
+                    Total Sellers
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalSellers">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div
+                    class="stat-label"
+                    data-i18n="totalBuyers">
+
+                    Total Buyers
+
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalBuyers">
+
+                    0
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MANAGEMENT -->
+
+    <section>
+
+        <h2
+            class="section-title"
+            data-i18n="management">
+
+            Management
+
+        </h2>
+
+
+        <div class="management-grid">
+
+
+            <!-- BOOKS -->
+
+            <div class="management-card">
+
+                <h3 data-i18n="manageBooks">
+                    Manage Books
+                </h3>
+
+                <p data-i18n="manageBooksDescription">
+                    Review and manage books listed in
+                    the Literary Emporium marketplace.
+                </p>
+
+                <div class="management-buttons">
+
+                    <a
+                        href="admin-books.html"
+                        class="management-button"
+                        data-i18n="openBooks">
+
+                        Manage Books
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SELLERS -->
+
+            <div class="management-card">
+
+                <h3 data-i18n="manageSellers">
+                    Manage Sellers
+                </h3>
+
+                <p data-i18n="manageSellersDescription">
+                    Review registered sellers and manage
+                    seller accounts.
+                </p>
+
+                <div class="management-buttons">
+
+                    <a
+                        href="admin-sellers.html"
+                        class="management-button"
+                        data-i18n="openSellers">
+
+                        Manage Sellers
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUYERS -->
+
+            <div class="management-card">
+
+                <h3 data-i18n="manageBuyers">
+                    Manage Buyers
+                </h3>
+
+                <p data-i18n="manageBuyersDescription">
+                    Review registered buyers and manage
+                    buyer accounts.
+                </p>
+
+                <div class="management-buttons">
+
+                    <a
+                        href="admin-buyers.html"
+                        class="management-button"
+                        data-i18n="openBuyers">
+
+                        Manage Buyers
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDERS -->
+
+            <div class="management-card">
+
+                <h3 data-i18n="manageOrders">
+                    Manage Orders
+                </h3>
+
+                <p data-i18n="manageOrdersDescription">
+                    Review customer orders, update order
+                    status and scan order or seller QR codes.
+                </p>
+
+                <div class="management-buttons">
+
+                    <a
+                        href="admin-orders.html"
+                        class="management-button"
+                        data-i18n="openOrders">
+
+                        Manage Orders
+
+                    </a>
+
+                    <a
+                        href="admin-orders.html"
+                        class="secondary-button"
+                        data-i18n="scanQR">
+
+                        Scan QR
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer data-i18n="footer">
+    © 2026 Literary Emporium. All rights reserved.
+</footer>
+
+
+<script>
+
+    /* ============================
+       ADMIN SESSION
+    ============================ */
+
+    const currentAdmin =
+        JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumCurrentAdmin"
+            )
+        );
+
+
+    if (currentAdmin) {
+
+        const adminInfo =
+            document.getElementById(
+                "adminInfo"
+            );
+
+        adminInfo.textContent =
+            "Administrator: " +
+            (
+                currentAdmin.name ||
+                currentAdmin.email ||
+                "Administrator"
+            );
+
+    }
+
+
+    /* ============================
+       LOGOUT
+    ============================ */
+
+    document
+        .getElementById("adminLogoutButton")
+        .addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    "literaryEmporiumCurrentAdmin"
+                );
+
+                localStorage.removeItem(
+                    "literaryEmporiumAdminLoggedIn"
+                );
+
+                window.location.href =
+                    "admin-login.html";
+
+            }
+        );
+
+
+    /* ============================
+       GET STORAGE DATA
+    ============================ */
+
+    function getArray(key) {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(key)
+            ) || [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    const buyers =
+        getArray(
+            "literaryEmporiumUsers"
+        );
+
+
+    const sellers =
+        getArray(
+            "literaryEmporiumSellers"
+        );
+
+
+    const sellerBooks =
+        getArray(
+            "literaryEmporiumSellerBooks"
+        );
+
+
+    const orders =
+        getArray(
+            "literaryEmporiumOrders"
+        );
+
+
+    /* ============================
+       BOOK COUNT
+    ============================ */
+
+    /*
+       Seller-listed books are counted here.
+
+       This is better than using the buyer cart,
+       because cart items are not the marketplace
+       book catalogue.
+    */
+
+    let totalBookCount =
+        sellerBooks.length;
+
+
+    /*
+       If seller books are not available,
+       check the static marketplace books.
+    */
+
+    if (totalBookCount === 0) {
+
+        const staticBooks = [
+            "The Silent Library",
+            "The Last Journey",
+            "Understanding the World",
+            "Ideas That Changed Society",
+            "Foundations of Science",
+            "Computer Science Essentials",
+            "Lives That Inspired",
+            "A Life of Purpose"
+        ];
+
+        totalBookCount =
+            staticBooks.length;
+    }
+
+
+    /* ============================
+       DISPLAY COUNTS
+    ============================ */
+
+    document.getElementById(
+        "totalBooks"
+    ).textContent =
+        totalBookCount;
+
+
+    document.getElementById(
+        "totalSellers"
+    ).textContent =
+        sellers.length;
+
+
+    document.getElementById(
+        "totalBuyers"
+    ).textContent =
+        buyers.length;
+
+
+    /* ============================
+       LANGUAGE
+    ============================ */
+
+    const translations = {
+
+        en: {
+            adminPanel: "Administrator Panel",
+            logout: "Logout",
+            dashboardTitle:
+                "Administrator Dashboard",
+            dashboardDescription:
+                "Monitor and manage the Literary Emporium marketplace from one central administration panel.",
+            marketplaceOverview:
+                "Marketplace Overview",
+            totalBooks:
+                "Total Books",
+            totalSellers:
+                "Total Sellers",
+            totalBuyers:
+                "Total Buyers",
+            management:
+                "Management",
+
+            manageBooks:
+                "Manage Books",
+            manageBooksDescription:
+                "Review and manage books listed in the Literary Emporium marketplace.",
+            openBooks:
+                "Manage Books",
+
+            manageSellers:
+                "Manage Sellers",
+            manageSellersDescription:
+                "Review registered sellers and manage seller accounts.",
+            openSellers:
+                "Manage Sellers",
+
+            manageBuyers:
+                "Manage Buyers",
+            manageBuyersDescription:
+                "Review registered buyers and manage buyer accounts.",
+            openBuyers:
+                "Manage Buyers",
+
+            manageOrders:
+                "Manage Orders",
+            manageOrdersDescription:
+                "Review customer orders, update order status and scan order or seller QR codes.",
+            openOrders:
+                "Manage Orders",
+            scanQR:
+                "Scan QR",
+
+            footer:
+                "© 2026 Literary Emporium. All rights reserved."
+        },
+
+
+        ta: {
+            adminPanel:
+                "நிர்வாகி பகுதி",
+            logout:
+                "வெளியேறு",
+            dashboardTitle:
+                "நிர்வாகி டாஷ்போர்டு",
+            dashboardDescription:
+                "Literary Emporium சந்தையை ஒரே நிர்வாகப் பகுதியில் கண்காணித்து நிர்வகிக்கவும்.",
+            marketplaceOverview:
+                "சந்தை மேலோட்டம்",
+            totalBooks:
+                "மொத்த புத்தகங்கள்",
+            totalSellers:
+                "மொத்த விற்பனையாளர்கள்",
+            totalBuyers:
+                "மொத்த வாங்குபவர்கள்",
+            management:
+                "மேலாண்மை",
+
+            manageBooks:
+                "புத்தகங்களை நிர்வகிக்கவும்",
+            manageBooksDescription:
+                "சந்தையில் பட்டியலிடப்பட்ட புத்தகங்களைப் பார்க்கவும் நிர்வகிக்கவும்.",
+            openBooks:
+                "புத்தகங்களை நிர்வகிக்கவும்",
+
+            manageSellers:
+                "விற்பனையாளர்களை நிர்வகிக்கவும்",
+            manageSellersDescription:
+                "பதிவு செய்யப்பட்ட விற்பனையாளர்களைப் பார்க்கவும் நிர்வகிக்கவும்.",
+            openSellers:
+                "விற்பனையாளர்களை நிர்வகிக்கவும்",
+
+            manageBuyers:
+                "வாங்குபவர்களை நிர்வகிக்கவும்",
+            manageBuyersDescription:
+                "பதிவு செய்யப்பட்ட வாங்குபவர்களைப் பார்க்கவும் நிர்வகிக்கவும்.",
+            openBuyers:
+                "வாங்குபவர்களை நிர்வகிக்கவும்",
+
+            manageOrders:
+                "ஆர்டர்களை நிர்வகிக்கவும்",
+            manageOrdersDescription:
+                "வாடிக்கையாளர் ஆர்டர்களைப் பார்த்து, நிலையை மாற்றி, Order அல்லது Seller QR-ஐ ஸ்கேன் செய்யவும்.",
+            openOrders:
+                "ஆர்டர்களை நிர்வகிக்கவும்",
+            scanQR:
+                "QR ஸ்கேன்",
+
+            footer:
+                "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        },
+
+
+        hi: {
+            adminPanel:
+                "प्रशासक पैनल",
+            logout:
+                "लॉग आउट",
+            dashboardTitle:
+                "प्रशासक डैशबोर्ड",
+            dashboardDescription:
+                "एक केंद्रीय प्रशासन पैनल से Literary Emporium मार्केटप्लेस को प्रबंधित करें।",
+            marketplaceOverview:
+                "मार्केटप्लेस अवलोकन",
+            totalBooks:
+                "कुल पुस्तकें",
+            totalSellers:
+                "कुल विक्रेता",
+            totalBuyers:
+                "कुल खरीदार",
+            management:
+                "प्रबंधन",
+
+            manageBooks:
+                "पुस्तकें प्रबंधित करें",
+            manageBooksDescription:
+                "मार्केटप्लेस में सूचीबद्ध पुस्तकों को देखें और प्रबंधित करें।",
+            openBooks:
+                "पुस्तकें प्रबंधित करें",
+
+            manageSellers:
+                "विक्रेता प्रबंधित करें",
+            manageSellersDescription:
+                "पंजीकृत विक्रेताओं को देखें और उनके खातों को प्रबंधित करें।",
+            openSellers:
+                "विक्रेता प्रबंधित करें",
+
+            manageBuyers:
+                "खरीदार प्रबंधित करें",
+            manageBuyersDescription:
+                "पंजीकृत खरीदारों को देखें और उनके खातों को प्रबंधित करें।",
+            openBuyers:
+                "खरीदार प्रबंधित करें",
+
+            manageOrders:
+                "ऑर्डर प्रबंधित करें",
+            manageOrdersDescription:
+                "ग्राहक ऑर्डर देखें, स्थिति बदलें और Order या Seller QR स्कैन करें।",
+            openOrders:
+                "ऑर्डर प्रबंधित करें",
+            scanQR:
+                "QR स्कैन",
+
+            footer:
+                "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+        },
+
+
+        te: {
+            adminPanel:
+                "అడ్మినిస్ట్రేటర్ ప్యానెల్",
+            logout:
+                "లాగ్ అవుట్",
+            dashboardTitle:
+                "అడ్మినిస్ట్రేటర్ డ్యాష్‌బోర్డ్",
+            dashboardDescription:
+                "ఒకే అడ్మినిస్ట్రేషన్ ప్యానెల్ నుండి Literary Emporium మార్కెట్‌ప్లేస్‌ను నిర్వహించండి.",
+            marketplaceOverview:
+                "మార్కెట్‌ప్లేస్ అవలోకనం",
+            totalBooks:
+                "మొత్తం పుస్తకాలు",
+            totalSellers:
+                "మొత్తం విక్రేతలు",
+            totalBuyers:
+                "మొత్తం కొనుగోలుదారులు",
+            management:
+                "నిర్వహణ",
+
+            manageBooks:
+                "పుస్తకాలను నిర్వహించండి",
+            manageBooksDescription:
+                "మార్కెట్‌ప్లేస్‌లో ఉన్న పుస్తకాలను చూడండి మరియు నిర్వహించండి.",
+            openBooks:
+                "పుస్తకాలను నిర్వహించండి",
+
+            manageSellers:
+                "విక్రేతలను నిర్వహించండి",
+            manageSellersDescription:
+                "నమోదైన విక్రేతలను చూడండి మరియు వారి ఖాతాలను నిర్వహించండి.",
+            openSellers:
+                "విక్రేతలను నిర్వహించండి",
+
+            manageBuyers:
+                "కొనుగోలుదారులను నిర్వహించండి",
+            manageBuyersDescription:
+                "నమోదైన కొనుగోలుదారులను చూడండి మరియు వారి ఖాతాలను నిర్వహించండి.",
+            openBuyers:
+                "కొనుగోలుదారులను నిర్వహించండి",
+
+            manageOrders:
+                "ఆర్డర్లను నిర్వహించండి",
+            manageOrdersDescription:
+                "కస్టమర్ ఆర్డర్లను చూడండి, స్థితిని మార్చండి మరియు Order లేదా Seller QR స్కాన్ చేయండి.",
+            openOrders:
+                "ఆర్డర్లను నిర్వహించండి",
+            scanQR:
+                "QR స్కాన్",
+
+            footer:
+                "© 2026 Literary Emporium. అన్ని హక్కులు రక్షించబడ్డాయి."
+        },
+
+
+        ml: {
+            adminPanel:
+                "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ",
+            logout:
+                "ലോഗ് ഔട്ട്",
+            dashboardTitle:
+                "അഡ്മിനിസ്ട്രേറ്റർ ഡാഷ്ബോർഡ്",
+            dashboardDescription:
+                "ഒരു കേന്ദ്ര അഡ്മിനിസ്ട്രേഷൻ പാനലിൽ നിന്ന് Literary Emporium മാർക്കറ്റ്പ്ലേസ് നിയന്ത്രിക്കുക.",
+            marketplaceOverview:
+                "മാർക്കറ്റ്പ്ലേസ് അവലോകനം",
+            totalBooks:
+                "ആകെ പുസ്തകങ്ങൾ",
+            totalSellers:
+                "ആകെ വിൽപ്പനക്കാർ",
+            totalBuyers:
+                "ആകെ വാങ്ങുന്നവർ",
+            management:
+                "മാനേജ്മെന്റ്",
+
+            manageBooks:
+                "പുസ്തകങ്ങൾ നിയന്ത്രിക്കുക",
+            manageBooksDescription:
+                "മാർക്കറ്റ്പ്ലേസിൽ ലിസ്റ്റ് ചെയ്ത പുസ്തകങ്ങൾ കാണുകയും നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+            openBooks:
+                "പുസ്തകങ്ങൾ നിയന്ത്രിക്കുക",
+
+            manageSellers:
+                "വിൽപ്പനക്കാരെ നിയന്ത്രിക്കുക",
+            manageSellersDescription:
+                "രജിസ്റ്റർ ചെയ്ത വിൽപ്പനക്കാരെ കാണുകയും അവരുടെ അക്കൗണ്ടുകൾ നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+            openSellers:
+                "വിൽപ്പനക്കാരെ നിയന്ത്രിക്കുക",
+
+            manageBuyers:
+                "വാങ്ങുന്നവരെ നിയന്ത്രിക്കുക",
+            manageBuyersDescription:
+                "രജിസ്റ്റർ ചെയ്ത വാങ്ങുന്നവരെ കാണുകയും അവരുടെ അക്കൗണ്ടുകൾ നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+            openBuyers:
+                "വാങ്ങുന്നവരെ നിയന്ത്രിക്കുക",
+
+            manageOrders:
+                "ഓർഡറുകൾ നിയന്ത്രിക്കുക",
+            manageOrdersDescription:
+                "ഉപഭോക്തൃ ഓർഡറുകൾ കാണുക, സ്റ്റാറ്റസ് മാറ്റുക, Order അല്ലെങ്കിൽ Seller QR സ്കാൻ ചെയ്യുക.",
+            openOrders:
+                "ഓർഡറുകൾ നിയന്ത്രിക്കുക",
+            scanQR:
+                "QR സ്കാൻ",
+
+            footer:
+                "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+        }
+
+    };
+
+
+    function applyAdminLanguage() {
+
+        const language =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        const selectedTranslations =
+            translations[language] ||
+            translations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function (element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (
+                    selectedTranslations[key]
+                ) {
+
+                    element.textContent =
+                        selectedTranslations[key];
+
+                }
+
+            });
+
+
+        document.getElementById(
+            "languageSelector"
+        ).value = language;
+
+    }
+
+
+    document
+        .getElementById("languageSelector")
+        .addEventListener(
+            "change",
+            function () {
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    this.value
+                );
+
+                applyAdminLanguage();
+
+            }
+        );
+
+
+    applyAdminLanguage();
+
+</script>
+<script src="chatbot.js?v=3"></script>
+</body>
+</html>

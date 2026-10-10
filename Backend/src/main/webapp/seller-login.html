@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="sellerPortalTitle">
+        Seller Portal | Literary Emporium
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f5f7;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 24px 60px;
+            border-bottom: 1px solid #29374a;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #c7ced8;
+            letter-spacing: 0.5px;
+        }
+
+        .language-select {
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid #6d7887;
+            border-radius: 2px;
+            background: #172337;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .page-wrapper {
+            min-height: calc(100vh - 115px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .seller-panel {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 42px 48px;
+            border: 1px solid #d8dde4;
+        }
+
+        .panel-title {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .panel-description {
+            text-align: center;
+            color: #687384;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .form-section {
+            display: block;
+        }
+
+        .form-section.hidden {
+            display: none;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #344054;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 2px;
+            border: none;
+            border-bottom: 1px solid #b8c0ca;
+            background: transparent;
+            color: #172337;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-bottom: 1px solid #172337;
+        }
+
+        input::placeholder {
+            color: #9aa3af;
+        }
+
+        .primary-button {
+            width: 100%;
+            padding: 13px 20px;
+            margin-top: 8px;
+            border: 1px solid #172337;
+            background: #172337;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .primary-button:hover {
+            background: #26364b;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #687384;
+        }
+
+        .switch-link {
+            color: #172337;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .error {
+            color: #8a2638;
+        }
+
+        .success {
+            color: #315c49;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 28px;
+            color: #687384;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #172337;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #d8dde4;
+            background: white;
+            color: #7a8491;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px;
+            }
+
+            .header-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .seller-panel {
+                padding: 32px 25px;
+            }
+
+            .page-wrapper {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <header>
+
+        <div class="header-row">
+
+            <div>
+                <div class="brand">
+                    LITERARY EMPORIUM
+                </div>
+
+                <div
+                    class="subtitle"
+                    data-i18n="sellerPortalSubtitle">
+                    Online Book Marketplace · Seller Portal
+                </div>
+            </div>
+
+
+            <select
+                id="languageSelect"
+                class="language-select"
+                aria-label="Language">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+        </div>
+
+    </header>
+
+
+    <main class="page-wrapper">
+
+        <section class="seller-panel">
+
+            <h1
+                class="panel-title"
+                data-i18n="sellerPortal">
+                Seller Portal
+            </h1>
+
+            <p
+                class="panel-description"
+                data-i18n="sellerPortalDescription">
+                Manage your books and marketplace listings through the
+                Literary Emporium seller portal.
+            </p>
+
+
+            <!-- SELLER LOGIN -->
+
+            <div
+                id="sellerLoginSection"
+                class="form-section">
+
+                <h2
+                    class="form-title"
+                    data-i18n="sellerLogin">
+                    Seller Login
+                </h2>
+
+                <form id="sellerLoginForm">
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerLoginEmail"
+                            data-i18n="emailAddress">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="sellerLoginEmail"
+                            data-i18n-placeholder="enterEmail"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerLoginPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="sellerLoginPassword"
+                            data-i18n-placeholder="enterPassword"
+                            placeholder="Enter your password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        data-i18n="loginSellerPortal">
+                        Login to Seller Portal
+                    </button>
+
+                </form>
+
+
+                <div
+                    id="sellerLoginMessage"
+                    class="message">
+                </div>
+
+
+                <p class="switch-text">
+
+                    <span data-i18n="newSeller">
+                        New seller?
+                    </span>
+
+                    <span
+                        class="switch-link"
+                        onclick="showSellerRegister()"
+                        data-i18n="createAccount">
+                        Create an Account
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <!-- SELLER REGISTRATION -->
+
+            <div
+                id="sellerRegisterSection"
+                class="form-section hidden">
+
+                <h2
+                    class="form-title"
+                    data-i18n="sellerRegistration">
+                    Seller Registration
+                </h2>
+
+                <form id="sellerRegisterForm">
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerName"
+                            data-i18n="sellerName">
+                            Seller Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="sellerName"
+                            data-i18n-placeholder="enterFullName"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerEmail"
+                            data-i18n="emailAddress">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="sellerEmail"
+                            data-i18n-placeholder="enterEmail"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="sellerPassword"
+                            data-i18n-placeholder="createPassword"
+                            placeholder="Create a password"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="sellerConfirmPassword"
+                            data-i18n="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="sellerConfirmPassword"
+                            data-i18n-placeholder="confirmYourPassword"
+                            placeholder="Confirm your password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        data-i18n="createSellerAccount">
+                        Create Seller Account
+                    </button>
+
+                </form>
+
+
+                <div
+                    id="sellerRegisterMessage"
+                    class="message">
+                </div>
+
+
+                <p class="switch-text">
+
+                    <span data-i18n="alreadyAccount">
+                        Already have an account?
+                    </span>
+
+                    <span
+                        class="switch-link"
+                        onclick="showSellerLogin()"
+                        data-i18n="login">
+                        Login
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <a
+                href="index.html"
+                class="back-link"
+                data-i18n="backToMarketplace">
+                Back to Marketplace
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <span data-i18n="footerText">
+            © 2026 Literary Emporium. All rights reserved.
+        </span>
+    </footer>
+
+
+    <script>
+
+        function showSellerRegister() {
+
+            document
+                .getElementById("sellerLoginSection")
+                .classList.add("hidden");
+
+            document
+                .getElementById("sellerRegisterSection")
+                .classList.remove("hidden");
+
+        }
+
+
+        function showSellerLogin() {
+
+            document
+                .getElementById("sellerRegisterSection")
+                .classList.add("hidden");
+
+            document
+                .getElementById("sellerLoginSection")
+                .classList.remove("hidden");
+
+        }
+
+    </script>
+
+
+    <!-- LANGUAGE -->
+    <script src="language.js"></script>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            if (typeof setupLanguageSelector === "function") {
+                setupLanguageSelector();
+            }
+
+            if (typeof applyLanguage === "function") {
+                applyLanguage();
+            }
+
+        });
+    </script>
+
+</body>
+</html>

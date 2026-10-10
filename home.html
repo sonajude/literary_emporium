@@ -1,0 +1,3193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Literary Emporium | Online Book Marketplace</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #25313d;
+            line-height: 1.6;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #d8dde2;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .header-inner {
+            width: 90%;
+            max-width: 1240px;
+            min-height: 78px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #182b3a;
+            color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+
+        .brand-text h1 {
+            color: #182b3a;
+            font-size: 18px;
+            letter-spacing: 1.8px;
+        }
+
+
+        .brand-text p {
+            color: #6b7680;
+            font-size: 10px;
+            letter-spacing: .5px;
+        }
+
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+
+        .main-nav a {
+            color: #263544;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+
+        .main-nav a:hover {
+            color: #7b2938;
+        }
+
+
+        /* =====================================================
+           DASHBOARD
+           ===================================================== */
+
+        .dashboard-area {
+            position: relative;
+        }
+
+
+        .dashboard-button {
+            border: none;
+            background: transparent;
+            color: #263544;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+
+        .dashboard-button:hover {
+            color: #7b2938;
+        }
+
+
+        .dashboard-symbol {
+            width: 15px;
+            height: 15px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+        }
+
+
+        .dashboard-symbol span {
+            background: currentColor;
+        }
+
+
+        .dashboard-panel {
+            position: absolute;
+
+            top: calc(100% + 14px);
+            right: 0;
+
+            width: 270px;
+
+            background: #ffffff;
+            border: 1px solid #d5dce2;
+
+            box-shadow: 0 14px 35px rgba(24, 43, 58, .13);
+
+            padding: 22px;
+
+            display: none;
+        }
+
+
+        .dashboard-panel.open {
+            display: block;
+        }
+
+
+        .dashboard-panel h3 {
+            color: #182b3a;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 21px;
+            font-weight: 400;
+
+            margin-bottom: 16px;
+        }
+
+
+        .dashboard-section-title {
+            margin-top: 17px;
+            margin-bottom: 7px;
+
+            color: #7b2938;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+
+        .dashboard-panel a,
+        .dashboard-language-button {
+            display: block;
+
+            width: 100%;
+
+            padding: 8px 0;
+
+            background: transparent;
+            border: none;
+
+            text-align: left;
+
+            color: #53606c;
+
+            font-size: 13px;
+
+            cursor: pointer;
+        }
+
+
+        .dashboard-panel a:hover,
+        .dashboard-language-button:hover {
+            color: #7b2938;
+        }
+
+
+        /* =====================================================
+           LANGUAGE PANEL
+           ===================================================== */
+
+        .language-panel {
+            display: none;
+
+            margin-top: 8px;
+
+            padding: 10px;
+
+            background: #f5f7f8;
+            border: 1px solid #dce1e5;
+        }
+
+
+        .language-panel.open {
+            display: block;
+        }
+
+
+        .language-option {
+            width: 100%;
+
+            padding: 8px 10px;
+
+            border: none;
+            background: transparent;
+
+            color: #3f4b56;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+
+        .language-option:hover {
+            background: #e9edf0;
+        }
+
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .hero {
+            background: #edf0f2;
+            border-bottom: 1px solid #d8dde2;
+        }
+
+
+        .hero-inner {
+            width: 90%;
+            max-width: 1240px;
+
+            margin: auto;
+
+            padding: 70px 0 50px;
+        }
+
+
+        .section-label {
+            margin-bottom: 14px;
+
+            color: #7b2938;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+
+        .hero h2 {
+            max-width: 800px;
+
+            color: #182b3a;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 50px;
+            font-weight: 400;
+
+            line-height: 1.12;
+
+            margin-bottom: 18px;
+        }
+
+
+        .hero-description {
+            max-width: 820px;
+
+            color: #5d6871;
+
+            font-size: 15px;
+            line-height: 1.8;
+
+            margin-bottom: 28px;
+        }
+
+
+        /* =====================================================
+           SEARCH
+           ===================================================== */
+
+        .search-box {
+            width: 100%;
+            max-width: 820px;
+        }
+
+
+        .search-box input {
+            width: 100%;
+
+            padding: 16px 18px;
+
+            background: white;
+
+            border: 1px solid #c8d0d7;
+
+            color: #263544;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+
+        .search-box input:focus {
+            border-color: #182b3a;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(24, 43, 58, .05);
+        }
+
+
+        .catalogue-status {
+            max-width: 1240px;
+
+            margin: 14px auto 0;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #697681;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           CATEGORIES
+           ===================================================== */
+
+        .catalogue-section {
+            background: #ffffff;
+
+            padding: 48px 0 90px;
+        }
+
+
+        .catalogue-inner {
+            width: 90%;
+            max-width: 1240px;
+
+            margin: auto;
+        }
+
+
+        .category-bar {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-bottom: 38px;
+        }
+
+
+        .category {
+            padding: 10px 15px;
+
+            background: #ffffff;
+
+            border: 1px solid #cbd3da;
+
+            color: #3d4a56;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+
+        .category:hover {
+            border-color: #182b3a;
+            color: #182b3a;
+        }
+
+
+        .category.active {
+            background: #182b3a;
+            border-color: #182b3a;
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           HEADING
+           ===================================================== */
+
+        .catalogue-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #dfe4e8;
+        }
+
+
+        .catalogue-heading h2 {
+            color: #182b3a;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 31px;
+            font-weight: 400;
+        }
+
+
+        .catalogue-heading p {
+            color: #6c7781;
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           BOOK GRID
+           ===================================================== */
+
+        .book-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 28px;
+        }
+
+
+        /* =====================================================
+           BOOK CARD
+           ===================================================== */
+
+        .book-card {
+            min-width: 0;
+
+            background: #ffffff;
+
+            border: 1px solid #d7dde2;
+
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+
+            transition:
+                box-shadow .2s ease,
+                transform .2s ease,
+                border-color .2s ease;
+        }
+
+
+        .book-card:hover {
+            transform: translateY(-3px);
+
+            border-color: #bcc5cc;
+
+            box-shadow:
+                0 12px 28px
+                rgba(24, 43, 58, .10);
+        }
+
+
+        /* =====================================================
+           COVER
+           ===================================================== */
+
+        .book-cover-wrap {
+            width: 100%;
+            height: 300px;
+
+            background: #eef1f3;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+
+        .book-cover {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .book-cover-fallback {
+            width: 100%;
+            height: 100%;
+
+            padding: 28px;
+
+            background: #e5e9ec;
+
+            color: #182b3a;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 18px;
+            line-height: 1.4;
+
+            text-align: center;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =====================================================
+           BOOK BODY
+           ===================================================== */
+
+        .book-body {
+            padding: 19px;
+
+            display: flex;
+            flex-direction: column;
+
+            flex: 1;
+        }
+
+
+        .book-category {
+            margin-bottom: 8px;
+
+            color: #7b2938;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+        }
+
+
+        .book-title {
+            min-height: 52px;
+
+            margin: 0 0 7px;
+
+            color: #182b3a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 19px;
+            font-weight: 400;
+
+            line-height: 1.35;
+        }
+
+
+        .book-author {
+            min-height: 20px;
+
+            margin-bottom: 12px;
+
+            color: #66727d;
+
+            font-size: 12px;
+        }
+
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 10px 0;
+
+            border-top: 1px solid #e4e8eb;
+            border-bottom: 1px solid #e4e8eb;
+
+            color: #7a858e;
+
+            font-size: 11px;
+        }
+
+
+        .book-description {
+            min-height: 58px;
+
+            margin: 14px 0;
+
+            color: #5d6871;
+
+            font-size: 12px;
+            line-height: 1.6;
+
+            display: -webkit-box;
+
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+
+            overflow: hidden;
+        }
+
+
+        .book-price {
+            margin-top: auto;
+
+            padding-top: 8px;
+
+            color: #182b3a;
+
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+
+        .view-button {
+            width: 100%;
+
+            margin-top: 14px;
+
+            padding: 11px 14px;
+
+            background: #182b3a;
+
+            border: 1px solid #182b3a;
+
+            color: #ffffff;
+
+            cursor: pointer;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        .view-button:hover {
+            background: #2b4051;
+            border-color: #2b4051;
+        }
+
+
+        /* =====================================================
+           LOADING
+           ===================================================== */
+
+        .loading-card {
+            min-height: 390px;
+
+            background: #f5f7f8;
+
+            border: 1px solid #dce1e5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #707b84;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        .no-results {
+            width: 100%;
+
+            padding: 55px 20px;
+
+            background: #f7f8f9;
+
+            border: 1px solid #d7dde2;
+
+            color: #697681;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        footer {
+            padding: 28px;
+
+            background: #182b3a;
+
+            color: #cbd3d9;
+
+            text-align: center;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .book-grid {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 850px) {
+
+            .header-inner {
+                flex-wrap: wrap;
+
+                padding: 15px 0;
+            }
+
+
+            .main-nav {
+                width: 100%;
+
+                justify-content: flex-start;
+
+                flex-wrap: wrap;
+            }
+
+
+            .book-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .hero h2 {
+                font-size: 42px;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .main-nav {
+                gap: 14px;
+            }
+
+
+            .dashboard-panel {
+                right: auto;
+                left: 0;
+            }
+
+
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .book-cover-wrap {
+                height: 350px;
+            }
+
+
+            .hero h2 {
+                font-size: 34px;
+            }
+
+
+            .catalogue-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+            .catalogue-status {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+        }
+
+
+        /* =====================================================
+           SELLER LISTINGS
+           ===================================================== */
+
+        .seller-listings-section {
+            background: #f5f7f8;
+            padding: 70px 0 85px;
+            border-top: 1px solid #dde2e6;
+        }
+
+        .seller-listings-heading {
+            margin-bottom: 30px;
+        }
+
+        .seller-listings-heading h2 {
+            margin: 7px 0 8px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #182b3a;
+        }
+
+        .seller-listings-heading p:last-child {
+            margin: 0;
+            color: #697681;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .seller-book-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .seller-book-card {
+            background: #ffffff;
+            border: 1px solid #dce1e5;
+            padding: 18px;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .seller-book-card img,
+        .seller-book-card .seller-no-cover {
+            width: 100%;
+            height: 235px;
+            object-fit: cover;
+            background: #eef1f3;
+            border: 1px solid #e0e4e7;
+        }
+
+        .seller-book-card .seller-no-cover {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7a858e;
+            font-size: 12px;
+        }
+
+        .seller-book-label {
+            display: inline-block;
+            margin: 14px 0 8px;
+            color: #6d2638;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .seller-book-card h3 {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.4;
+            color: #182b3a;
+            font-weight: 600;
+        }
+
+        .seller-book-card .seller-author {
+            margin: 7px 0 0;
+            color: #697681;
+            font-size: 12px;
+        }
+
+        .seller-book-card .seller-description {
+            margin: 10px 0 16px;
+            color: #6d7780;
+            font-size: 12px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            overflow: hidden;
+        }
+
+        .seller-book-bottom {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .seller-price {
+            color: #182b3a;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .seller-view-button {
+            padding: 9px 13px;
+            border: 1px solid #182b3a;
+            background: #182b3a;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .seller-view-button:hover {
+            background: #2b4051;
+        }
+
+        .seller-empty-message {
+            display: none;
+            padding: 34px 20px;
+            text-align: center;
+            border: 1px solid #dce1e5;
+            background: #ffffff;
+            color: #697681;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1000px) {
+            .seller-book-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 750px) {
+            .seller-book-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 500px) {
+            .seller-book-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                LE
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    LITERARY EMPORIUM
+                </h1>
+
+                <p data-i18n="subtitle">
+                    ONLINE BOOK MARKETPLACE
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <nav class="main-nav">
+
+            <a
+                href="home.html"
+                data-i18n="home"
+            >
+                Home
+            </a>
+
+
+            <a
+                href="orders.html"
+                data-i18n="orders"
+            >
+                My Orders
+            </a>
+
+
+            <a
+                href="wishlist.html"
+                data-i18n="wishlist"
+            >
+                Wishlist
+            </a>
+
+
+            <a
+                href="cart.html"
+                data-i18n="cart"
+            >
+                Cart
+            </a>
+
+
+            <div class="dashboard-area">
+
+
+                <button
+                    type="button"
+                    class="dashboard-button"
+                    id="dashboardButton"
+                >
+
+                    <span class="dashboard-symbol">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+
+                    <span data-i18n="dashboard">
+                        Dashboard
+                    </span>
+
+                </button>
+
+
+                <div
+                    class="dashboard-panel"
+                    id="dashboardPanel"
+                >
+
+                    <h3 data-i18n="dashboard">
+                        Dashboard
+                    </h3>
+
+
+                    <div
+                        class="dashboard-section-title"
+                        data-i18n="shopping"
+                    >
+                        Shopping
+                    </div>
+
+
+                    <a
+                        href="wishlist.html"
+                        data-i18n="wishlist"
+                    >
+                        Wishlist
+                    </a>
+
+
+                    <a
+                        href="orders.html"
+                        data-i18n="orders"
+                    >
+                        Orders
+                    </a>
+
+
+                    <a
+                        href="cart.html"
+                        data-i18n="cart"
+                    >
+                        Cart
+                    </a>
+
+
+                    <div
+                        class="dashboard-section-title"
+                        data-i18n="myActivities"
+                    >
+                        My Activities
+                    </div>
+
+
+                    <a
+                        href="book-details.html"
+                        data-i18n="reviews"
+                    >
+                        Reviews
+                    </a>
+
+
+                    <a
+                        href="checkout.html"
+                        data-i18n="savedAddress"
+                    >
+                        Saved Address
+                    </a>
+
+
+                    <button
+                        type="button"
+                        class="dashboard-language-button"
+                        id="languageButton"
+                        data-i18n="selectLanguage"
+                    >
+                        Select Language
+                    </button>
+
+
+                    <div
+                        class="language-panel"
+                        id="languagePanel"
+                    >
+
+                        <button
+                            class="language-option"
+                            data-language="en"
+                        >
+                            English
+                        </button>
+
+                        <button
+                            class="language-option"
+                            data-language="ta"
+                        >
+                            தமிழ்
+                        </button>
+
+                        <button
+                            class="language-option"
+                            data-language="hi"
+                        >
+                            हिन्दी
+                        </button>
+
+                        <button
+                            class="language-option"
+                            data-language="te"
+                        >
+                            తెలుగు
+                        </button>
+
+                        <button
+                            class="language-option"
+                            data-language="ml"
+                        >
+                            മലയാളം
+                        </button>
+
+                    </div>
+
+
+                    <a
+                        href="login.html"
+                        id="logoutLink"
+                        data-i18n="logout"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <p
+            class="section-label"
+            data-i18n="collection"
+        >
+            LITERARY COLLECTION
+        </p>
+
+
+        <h2 data-i18n="discover">
+            Discover Your Next Book
+        </h2>
+
+
+        <p
+            class="hero-description"
+            data-i18n="heroDescription"
+        >
+            Explore hundreds of real books across twelve
+            collections. Search by title or author and open
+            any book for its full details.
+        </p>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="catalogueSearchInput"
+                data-i18n-placeholder="searchPlaceholder"
+                placeholder="Search by book title or author..."
+            >
+
+        </div>
+
+
+        <div class="catalogue-status">
+
+            <span id="catalogueStatus">
+                Loading catalogue...
+            </span>
+
+
+            <span id="resultCount">
+                0 shown
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CATALOGUE
+     ========================================================= -->
+
+<section class="catalogue-section">
+
+    <div class="catalogue-inner">
+
+
+        <div
+            class="category-bar"
+            id="categoryBar"
+        >
+
+            <button
+                class="category active"
+                data-category="all"
+                data-i18n="allBooks"
+            >
+                All Books
+            </button>
+
+
+            <button
+                class="category"
+                data-category="fiction"
+                data-i18n="fictionCategory"
+            >
+                Fiction
+            </button>
+
+
+            <button
+                class="category"
+                data-category="nonfiction"
+                data-i18n="nonfictionCategory"
+            >
+                Non-Fiction
+            </button>
+
+
+            <button
+                class="category"
+                data-category="action"
+                data-i18n="actionCategory"
+            >
+                Action / Adventure
+            </button>
+
+
+            <button
+                class="category"
+                data-category="romance"
+                data-i18n="romanceCategory"
+            >
+                Romance
+            </button>
+
+
+            <button
+                class="category"
+                data-category="mystery"
+                data-i18n="mysteryCategory"
+            >
+                Mystery / Thriller
+            </button>
+
+
+            <button
+                class="category"
+                data-category="science-fiction"
+                data-i18n="scienceFictionCategory"
+            >
+                Science Fiction
+            </button>
+
+
+            <button
+                class="category"
+                data-category="fantasy"
+                data-i18n="fantasyCategory"
+            >
+                Fantasy
+            </button>
+
+
+            <button
+                class="category"
+                data-category="biography"
+                data-i18n="biographyCategory"
+            >
+                Biography
+            </button>
+
+
+            <button
+                class="category"
+                data-category="history"
+                data-i18n="historyCategory"
+            >
+                History
+            </button>
+
+
+            <button
+                class="category"
+                data-category="academic"
+                data-i18n="academicCategory"
+            >
+                Academic
+            </button>
+
+
+            <button
+                class="category"
+                data-category="self-help"
+                data-i18n="selfHelpCategory"
+            >
+                Self-Help
+            </button>
+
+
+            <button
+                class="category"
+                data-category="children"
+                data-i18n="childrenCategory"
+            >
+                Children
+            </button>
+
+        </div>
+
+
+
+        <div class="catalogue-heading">
+
+            <h2 id="bookHeading" data-i18n="allBooks">
+                All Books
+            </h2>
+
+
+            <p data-i18n="collectionCount">
+                600-book collection
+            </p>
+
+        </div>
+
+
+
+        <div
+            class="book-grid"
+            id="bookContainer"
+        ></div>
+
+
+        <div
+            id="noResults"
+            class="no-results"
+            hidden
+            data-i18n="noResults"
+        >
+            No books found.
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SELLER LISTINGS
+     ========================================================= -->
+
+<section class="seller-listings-section">
+
+    <div class="catalogue-inner">
+
+        <div class="seller-listings-heading">
+            <p class="section-label">MARKETPLACE LISTINGS</p>
+            <h2>Seller Added Books</h2>
+            <p>Books listed directly by Literary Emporium sellers.</p>
+        </div>
+
+        <div id="sellerBookContainer" class="seller-book-grid"></div>
+
+        <div id="sellerEmptyMessage" class="seller-empty-message">
+            No seller books have been added yet.
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <span data-i18n="footer">
+        © 2026 Literary Emporium. All rights reserved.
+    </span>
+
+</footer>
+
+
+
+<!-- =========================================================
+     EXISTING PROJECT SCRIPT
+     ========================================================= -->
+
+<script src="language.js"></script>
+<script src="script.js"></script>
+
+
+
+<!-- =========================================================
+     HOME + DASHBOARD + CATALOGUE SCRIPT
+     ========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       DASHBOARD
+       ===================================================== */
+
+    const dashboardButton =
+        document.getElementById(
+            "dashboardButton"
+        );
+
+    const dashboardPanel =
+        document.getElementById(
+            "dashboardPanel"
+        );
+
+
+    if (
+        dashboardButton &&
+        dashboardPanel
+    ) {
+
+        dashboardButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                dashboardPanel.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !dashboardPanel.contains(event.target) &&
+                    !dashboardButton.contains(event.target)
+                ) {
+
+                    dashboardPanel.classList.remove(
+                        "open"
+                    );
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LANGUAGE DATA
+       ===================================================== */
+
+    const translations = {
+
+        en: {
+            fictionCategory: "Fiction",
+            nonfictionCategory: "Non-Fiction",
+            actionCategory: "Action / Adventure",
+            romanceCategory: "Romance",
+            mysteryCategory: "Mystery / Thriller",
+            scienceFictionCategory: "Science Fiction",
+            fantasyCategory: "Fantasy",
+            biographyCategory: "Biography",
+            historyCategory: "History",
+            academicCategory: "Academic",
+            selfHelpCategory: "Self-Help",
+            childrenCategory: "Children",
+            collectionCount: "600-book collection",
+            viewBook: "View Book",
+
+            subtitle:
+                "ONLINE BOOK MARKETPLACE",
+
+            home:
+                "Home",
+
+            orders:
+                "My Orders",
+
+            wishlist:
+                "Wishlist",
+
+            cart:
+                "Cart",
+
+            dashboard:
+                "Dashboard",
+
+            shopping:
+                "Shopping",
+
+            myActivities:
+                "My Activities",
+
+            reviews:
+                "Reviews",
+
+            savedAddress:
+                "Saved Address",
+
+            selectLanguage:
+                "Select Language",
+
+            logout:
+                "Logout",
+
+            collection:
+                "LITERARY COLLECTION",
+
+            discover:
+                "Discover Your Next Book",
+
+            heroDescription:
+                "Explore hundreds of real books across twelve collections. Search by title or author and open any book for its full details.",
+
+            searchPlaceholder:
+                "Search by book title or author...",
+
+            allBooks:
+                "All Books",
+
+            noResults:
+                "No books found.",
+
+            footer:
+                "© 2026 Literary Emporium. All rights reserved."
+        },
+
+
+        ta: {
+            fictionCategory: "புனைகதை",
+            nonfictionCategory: "புனைகதை அல்லாதவை",
+            actionCategory: "சாகசம் / அதிரடி",
+            romanceCategory: "காதல்",
+            mysteryCategory: "மர்மம் / த்ரில்லர்",
+            scienceFictionCategory: "அறிவியல் புனைகதை",
+            fantasyCategory: "கற்பனை",
+            biographyCategory: "சுயசரிதை",
+            historyCategory: "வரலாறு",
+            academicCategory: "கல்வி",
+            selfHelpCategory: "சுய முன்னேற்றம்",
+            childrenCategory: "குழந்தைகள்",
+            collectionCount: "600 புத்தகத் தொகுப்பு",
+            viewBook: "புத்தகத்தைப் பார்க்க",
+
+            subtitle:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            home:
+                "முகப்பு",
+
+            orders:
+                "என் ஆர்டர்கள்",
+
+            wishlist:
+                "விருப்பப்பட்டியல்",
+
+            cart:
+                "கார்ட்",
+
+            dashboard:
+                "டாஷ்போர்டு",
+
+            shopping:
+                "ஷாப்பிங்",
+
+            myActivities:
+                "என் செயல்பாடுகள்",
+
+            reviews:
+                "விமர்சனங்கள்",
+
+            savedAddress:
+                "சேமித்த முகவரி",
+
+            selectLanguage:
+                "மொழியைத் தேர்ந்தெடுக்கவும்",
+
+            logout:
+                "வெளியேறு",
+
+            collection:
+                "புத்தகத் தொகுப்பு",
+
+            discover:
+                "உங்கள் அடுத்த புத்தகத்தை கண்டுபிடியுங்கள்",
+
+            heroDescription:
+                "பன்னிரண்டு வகைகளில் உள்ள நூற்றுக்கணக்கான புத்தகங்களைப் பாருங்கள். தலைப்பு அல்லது ஆசிரியர் பெயரைத் தேடி புத்தகத்தின் முழு விவரங்களைப் பார்க்கலாம்.",
+
+            searchPlaceholder:
+                "புத்தகத்தின் தலைப்பு அல்லது ஆசிரியரைத் தேடுங்கள்...",
+
+            allBooks:
+                "அனைத்து புத்தகங்கள்",
+
+            noResults:
+                "புத்தகங்கள் எதுவும் கிடைக்கவில்லை.",
+
+            footer:
+                "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        },
+
+
+        hi: {
+            fictionCategory: "कथा साहित्य",
+            nonfictionCategory: "गैर-कथा",
+            actionCategory: "एक्शन / एडवेंचर",
+            romanceCategory: "रोमांस",
+            mysteryCategory: "रहस्य / थ्रिलर",
+            scienceFictionCategory: "विज्ञान कथा",
+            fantasyCategory: "फैंटेसी",
+            biographyCategory: "जीवनी",
+            historyCategory: "इतिहास",
+            academicCategory: "शैक्षणिक",
+            selfHelpCategory: "स्व-सहायता",
+            childrenCategory: "बच्चों की पुस्तकें",
+            collectionCount: "600 पुस्तकों का संग्रह",
+            viewBook: "पुस्तक देखें",
+
+            subtitle:
+                "ऑनलाइन बुक मार्केटप्लेस",
+
+            home:
+                "होम",
+
+            orders:
+                "मेरे ऑर्डर",
+
+            wishlist:
+                "विशलिस्ट",
+
+            cart:
+                "कार्ट",
+
+            dashboard:
+                "डैशबोर्ड",
+
+            shopping:
+                "शॉपिंग",
+
+            myActivities:
+                "मेरी गतिविधियाँ",
+
+            reviews:
+                "समीक्षाएँ",
+
+            savedAddress:
+                "सहेजा गया पता",
+
+            selectLanguage:
+                "भाषा चुनें",
+
+            logout:
+                "लॉग आउट",
+
+            collection:
+                "पुस्तक संग्रह",
+
+            discover:
+                "अपनी अगली किताब खोजें",
+
+            heroDescription:
+                "बारह श्रेणियों में उपलब्ध सैकड़ों वास्तविक पुस्तकों को देखें। शीर्षक या लेखक के नाम से खोजें और पूरी पुस्तक जानकारी देखें।",
+
+            searchPlaceholder:
+                "पुस्तक का शीर्षक या लेखक खोजें...",
+
+            allBooks:
+                "सभी पुस्तकें",
+
+            noResults:
+                "कोई पुस्तक नहीं मिली।",
+
+            footer:
+                "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+        },
+
+
+        te: {
+            fictionCategory: "కల్పిత సాహిత్యం",
+            nonfictionCategory: "నాన్-ఫిక్షన్",
+            actionCategory: "యాక్షన్ / అడ్వెంచర్",
+            romanceCategory: "రొమాన్స్",
+            mysteryCategory: "మిస్టరీ / థ్రిల్లర్",
+            scienceFictionCategory: "సైన్స్ ఫిక్షన్",
+            fantasyCategory: "ఫ్యాంటసీ",
+            biographyCategory: "జీవిత చరిత్ర",
+            historyCategory: "చరిత్ర",
+            academicCategory: "అకాడెమిక్",
+            selfHelpCategory: "స్వీయ సహాయం",
+            childrenCategory: "పిల్లల పుస్తకాలు",
+            collectionCount: "600 పుస్తకాల సేకరణ",
+            viewBook: "పుస్తకం చూడండి",
+
+            subtitle:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్",
+
+            home:
+                "హోమ్",
+
+            orders:
+                "నా ఆర్డర్లు",
+
+            wishlist:
+                "విష్‌లిస్ట్",
+
+            cart:
+                "కార్ట్",
+
+            dashboard:
+                "డ్యాష్‌బోర్డ్",
+
+            shopping:
+                "షాపింగ్",
+
+            myActivities:
+                "నా కార్యకలాపాలు",
+
+            reviews:
+                "సమీక్షలు",
+
+            savedAddress:
+                "సేవ్ చేసిన చిరునామా",
+
+            selectLanguage:
+                "భాషను ఎంచుకోండి",
+
+            logout:
+                "లాగ్ అవుట్",
+
+            collection:
+                "పుస్తకాల సేకరణ",
+
+            discover:
+                "మీ తదుపరి పుస్తకాన్ని కనుగొనండి",
+
+            heroDescription:
+                "పన్నెండు విభాగాలలోని వందలాది నిజమైన పుస్తకాలను అన్వేషించండి. శీర్షిక లేదా రచయిత పేరుతో శోధించి పూర్తి పుస్తక వివరాలను చూడండి.",
+
+            searchPlaceholder:
+                "పుస్తక శీర్షిక లేదా రచయితను శోధించండి...",
+
+            allBooks:
+                "అన్ని పుస్తకాలు",
+
+            noResults:
+                "పుస్తకాలు ఏవీ కనుగొనబడలేదు.",
+
+            footer:
+                "© 2026 Literary Emporium. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి."
+        },
+
+
+        ml: {
+            fictionCategory: "ഫിക്ഷൻ",
+            nonfictionCategory: "നോൺ-ഫിക്ഷൻ",
+            actionCategory: "ആക്ഷൻ / അഡ്വഞ്ചർ",
+            romanceCategory: "റൊമാൻസ്",
+            mysteryCategory: "മിസ്റ്ററി / ത്രില്ലർ",
+            scienceFictionCategory: "സയൻസ് ഫിക്ഷൻ",
+            fantasyCategory: "ഫാന്റസി",
+            biographyCategory: "ജീവചരിത്രം",
+            historyCategory: "ചരിത്രം",
+            academicCategory: "അക്കാദമിക്",
+            selfHelpCategory: "സ്വയം സഹായം",
+            childrenCategory: "കുട്ടികളുടെ പുസ്തകങ്ങൾ",
+            collectionCount: "600 പുസ്തകങ്ങളുടെ ശേഖരം",
+            viewBook: "പുസ്തകം കാണുക",
+
+            subtitle:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ്",
+
+            home:
+                "ഹോം",
+
+            orders:
+                "എന്റെ ഓർഡറുകൾ",
+
+            wishlist:
+                "വിഷ്‌ലിസ്റ്റ്",
+
+            cart:
+                "കാർട്ട്",
+
+            dashboard:
+                "ഡാഷ്ബോർഡ്",
+
+            shopping:
+                "ഷോപ്പിംഗ്",
+
+            myActivities:
+                "എന്റെ പ്രവർത്തനങ്ങൾ",
+
+            reviews:
+                "അവലോകനങ്ങൾ",
+
+            savedAddress:
+                "സേവ് ചെയ്ത വിലാസം",
+
+            selectLanguage:
+                "ഭാഷ തിരഞ്ഞെടുക്കുക",
+
+            logout:
+                "ലോഗ് ഔട്ട്",
+
+            collection:
+                "പുസ്തക ശേഖരം",
+
+            discover:
+                "നിങ്ങളുടെ അടുത്ത പുസ്തകം കണ്ടെത്തൂ",
+
+            heroDescription:
+                "പന്ത്രണ്ട് വിഭാഗങ്ങളിലായി ലഭ്യമായ നൂറുകണക്കിന് യഥാർത്ഥ പുസ്തകങ്ങൾ പരിശോധിക്കുക. പുസ്തകത്തിന്റെ പേര് അല്ലെങ്കിൽ എഴുത്തുകാരന്റെ പേര് ഉപയോഗിച്ച് തിരയാം.",
+
+            searchPlaceholder:
+                "പുസ്തകത്തിന്റെ പേരോ എഴുത്തുകാരനെയോ തിരയുക...",
+
+            allBooks:
+                "എല്ലാ പുസ്തകങ്ങളും",
+
+            noResults:
+                "പുസ്തകങ്ങളൊന്നും കണ്ടെത്തിയില്ല.",
+
+            footer:
+                "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+        }
+
+    };
+
+
+    /* =====================================================
+       APPLY LANGUAGE
+       ===================================================== */
+
+    function applyLanguage(language) {
+
+        const dictionary =
+            translations[language] ||
+            translations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function (element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+                if (
+                    dictionary[key]
+                ) {
+
+                    element.textContent =
+                        dictionary[key];
+                }
+
+            });
+
+
+        document
+            .querySelectorAll("[data-i18n-placeholder]")
+            .forEach(function (element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n-placeholder"
+                    );
+
+                if (
+                    dictionary[key]
+                ) {
+
+                    element.placeholder =
+                        dictionary[key];
+                }
+
+            });
+
+
+        localStorage.setItem(
+            "literaryEmporiumLanguage",
+            language
+        );
+
+
+        document.documentElement.lang =
+            language;
+    }
+
+
+    /* =====================================================
+       LANGUAGE PANEL
+       ===================================================== */
+
+    const languageButton =
+        document.getElementById(
+            "languageButton"
+        );
+
+    const languagePanel =
+        document.getElementById(
+            "languagePanel"
+        );
+
+
+    if (
+        languageButton &&
+        languagePanel
+    ) {
+
+        languageButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                languagePanel.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        document
+            .querySelectorAll(".language-option")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const language =
+                            button.dataset.language;
+
+                        applyLanguage(
+                            language
+                        );
+
+                        languagePanel.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    const savedLanguage =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    applyLanguage(
+        savedLanguage
+    );
+
+
+    /* =====================================================
+       600 BOOK CATALOGUE
+       ===================================================== */
+
+    const categories = [
+
+        {
+            id: "fiction",
+            label: "Fiction",
+            query: "fiction"
+        },
+
+        {
+            id: "nonfiction",
+            label: "Non-Fiction",
+            query: "nonfiction"
+        },
+
+        {
+            id: "action",
+            label: "Action / Adventure",
+            query: "adventure fiction"
+        },
+
+        {
+            id: "romance",
+            label: "Romance",
+            query: "romance"
+        },
+
+        {
+            id: "mystery",
+            label: "Mystery / Thriller",
+            query: "mystery thriller"
+        },
+
+        {
+            id: "science-fiction",
+            label: "Science Fiction",
+            query: "science fiction"
+        },
+
+        {
+            id: "fantasy",
+            label: "Fantasy",
+            query: "fantasy fiction"
+        },
+
+        {
+            id: "biography",
+            label: "Biography",
+            query: "biography"
+        },
+
+        {
+            id: "history",
+            label: "History",
+            query: "history"
+        },
+
+        {
+            id: "academic",
+            label: "Academic",
+            query: "textbook"
+        },
+
+        {
+            id: "self-help",
+            label: "Self-Help",
+            query: "self help"
+        },
+
+        {
+            id: "children",
+            label: "Children",
+            query: "children books"
+        }
+
+    ];
+
+
+    const books =
+        [];
+
+    let activeCategory =
+        "all";
+
+    let searchTerm =
+        "";
+
+
+    const bookContainer =
+        document.getElementById(
+            "bookContainer"
+        );
+
+
+    const searchBox =
+        document.getElementById(
+            "catalogueSearchInput"
+        );
+
+
+    const categoryBar =
+        document.getElementById(
+            "categoryBar"
+        );
+
+
+    const status =
+        document.getElementById(
+            "catalogueStatus"
+        );
+
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+
+    const heading =
+        document.getElementById(
+            "bookHeading"
+        );
+
+
+    /* =====================================================
+       BOOK PRICE
+       ===================================================== */
+
+    function bookPrice(
+        category,
+        index
+    ) {
+
+        const basePrices = {
+
+            fiction: 399,
+
+            nonfiction: 449,
+
+            action: 499,
+
+            romance: 399,
+
+            mystery: 479,
+
+            "science-fiction": 549,
+
+            fantasy: 499,
+
+            biography: 449,
+
+            history: 529,
+
+            academic: 599,
+
+            "self-help": 449,
+
+            children: 349
+
+        };
+
+
+        return (
+            basePrices[category] || 399
+        ) +
+        (
+            (index * 37) % 260
+        );
+    }
+
+
+    /* =====================================================
+       HTML ESCAPE
+       ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(
+            value || ""
+        ).replace(
+            /[&<>"']/g,
+            function (character) {
+
+                return {
+
+                    "&": "&amp;",
+
+                    "<": "&lt;",
+
+                    ">": "&gt;",
+
+                    '"': "&quot;",
+
+                    "'": "&#39;"
+
+                }[character];
+
+            }
+        );
+    }
+
+
+    /* =====================================================
+       OPEN LIBRARY
+       ===================================================== */
+
+    async function getBooks(
+        category
+    ) {
+
+        const config =
+            categories.find(
+                function (item) {
+
+                    return (
+                        item.id ===
+                        category
+                    );
+
+                }
+            );
+
+
+        const url =
+            "https://openlibrary.org/search.json" +
+            "?subject=" +
+            encodeURIComponent(
+                config.query
+            ) +
+            "&limit=50" +
+            "&fields=" +
+            "key,title,author_name,first_publish_year,cover_i,isbn,first_sentence";
+
+
+        const response =
+            await fetch(url);
+
+
+        if (!response.ok) {
+            throw new Error(
+                "Book request failed"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        return (
+            data.docs || []
+        );
+
+    }
+
+
+    /* =====================================================
+       NORMALISE BOOK
+       ===================================================== */
+
+    function makeBook(
+        data,
+        category,
+        index
+    ) {
+
+        const authors =
+            Array.isArray(
+                data.author_name
+            )
+                ? data.author_name
+                : [];
+
+
+        let description =
+            "";
+
+
+        if (
+            Array.isArray(
+                data.first_sentence
+            )
+        ) {
+
+            description =
+                data.first_sentence[0] ||
+                "";
+
+        } else {
+
+            description =
+                data.first_sentence ||
+                "";
+
+        }
+
+
+        if (
+            !description
+        ) {
+
+            description =
+                "Explore this book and discover its publication details, author information and literary content.";
+
+        }
+
+
+        const categoryObject =
+            categories.find(
+                function (item) {
+
+                    return (
+                        item.id ===
+                        category
+                    );
+
+                }
+            );
+
+
+        return {
+
+            id:
+                (
+                    data.key ||
+                    data.title ||
+                    "book"
+                )
+                .replace(
+                    /[^a-zA-Z0-9]/g,
+                    ""
+                ) +
+                "-" +
+                category +
+                "-" +
+                index,
+
+
+            title:
+                data.title ||
+                "Untitled Book",
+
+
+            author:
+                authors.length
+                    ? authors.join(", ")
+                    : "Author information unavailable",
+
+
+            year:
+                data.first_publish_year ||
+                "—",
+
+
+            coverId:
+                data.cover_i ||
+                null,
+
+
+            isbn:
+                Array.isArray(
+                    data.isbn
+                )
+                    ? data.isbn[0] ||
+                      null
+                    : null,
+
+
+            description:
+                description,
+
+
+            category:
+                category,
+
+
+            categoryLabel:
+                categoryObject
+                    ? categoryObject.label
+                    : category,
+
+
+            price:
+                bookPrice(
+                    category,
+                    index
+                )
+
+        };
+
+    }
+
+
+    /* =====================================================
+       COVER URL
+       ===================================================== */
+
+    function coverURL(
+        book
+    ) {
+
+        /*
+         * IMPORTANT:
+         * Prefer cover ID.
+         * This avoids the ISBN cover requests
+         * that were getting blocked in your browser.
+         */
+
+        if (
+            book.coverId
+        ) {
+
+            return (
+                "https://covers.openlibrary.org/b/id/" +
+                book.coverId +
+                "-M.jpg"
+            );
+
+        }
+
+
+        return "";
+
+    }
+
+
+    /* =====================================================
+       BOOK CARD
+       ===================================================== */
+
+    function createCard(
+        book
+    ) {
+
+        const title =
+            escapeHTML(
+                book.title
+            );
+
+
+        const author =
+            escapeHTML(
+                book.author
+            );
+
+
+        const description =
+            escapeHTML(
+                book.description
+            );
+
+
+        const cover =
+            coverURL(
+                book
+            );
+
+
+        return `
+
+            <article class="book-card">
+
+
+                <div class="book-cover-wrap">
+
+                    ${
+                        cover
+
+                            ?
+
+                            `
+                            <img
+                                class="book-cover"
+                                src="${cover}"
+                                alt="Cover of ${title}"
+                                loading="lazy"
+
+                                onerror="
+                                    this.style.display='none';
+                                    this.nextElementSibling.style.display='flex';
+                                "
+                            >
+                            `
+
+                            :
+
+                            ""
+                    }
+
+
+                    <div
+                        class="book-cover-fallback"
+                        style="
+                            display:
+                            ${cover
+                                ? "none"
+                                : "flex"};
+                        "
+                    >
+
+                        ${title}
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="book-body">
+
+
+                    <div class="book-category">
+
+                        ${escapeHTML(
+                            book.categoryLabel
+                        )}
+
+                    </div>
+
+
+
+                    <h3 class="book-title">
+
+                        ${title}
+
+                    </h3>
+
+
+
+                    <div class="book-author">
+
+                        ${author}
+
+                    </div>
+
+
+
+                    <div class="book-meta">
+
+                        <span>
+                            First published
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                book.year
+                            )}
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="book-description">
+
+                        ${description}
+
+                    </div>
+
+
+
+                    <div class="book-price">
+
+                        ₹${book.price.toLocaleString(
+                            "en-IN"
+                        )}
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="view-button"
+                        data-book-id="${escapeHTML(
+                            book.id
+                        )}"
+                    >
+                        View Book
+                    </button>
+
+
+                </div>
+
+
+            </article>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       RENDER
+       ===================================================== */
+
+    function renderBooks() {
+
+        const term =
+            searchTerm.toLowerCase();
+
+
+        const visible =
+            books.filter(
+                function (book) {
+
+                    const categoryMatch =
+                        activeCategory === "all" ||
+                        book.category ===
+                            activeCategory;
+
+
+                    const searchMatch =
+                        !term ||
+
+                        book.title
+                            .toLowerCase()
+                            .includes(term) ||
+
+                        book.author
+                            .toLowerCase()
+                            .includes(term);
+
+
+                    return (
+                        categoryMatch &&
+                        searchMatch
+                    );
+
+                }
+            );
+
+
+        bookContainer.innerHTML =
+            visible.length
+                ? visible
+                    .map(createCard)
+                    .join("")
+                : "";
+
+
+        const noResults =
+            document.getElementById(
+                "noResults"
+            );
+
+
+        noResults.hidden =
+            visible.length !== 0;
+
+
+        resultCount.textContent =
+            visible.length +
+            " shown · " +
+            books.length +
+            " loaded";
+
+
+        if (
+            activeCategory === "all"
+        ) {
+
+            heading.textContent =
+                "All Books";
+
+        } else {
+
+            const selected =
+                categories.find(
+                    function (item) {
+
+                        return (
+                            item.id ===
+                            activeCategory
+                        );
+
+                    }
+                );
+
+
+            heading.textContent =
+                selected
+                    ? selected.label
+                    : "Books";
+
+        }
+
+
+        document
+            .querySelectorAll(
+                ".category"
+            )
+            .forEach(
+                function (button) {
+
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.category ===
+                            activeCategory
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       LOAD ALL CATEGORIES
+       ===================================================== */
+
+    async function loadCatalogue() {
+
+        bookContainer.innerHTML =
+            Array.from(
+                { length: 12 },
+                function () {
+
+                    return `
+                        <div class="loading-card">
+                            Loading real book data...
+                        </div>
+                    `;
+
+                }
+            ).join("");
+
+
+        status.textContent =
+            "Loading 600 books...";
+
+
+        try {
+
+            const results =
+                await Promise.all(
+                    categories.map(
+                        async function (
+                            category
+                        ) {
+
+                            try {
+
+                                return await getBooks(
+                                    category.id
+                                );
+
+                            } catch (
+                                error
+                            ) {
+
+                                console.warn(
+                                    category.label,
+                                    error
+                                );
+
+                                return [];
+
+                            }
+
+                        }
+                    )
+                );
+
+
+            books.length = 0;
+
+
+            results.forEach(
+                function (
+                    categoryBooks,
+                    categoryIndex
+                ) {
+
+                    const category =
+                        categories[
+                            categoryIndex
+                        ];
+
+
+                    categoryBooks
+                        .slice(
+                            0,
+                            50
+                        )
+                        .forEach(
+                            function (
+                                book,
+                                index
+                            ) {
+
+                                books.push(
+                                    makeBook(
+                                        book,
+                                        category.id,
+                                        index
+                                    )
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+
+            localStorage.setItem(
+                "literaryEmporiumCatalogue",
+                JSON.stringify(
+                    books
+                )
+            );
+
+
+            status.textContent =
+                books.length +
+                " books available";
+
+
+            renderBooks();
+
+
+        } catch (
+            error
+        ) {
+
+            console.error(
+                error
+            );
+
+
+            status.textContent =
+                "Catalogue could not be loaded";
+
+
+            bookContainer.innerHTML = `
+
+                <div class="no-results">
+
+                    Please check your internet connection
+                    and refresh the page.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+       ===================================================== */
+
+    if (
+        searchBox
+    ) {
+
+        searchBox.addEventListener(
+            "input",
+            function (event) {
+
+                searchTerm =
+                    event.target.value.trim();
+
+                renderBooks();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       CATEGORY
+       ===================================================== */
+
+    if (
+        categoryBar
+    ) {
+
+        categoryBar.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        ".category"
+                    );
+
+
+                if (
+                    !button
+                ) {
+                    return;
+                }
+
+
+                activeCategory =
+                    button.dataset.category;
+
+
+                renderBooks();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       OPEN BOOK DETAILS
+       ===================================================== */
+
+    bookContainer.addEventListener(
+        "click",
+        function (event) {
+
+            const button =
+                event.target.closest(
+                    ".view-button"
+                );
+
+
+            if (
+                !button
+            ) {
+                return;
+            }
+
+
+            const book =
+                books.find(
+                    function (item) {
+
+                        return (
+                            item.id ===
+                            button.dataset.bookId
+                        );
+
+                    }
+                );
+
+
+            if (
+                !book
+            ) {
+                return;
+            }
+
+
+            sessionStorage.setItem(
+                "selectedBook",
+                JSON.stringify({
+
+                    title:
+                        book.title,
+
+                    author:
+                        book.author,
+
+                    price:
+                        book.price,
+
+                    category:
+                        book.category,
+
+                    categoryLabel:
+                        book.categoryLabel,
+
+                    year:
+                        book.year,
+
+                    cover:
+                        coverURL(book),
+
+                    description:
+                        book.description
+
+                })
+            );
+
+
+            window.location.href =
+                "book-details.html";
+
+        }
+    );
+
+
+    /* =====================================================
+       LOAD SAVED CATALOGUE FIRST
+       ===================================================== */
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "literaryEmporiumCatalogue"
+                ) || "[]"
+            );
+
+
+        if (
+            Array.isArray(saved) &&
+            saved.length > 0
+        ) {
+
+            books.push(
+                ...saved
+            );
+
+
+            status.textContent =
+                saved.length +
+                " saved books available";
+
+
+            renderBooks();
+
+        }
+
+    } catch (
+        error
+    ) {
+
+        console.warn(
+            "Saved catalogue unavailable",
+            error
+        );
+
+    }
+
+
+    /* =====================================================
+       LOAD FROM API IF NEEDED
+       ===================================================== */
+
+    if (
+        books.length < 600
+    ) {
+
+        loadCatalogue();
+
+    } else {
+
+        status.textContent =
+            books.length +
+            " books available";
+
+        renderBooks();
+
+    }
+
+
+})();
+
+</script>
+
+<script src="chatbot.js?v=3"></script>
+</body>
+
+</html>

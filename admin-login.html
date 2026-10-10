@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="adminPortalTitle">
+        Administrator Portal | Literary Emporium
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #172337;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 24px 60px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #c8ced7;
+            letter-spacing: 0.5px;
+        }
+
+        .language-select {
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid #6d7887;
+            border-radius: 2px;
+            background: #172337;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 55px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+        }
+
+        .page-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #7a8491;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #687280;
+            margin-bottom: 35px;
+        }
+
+        .choice-section {
+            display: block;
+        }
+
+        .choice-question {
+            font-size: 15px;
+            color: #4f5967;
+            margin-bottom: 25px;
+        }
+
+        .choice-button {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #172337;
+        }
+
+        .login-choice {
+            background: #172337;
+            color: white;
+        }
+
+        .login-choice:hover {
+            background: #26354b;
+        }
+
+        .register-choice {
+            background: white;
+            color: #172337;
+        }
+
+        .register-choice:hover {
+            background: #eef1f4;
+        }
+
+        .form-section {
+            display: none;
+            text-align: left;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #364152;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #b8bec7;
+            background: transparent;
+            padding: 11px 2px;
+            font-size: 14px;
+            color: #172337;
+            outline: none;
+        }
+
+        input:focus {
+            border-bottom-color: #172337;
+        }
+
+        input::placeholder {
+            color: #9aa2ad;
+        }
+
+        .submit-button {
+            width: 100%;
+            margin-top: 8px;
+            padding: 14px;
+            border: 1px solid #172337;
+            background: #172337;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #26354b;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px;
+            color: #687280;
+        }
+
+        .switch-button {
+            border: none;
+            background: none;
+            color: #172337;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .message {
+            min-height: 20px;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .error {
+            color: #8a2638;
+        }
+
+        .success {
+            color: #315c49;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 28px;
+            color: #5f6976;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back-link:hover {
+            color: #172337;
+        }
+
+        footer {
+            border-top: 1px solid #d9dde3;
+            padding: 18px;
+            text-align: center;
+            font-size: 12px;
+            color: #7a8491;
+            background: white;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px;
+            }
+
+            .header-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            main {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <header>
+
+        <div class="header-row">
+
+            <div>
+                <div class="brand">
+                    LITERARY EMPORIUM
+                </div>
+
+                <div
+                    class="subtitle"
+                    data-i18n="onlineBookMarketplace">
+                    Online Book Marketplace
+                </div>
+            </div>
+
+
+            <select
+                id="languageSelect"
+                class="language-select"
+                aria-label="Language">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <div class="container">
+
+            <div
+                class="page-label"
+                data-i18n="administratorPortal">
+                Administrator Portal
+            </div>
+
+
+            <h1 data-i18n="administratorAccess">
+                Administrator Access
+            </h1>
+
+
+            <p
+                class="description"
+                data-i18n="administratorDescription">
+                Manage users, sellers, books, and marketplace
+                operations through the administrator portal.
+            </p>
+
+
+            <!-- CHOICE -->
+
+            <div
+                class="choice-section"
+                id="adminChoiceSection">
+
+                <p
+                    class="choice-question"
+                    data-i18n="adminAccountQuestion">
+                    Do you already have an administrator account?
+                </p>
+
+
+                <button
+                    type="button"
+                    class="choice-button login-choice"
+                    onclick="showAdminLogin()"
+                    data-i18n="yesLogin">
+                    Yes, Login
+                </button>
+
+
+                <button
+                    type="button"
+                    class="choice-button register-choice"
+                    onclick="showAdminRegister()"
+                    data-i18n="noRegister">
+                    No, Register
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <div
+                class="form-section"
+                id="adminLoginSection">
+
+                <h2
+                    class="form-title"
+                    data-i18n="administratorLogin">
+                    Administrator Login
+                </h2>
+
+
+                <form id="adminLoginForm">
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminEmail"
+                            data-i18n="administratorEmail">
+                            Administrator Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="adminEmail"
+                            data-i18n-placeholder="enterAdministratorEmail"
+                            placeholder="Enter administrator email"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="adminPassword"
+                            data-i18n-placeholder="enterPassword"
+                            placeholder="Enter password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                        data-i18n="login">
+                        Login
+                    </button>
+
+
+                    <div
+                        id="adminLoginMessage"
+                        class="message">
+                    </div>
+
+                </form>
+
+
+                <div class="switch-text">
+
+                    <span data-i18n="noAdminAccount">
+                        Don't have an administrator account?
+                    </span>
+
+                    <button
+                        type="button"
+                        class="switch-button"
+                        onclick="showAdminRegister()"
+                        data-i18n="register">
+                        Register
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- REGISTRATION -->
+
+            <div
+                class="form-section"
+                id="adminRegisterSection">
+
+                <h2
+                    class="form-title"
+                    data-i18n="administratorRegistration">
+                    Administrator Registration
+                </h2>
+
+
+                <form id="adminRegisterForm">
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminName"
+                            data-i18n="fullName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="adminName"
+                            data-i18n-placeholder="enterFullName"
+                            placeholder="Enter full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminRegisterEmail"
+                            data-i18n="emailAddress">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="adminRegisterEmail"
+                            data-i18n-placeholder="enterEmailAddress"
+                            placeholder="Enter email address"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminRegisterPassword"
+                            data-i18n="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="adminRegisterPassword"
+                            data-i18n-placeholder="createPassword"
+                            placeholder="Create a password"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label
+                            for="adminConfirmPassword"
+                            data-i18n="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="adminConfirmPassword"
+                            data-i18n-placeholder="confirmPasswordPlaceholder"
+                            placeholder="Confirm password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                        data-i18n="createAdministratorAccount">
+                        Create Administrator Account
+                    </button>
+
+
+                    <div
+                        id="adminRegisterMessage"
+                        class="message">
+                    </div>
+
+                </form>
+
+
+                <div class="switch-text">
+
+                    <span data-i18n="alreadyAdminAccount">
+                        Already have an administrator account?
+                    </span>
+
+                    <button
+                        type="button"
+                        class="switch-button"
+                        onclick="showAdminLogin()"
+                        data-i18n="login">
+                        Login
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="index.html"
+                class="back-link"
+                data-i18n="backToMarketplace">
+                Back to Marketplace
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <span data-i18n="footerText">
+            © 2026 Literary Emporium. All rights reserved.
+        </span>
+
+    </footer>
+
+
+    <!-- EXISTING ADMIN FUNCTIONALITY -->
+
+    <script>
+
+        function showAdminLogin() {
+
+            document
+                .getElementById("adminChoiceSection")
+                .style.display = "none";
+
+            document
+                .getElementById("adminRegisterSection")
+                .classList.remove("active");
+
+            document
+                .getElementById("adminLoginSection")
+                .classList.add("active");
+
+        }
+
+
+        function showAdminRegister() {
+
+            document
+                .getElementById("adminChoiceSection")
+                .style.display = "none";
+
+            document
+                .getElementById("adminLoginSection")
+                .classList.remove("active");
+
+            document
+                .getElementById("adminRegisterSection")
+                .classList.add("active");
+
+        }
+
+
+        function getAdmins() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "literaryEmporiumAdmins"
+                )
+            ) || [];
+
+        }
+
+
+        function saveAdmins(admins) {
+
+            localStorage.setItem(
+                "literaryEmporiumAdmins",
+                JSON.stringify(admins)
+            );
+
+        }
+
+
+        function isValidAdminEmail(email) {
+
+            const pattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            return pattern.test(email);
+
+        }
+
+
+        const adminRegisterForm =
+            document.getElementById("adminRegisterForm");
+
+
+        adminRegisterForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const name =
+                    document
+                        .getElementById("adminName")
+                        .value
+                        .trim();
+
+                const email =
+                    document
+                        .getElementById("adminRegisterEmail")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+                const password =
+                    document
+                        .getElementById("adminRegisterPassword")
+                        .value;
+
+                const confirmPassword =
+                    document
+                        .getElementById("adminConfirmPassword")
+                        .value;
+
+                const message =
+                    document.getElementById(
+                        "adminRegisterMessage"
+                    );
+
+                message.textContent = "";
+                message.className = "message";
+
+
+                if (name === "") {
+
+                    message.textContent =
+                        "Please enter your full name.";
+
+                    message.classList.add("error");
+
+                    return;
+                }
+
+
+                if (!isValidAdminEmail(email)) {
+
+                    message.textContent =
+                        "Please enter a valid email address.";
+
+                    message.classList.add("error");
+
+                    return;
+                }
+
+
+                if (password.length < 6) {
+
+                    message.textContent =
+                        "Password must contain at least 6 characters.";
+
+                    message.classList.add("error");
+
+                    return;
+                }
+
+
+                if (password !== confirmPassword) {
+
+                    message.textContent =
+                        "Passwords do not match.";
+
+                    message.classList.add("error");
+
+                    return;
+                }
+
+
+                // Connect to Java Servlet backend
+                fetch("api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password,
+                        role: "admin"
+                    })
+                })
+                .then(function(res) {
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (data.status === "success") {
+                        const admins = getAdmins();
+                        admins.push({
+                            name: name,
+                            email: email,
+                            password: password
+                        });
+                        saveAdmins(admins);
+
+                        message.textContent =
+                            "Administrator account created successfully. You can now login.";
+                        message.classList.add("success");
+                        adminRegisterForm.reset();
+
+                        setTimeout(function() {
+                            showAdminLogin();
+                        }, 1200);
+                    } else {
+                        message.textContent =
+                            data.message || "Registration failed.";
+                        message.classList.add("error");
+                    }
+                })
+                .catch(function() {
+                    const admins = getAdmins();
+                    const existingAdmin = admins.find(function(admin) {
+                        return admin.email === email;
+                    });
+                    if (existingAdmin) {
+                        message.textContent = "An administrator account with this email already exists.";
+                        message.classList.add("error");
+                        return;
+                    }
+                    admins.push({ name: name, email: email, password: password });
+                    saveAdmins(admins);
+                    message.textContent = "Administrator account created successfully. You can now login.";
+                    message.classList.add("success");
+                    adminRegisterForm.reset();
+                    setTimeout(function() { showAdminLogin(); }, 1200);
+                });
+
+            }
+        );
+
+
+        const adminLoginForm =
+            document.getElementById("adminLoginForm");
+
+
+        adminLoginForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document
+                        .getElementById("adminEmail")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+                const password =
+                    document
+                        .getElementById("adminPassword")
+                        .value;
+
+                const message =
+                    document.getElementById(
+                        "adminLoginMessage"
+                    );
+
+                message.textContent = "";
+                message.className = "message";
+
+
+                if (
+                    email === "" ||
+                    password === ""
+                ) {
+
+                    message.textContent =
+                        "Please enter your email and password.";
+
+                    message.classList.add("error");
+
+                    return;
+                }
+
+
+                // Connect to Java Servlet backend
+                fetch("api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                })
+                .then(function(res) {
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (data.status === "success") {
+                        localStorage.setItem(
+                            "literaryEmporiumAdminLoggedIn",
+                            "true"
+                        );
+                        localStorage.setItem(
+                            "literaryEmporiumCurrentAdmin",
+                            JSON.stringify(data.user)
+                        );
+                        message.textContent =
+                            "Login successful. Opening administrator dashboard...";
+                        message.classList.add("success");
+
+                        setTimeout(function() {
+                            window.location.href = "admin-dashboard.html";
+                        }, 800);
+                    } else {
+                        message.textContent =
+                            data.message || "Invalid administrator email or password.";
+                        message.classList.add("error");
+                    }
+                })
+                .catch(function() {
+                    const admins = getAdmins();
+                    const admin = admins.find(function(item) {
+                        return item.email === email && item.password === password;
+                    });
+                    if (admin) {
+                        localStorage.setItem("literaryEmporiumAdminLoggedIn", "true");
+                        localStorage.setItem("literaryEmporiumCurrentAdmin", JSON.stringify(admin));
+                        message.textContent = "Login successful. Opening administrator dashboard...";
+                        message.classList.add("success");
+                        setTimeout(function() { window.location.href = "admin-dashboard.html"; }, 800);
+                    } else {
+                        message.textContent = "Invalid administrator email or password.";
+                        message.classList.add("error");
+                    }
+                });
+
+            }
+        );
+
+    </script>
+
+
+    <!-- LANGUAGE -->
+
+    <script src="language.js"></script>
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                if (
+                    typeof setupLanguageSelector ===
+                    "function"
+                ) {
+                    setupLanguageSelector();
+                }
+
+                if (
+                    typeof applyLanguage ===
+                    "function"
+                ) {
+                    applyLanguage();
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

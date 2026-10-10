@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Sellers | Literary Emporium</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px 7%;
+            border-bottom: 3px solid #6d2638;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #cbd2da;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-selector {
+            padding: 9px 12px;
+            border: 1px solid #d7dde4;
+            background: white;
+            color: #172337;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .dashboard-link {
+            text-decoration: none;
+            color: white;
+            border: 1px solid #d7dde4;
+            padding: 10px 18px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .dashboard-link:hover {
+            background: #26364d;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 29px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #687586;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .seller-count {
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #687586;
+        }
+
+        .seller-count strong {
+            color: #172337;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+
+        .seller-container {
+            background: white;
+            border: 1px solid #d9dee4;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            background: #eef1f4;
+            color: #354052;
+            text-align: left;
+            padding: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid #d9dee4;
+        }
+
+        td {
+            padding: 16px 15px;
+            font-size: 13px;
+            color: #526070;
+            border-bottom: 1px solid #e2e6ea;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .seller-name {
+            color: #172337;
+            font-weight: 600;
+        }
+
+        .status {
+            color: #315c49;
+            font-weight: 500;
+        }
+
+        .remove-button {
+            padding: 8px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            background: white;
+            color: #8a2638;
+            border: 1px solid #8a2638;
+            border-radius: 4px;
+        }
+
+        .remove-button:hover {
+            background: #f7edef;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 45px 20px;
+            color: #687586;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #e9edf1;
+            color: #667384;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .language-selector {
+                flex: 1;
+            }
+
+            main {
+                padding: 35px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div>
+
+            <div class="brand">
+                LITERARY EMPORIUM
+            </div>
+
+            <div
+                class="subtitle"
+                data-i18n="adminPanel">
+                Administrator Panel
+            </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <select
+                id="languageSelector"
+                class="language-selector">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+
+            <a
+                href="admin-dashboard.html"
+                class="dashboard-link"
+                data-i18n="backDashboard">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="page-header">
+
+        <h1 data-i18n="manageSellers">
+            Manage Sellers
+        </h1>
+
+        <p data-i18n="pageDescription">
+            Review registered sellers and their
+            marketplace account status.
+        </p>
+
+    </section>
+
+
+
+    <div class="seller-count">
+
+        <span data-i18n="registeredSellers">
+            Registered Sellers:
+        </span>
+
+        <strong id="sellerCount">
+            0
+        </strong>
+
+    </div>
+
+
+
+    <section class="seller-container">
+
+        <table id="sellersTable">
+
+            <thead>
+
+                <tr>
+
+                    <th data-i18n="sellerName">
+                        Seller Name
+                    </th>
+
+                    <th data-i18n="emailAddress">
+                        Email Address
+                    </th>
+
+                    <th data-i18n="accountStatus">
+                        Account Status
+                    </th>
+
+                    <th data-i18n="action">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="adminSellersTable"></tbody>
+
+        </table>
+
+
+        <div
+            id="emptySellerMessage"
+            class="empty-message"
+            style="display: none;"
+            data-i18n="noSellers">
+
+            No registered sellers found.
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<footer data-i18n="footer">
+
+    © 2026 Literary Emporium.
+    All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================================
+   GET SELLERS
+========================================= */
+
+function getSellers() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumSellers"
+            )
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================================
+   SAFE HTML
+========================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =========================================
+   DISPLAY SELLERS
+========================================= */
+
+function displaySellers() {
+
+    const sellers =
+        getSellers();
+
+
+    const sellersTable =
+        document.getElementById(
+            "adminSellersTable"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "emptySellerMessage"
+        );
+
+
+    const sellerCount =
+        document.getElementById(
+            "sellerCount"
+        );
+
+
+    sellerCount.textContent =
+        sellers.length;
+
+
+    sellersTable.innerHTML = "";
+
+
+    if (sellers.length === 0) {
+
+        emptyMessage.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyMessage.style.display =
+        "none";
+
+
+    sellers.forEach(
+        function(seller, index) {
+
+            const row =
+                document.createElement("tr");
+
+
+            const name =
+                seller.name ||
+                "Unnamed Seller";
+
+
+            const email =
+                seller.email ||
+                "No email available";
+
+
+            row.innerHTML = `
+
+                <td class="seller-name">
+                    ${escapeHtml(name)}
+                </td>
+
+                <td>
+                    ${escapeHtml(email)}
+                </td>
+
+                <td class="status"
+                    data-i18n="active">
+                    Active
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="remove-button"
+                        onclick="removeSeller(${index})"
+                        data-i18n="remove">
+
+                        Remove
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            sellersTable.appendChild(row);
+
+        }
+    );
+
+
+    applyLanguage();
+
+}
+
+
+
+/* =========================================
+   REMOVE SELLER
+========================================= */
+
+function removeSeller(index) {
+
+    const sellers =
+        getSellers();
+
+
+    if (!sellers[index]) {
+        return;
+    }
+
+
+    const sellerName =
+        sellers[index].name ||
+        "this seller";
+
+
+    const language =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const confirmText =
+        getRemoveConfirmation(
+            language,
+            sellerName
+        );
+
+
+    const confirmRemoval =
+        confirm(confirmText);
+
+
+    if (!confirmRemoval) {
+        return;
+    }
+
+
+    const removedSeller =
+        sellers[index];
+
+
+    sellers.splice(index, 1);
+
+
+    localStorage.setItem(
+        "literaryEmporiumSellers",
+        JSON.stringify(sellers)
+    );
+
+
+    /*
+     * Remove seller's books as well.
+     * This keeps the marketplace data consistent.
+     */
+
+    const books =
+        getSellerBooks();
+
+
+    const updatedBooks =
+        books.filter(
+            function(book) {
+
+                return (
+                    book.sellerEmail !==
+                    removedSeller.email
+                );
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "literaryEmporiumSellerBooks",
+        JSON.stringify(updatedBooks)
+    );
+
+
+    /*
+     * If the removed seller is currently
+     * stored as the active seller,
+     * clear that session.
+     */
+
+    const currentSeller =
+        localStorage.getItem(
+            "literaryEmporiumCurrentSeller"
+        );
+
+
+    if (currentSeller) {
+
+        try {
+
+            const current =
+                JSON.parse(currentSeller);
+
+
+            if (
+                current.email ===
+                removedSeller.email
+            ) {
+
+                localStorage.removeItem(
+                    "literaryEmporiumCurrentSeller"
+                );
+
+            }
+
+        } catch (error) {
+
+            /* Ignore invalid stored data */
+
+        }
+
+    }
+
+
+    displaySellers();
+
+}
+
+
+
+/* =========================================
+   GET SELLER BOOKS
+========================================= */
+
+function getSellerBooks() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumSellerBooks"
+            )
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================================
+   REMOVE CONFIRMATION
+========================================= */
+
+function getRemoveConfirmation(
+    language,
+    name
+) {
+
+    const messages = {
+
+        en:
+            'Remove seller "' +
+            name +
+            '"?',
+
+        ta:
+            '"' +
+            name +
+            '" விற்பனையாளரை நீக்க வேண்டுமா?',
+
+        hi:
+            '"' +
+            name +
+            '" विक्रेता को हटाना है?',
+
+        te:
+            '"' +
+            name +
+            '" విక్రేతను తొలగించాలా?',
+
+        ml:
+            '"' +
+            name +
+            '" വിൽപ്പനക്കാരനെ നീക്കം ചെയ്യണോ?'
+
+    };
+
+
+    return messages[language] ||
+           messages.en;
+
+}
+
+
+
+/* =========================================
+   TRANSLATIONS
+========================================= */
+
+const translations = {
+
+    en: {
+
+        adminPanel:
+            "Administrator Panel",
+
+        backDashboard:
+            "Back to Dashboard",
+
+        manageSellers:
+            "Manage Sellers",
+
+        pageDescription:
+            "Review registered sellers and their marketplace account status.",
+
+        registeredSellers:
+            "Registered Sellers:",
+
+        sellerName:
+            "Seller Name",
+
+        emailAddress:
+            "Email Address",
+
+        accountStatus:
+            "Account Status",
+
+        action:
+            "Action",
+
+        active:
+            "Active",
+
+        remove:
+            "Remove",
+
+        noSellers:
+            "No registered sellers found.",
+
+        footer:
+            "© 2026 Literary Emporium. All rights reserved."
+
+    },
+
+
+    ta: {
+
+        adminPanel:
+            "நிர்வாகி பகுதி",
+
+        backDashboard:
+            "டாஷ்போர்டுக்குத் திரும்பு",
+
+        manageSellers:
+            "விற்பனையாளர்களை நிர்வகிக்கவும்",
+
+        pageDescription:
+            "பதிவு செய்யப்பட்ட விற்பனையாளர்கள் மற்றும் அவர்களின் சந்தை கணக்கு நிலையைப் பார்க்கவும்.",
+
+        registeredSellers:
+            "பதிவு செய்யப்பட்ட விற்பனையாளர்கள்:",
+
+        sellerName:
+            "விற்பனையாளர் பெயர்",
+
+        emailAddress:
+            "மின்னஞ்சல் முகவரி",
+
+        accountStatus:
+            "கணக்கு நிலை",
+
+        action:
+            "செயல்",
+
+        active:
+            "செயலில்",
+
+        remove:
+            "நீக்கு",
+
+        noSellers:
+            "பதிவு செய்யப்பட்ட விற்பனையாளர்கள் எவரும் இல்லை.",
+
+        footer:
+            "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+    },
+
+
+    hi: {
+
+        adminPanel:
+            "प्रशासक पैनल",
+
+        backDashboard:
+            "डैशबोर्ड पर वापस जाएँ",
+
+        manageSellers:
+            "विक्रेताओं को प्रबंधित करें",
+
+        pageDescription:
+            "पंजीकृत विक्रेताओं और उनके मार्केटप्लेस अकाउंट की स्थिति की समीक्षा करें।",
+
+        registeredSellers:
+            "पंजीकृत विक्रेता:",
+
+        sellerName:
+            "विक्रेता का नाम",
+
+        emailAddress:
+            "ईमेल पता",
+
+        accountStatus:
+            "खाता स्थिति",
+
+        action:
+            "कार्रवाई",
+
+        active:
+            "सक्रिय",
+
+        remove:
+            "हटाएँ",
+
+        noSellers:
+            "कोई पंजीकृत विक्रेता नहीं मिला।",
+
+        footer:
+            "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+
+    },
+
+
+    te: {
+
+        adminPanel:
+            "అడ్మినిస్ట్రేటర్ ప్యానెల్",
+
+        backDashboard:
+            "డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్లండి",
+
+        manageSellers:
+            "విక్రేతలను నిర్వహించండి",
+
+        pageDescription:
+            "నమోదైన విక్రేతలు మరియు వారి మార్కెట్‌ప్లేస్ ఖాతా స్థితిని సమీక్షించండి.",
+
+        registeredSellers:
+            "నమోదైన విక్రేతలు:",
+
+        sellerName:
+            "విక్రేత పేరు",
+
+        emailAddress:
+            "ఇమెయిల్ చిరునామా",
+
+        accountStatus:
+            "ఖాతా స్థితి",
+
+        action:
+            "చర్య",
+
+        active:
+            "క్రియాశీలం",
+
+        remove:
+            "తొలగించు",
+
+        noSellers:
+            "నమోదైన విక్రేతలు ఎవరూ లేరు.",
+
+        footer:
+            "© 2026 Literary Emporium. అన్ని హక్కులు రక్షించబడ్డాయి."
+
+    },
+
+
+    ml: {
+
+        adminPanel:
+            "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ",
+
+        backDashboard:
+            "ഡാഷ്ബോർഡിലേക്ക് മടങ്ങുക",
+
+        manageSellers:
+            "വിൽപ്പനക്കാരെ നിയന്ത്രിക്കുക",
+
+        pageDescription:
+            "രജിസ്റ്റർ ചെയ്ത വിൽപ്പനക്കാരെയും അവരുടെ മാർക്കറ്റ്പ്ലേസ് അക്കൗണ്ട് നിലയും പരിശോധിക്കുക.",
+
+        registeredSellers:
+            "രജിസ്റ്റർ ചെയ്ത വിൽപ്പനക്കാർ:",
+
+        sellerName:
+            "വിൽപ്പനക്കാരന്റെ പേര്",
+
+        emailAddress:
+            "ഇമെയിൽ വിലാസം",
+
+        accountStatus:
+            "അക്കൗണ്ട് നില",
+
+        action:
+            "പ്രവർത്തനം",
+
+        active:
+            "സജീവം",
+
+        remove:
+            "നീക്കം ചെയ്യുക",
+
+        noSellers:
+            "രജിസ്റ്റർ ചെയ്ത വിൽപ്പനക്കാരെ കണ്ടെത്താനായില്ല.",
+
+        footer:
+            "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+    }
+
+};
+
+
+
+/* =========================================
+   APPLY LANGUAGE
+========================================= */
+
+function applyLanguage() {
+
+    const language =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const selected =
+        translations[language] ||
+        translations.en;
+
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(
+            function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            }
+        );
+
+
+    const selector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (selector) {
+
+        selector.value =
+            language;
+
+    }
+
+}
+
+
+
+/* =========================================
+   LANGUAGE SELECTOR
+========================================= */
+
+document
+    .getElementById("languageSelector")
+    .addEventListener(
+        "change",
+        function() {
+
+            localStorage.setItem(
+                "literaryEmporiumLanguage",
+                this.value
+            );
+
+
+            applyLanguage();
+
+            displaySellers();
+
+        }
+    );
+
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        displaySellers();
+
+        applyLanguage();
+
+    }
+);
+
+</script>
+
+<script src="chatbot.js?v=3"></script>
+</body>
+
+</html>

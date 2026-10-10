@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Book Details - Literary Emporium</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #202733;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand h1 {
+            font-size: 22px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #c5ccd5;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #b7c0cc;
+        }
+
+        .language-select {
+            padding: 8px 10px;
+            border: 1px solid #c5ccd5;
+            background: #172337;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .container {
+            width: 84%;
+            max-width: 950px;
+            margin: 55px auto;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            font-size: 30px;
+            font-weight: 600;
+            color: #172337;
+        }
+
+        .details-card {
+            background: white;
+            border: 1px solid #dce1e7;
+            padding: 40px;
+        }
+
+        .details-card h1 {
+            font-size: 30px;
+            color: #172337;
+            margin-bottom: 10px;
+        }
+
+        .author {
+            font-size: 16px;
+            color: #667080;
+            margin-bottom: 30px;
+        }
+
+        .details-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 15px;
+            padding: 13px 0;
+            border-bottom: 1px solid #e4e7eb;
+            font-size: 14px;
+        }
+
+        .details-label {
+            color: #667080;
+            font-weight: 600;
+        }
+
+        .details-value {
+            color: #202733;
+        }
+
+        .description {
+            margin-top: 28px;
+            line-height: 1.7;
+            color: #5f6b7a;
+            font-size: 15px;
+        }
+
+        .price {
+            margin-top: 28px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #7c2637;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .cart-button {
+            padding: 13px 24px;
+            border: none;
+            background: #172337;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .cart-button:hover {
+            background: #27364c;
+        }
+
+        .wishlist-button {
+            padding: 13px 24px;
+            border: 1px solid #172337;
+            background: white;
+            color: #172337;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .wishlist-button:hover {
+            background: #eef1f4;
+        }
+
+        .back-link {
+            color: #172337;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .message {
+            margin-top: 18px;
+            font-size: 13px;
+            color: #315c49;
+        }
+
+        .reviews-section {
+            margin-top: 35px;
+            background: white;
+            border: 1px solid #dce1e7;
+            padding: 40px;
+        }
+
+        .reviews-section h2 {
+            font-size: 24px;
+            color: #172337;
+            margin-bottom: 25px;
+        }
+
+        .review-form {
+            border-bottom: 1px solid #e1e5ea;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .review-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #667080;
+            margin-bottom: 10px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+
+        .star-rating button {
+            border: none;
+            background: transparent;
+            color: #c5ccd5;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .star-rating button.active {
+            color: #7c2637;
+        }
+
+        .star-rating button:hover {
+            color: #7c2637;
+        }
+
+        .review-text {
+            width: 100%;
+            min-height: 110px;
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid #cfd5dc;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            color: #202733;
+            outline: none;
+        }
+
+        .review-text:focus {
+            border-color: #172337;
+        }
+
+        .submit-review {
+            margin-top: 15px;
+            padding: 12px 22px;
+            border: none;
+            background: #172337;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .submit-review:hover {
+            background: #27364c;
+        }
+
+        .review-message {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #315c49;
+        }
+
+        .review-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #e4e7eb;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-rating {
+            color: #7c2637;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .review-user {
+            font-size: 13px;
+            font-weight: 600;
+            color: #172337;
+            margin-bottom: 8px;
+        }
+
+        .review-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #5f6b7a;
+        }
+
+        .no-reviews {
+            font-size: 14px;
+            color: #7a8492;
+            padding: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: #7a8492;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 18px;
+                text-align: center;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .details-card {
+                padding: 25px;
+            }
+
+            .reviews-section {
+                padding: 25px;
+            }
+
+            .details-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="brand">
+
+        <h1>
+            LITERARY EMPORIUM
+        </h1>
+
+        <p data-i18n="onlineBookMarketplace">
+            Online Book Marketplace
+        </p>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <nav>
+
+            <a href="home.html"
+               data-i18n="home">
+                Home
+            </a>
+
+            <a href="wishlist.html"
+               data-i18n="wishlist">
+                Wishlist
+            </a>
+
+            <a href="cart.html"
+               data-i18n="cart">
+                Cart
+            </a>
+
+        </nav>
+
+
+        <select
+            id="languageSelector"
+            class="language-select"
+            aria-label="Select Language">
+
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+            <option value="te">తెలుగు</option>
+            <option value="ml">മലയാളം</option>
+
+        </select>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <section class="page-title">
+
+        <h2 data-i18n="bookDetails">
+            Book Details
+        </h2>
+
+    </section>
+
+
+    <section class="details-card">
+
+
+        <h1 id="detailTitle">
+            Book Title
+        </h1>
+
+
+        <p class="author"
+           id="detailAuthor">
+            Author
+        </p>
+
+
+        <div class="details-row">
+
+            <span
+                class="details-label"
+                data-i18n="category">
+                Category
+            </span>
+
+            <span
+                class="details-value"
+                id="detailCategory">
+            </span>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <span
+                class="details-label"
+                data-i18n="availability">
+                Availability
+            </span>
+
+            <span
+                class="details-value"
+                data-i18n="available">
+                Available
+            </span>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <span
+                class="details-label"
+                data-i18n="condition">
+                Condition
+            </span>
+
+            <span
+                class="details-value"
+                data-i18n="new">
+                New
+            </span>
+
+        </div>
+
+
+        <p class="description"
+           id="detailDescription">
+        </p>
+
+
+        <div class="price"
+             id="detailPrice">
+        </div>
+
+
+        <div class="actions">
+
+
+            <button
+                class="cart-button"
+                id="addToCartButton"
+                type="button"
+                data-i18n="addToCart">
+
+                Add to Cart
+
+            </button>
+
+
+            <button
+                class="wishlist-button"
+                id="addToWishlistButton"
+                type="button"
+                data-i18n="addToWishlist">
+
+                Add to Wishlist
+
+            </button>
+
+
+            <a href="home.html"
+               class="back-link"
+               data-i18n="backToBooks">
+
+                Back to Books
+
+            </a>
+
+
+        </div>
+
+
+        <p class="message"
+           id="cartMessage">
+        </p>
+
+
+    </section>
+
+
+    <section class="reviews-section">
+
+        <h2 data-i18n="customerReviews">
+            Customer Reviews
+        </h2>
+
+
+        <div class="review-form">
+
+            <label
+                class="review-label"
+                for="reviewRating"
+                data-i18n="yourRating">
+
+                Your Rating
+
+            </label>
+
+
+            <div
+                class="star-rating"
+                id="starRating">
+
+                <button
+                    type="button"
+                    data-rating="1">★</button>
+
+                <button
+                    type="button"
+                    data-rating="2">★</button>
+
+                <button
+                    type="button"
+                    data-rating="3">★</button>
+
+                <button
+                    type="button"
+                    data-rating="4">★</button>
+
+                <button
+                    type="button"
+                    data-rating="5">★</button>
+
+            </div>
+
+
+            <input
+                type="hidden"
+                id="reviewRating"
+                value="5">
+
+
+            <label
+                class="review-label"
+                for="reviewText"
+                data-i18n="yourReview">
+
+                Your Review
+
+            </label>
+
+
+            <textarea
+                id="reviewText"
+                class="review-text"
+                data-i18n-placeholder="reviewPlaceholder"
+                placeholder="Write your review about this book...">
+            </textarea>
+
+
+            <button
+                type="button"
+                class="submit-review"
+                id="submitReviewButton"
+                data-i18n="submitReview">
+
+                Submit Review
+
+            </button>
+
+
+            <p
+                class="review-message"
+                id="reviewMessage">
+            </p>
+
+        </div>
+
+
+        <div id="reviewsContainer">
+
+            <p
+                class="no-reviews"
+                data-i18n="noReviews">
+
+                No reviews yet.
+
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 Literary Emporium.
+    
+    <span data-i18n="allRightsReserved">
+        All rights reserved.
+    </span>
+
+</footer>
+
+
+<script src="language.js"></script>
+
+<script src="script.js"></script>
+
+
+<script>
+
+    const bookDetailsTranslations = {
+
+        en: {
+
+            onlineBookMarketplace:
+                "Online Book Marketplace",
+
+            home:
+                "Home",
+
+            wishlist:
+                "Wishlist",
+
+            cart:
+                "Cart",
+
+            bookDetails:
+                "Book Details",
+
+            category:
+                "Category",
+
+            availability:
+                "Availability",
+
+            available:
+                "Available",
+
+            condition:
+                "Condition",
+
+            new:
+                "New",
+
+            addToCart:
+                "Add to Cart",
+
+            addToWishlist:
+                "Add to Wishlist",
+
+            backToBooks:
+                "Back to Books",
+
+            customerReviews:
+                "Customer Reviews",
+
+            yourRating:
+                "Your Rating",
+
+            yourReview:
+                "Your Review",
+
+            reviewPlaceholder:
+                "Write your review about this book...",
+
+            submitReview:
+                "Submit Review",
+
+            noReviews:
+                "No reviews yet.",
+
+            allRightsReserved:
+                "All rights reserved."
+
+        },
+
+
+        ta: {
+
+            onlineBookMarketplace:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            home:
+                "முகப்பு",
+
+            wishlist:
+                "விருப்பப்பட்டியல்",
+
+            cart:
+                "வண்டி",
+
+            bookDetails:
+                "புத்தக விவரங்கள்",
+
+            category:
+                "வகை",
+
+            availability:
+                "கிடைக்கும் நிலை",
+
+            available:
+                "கிடைக்கிறது",
+
+            condition:
+                "நிலை",
+
+            new:
+                "புதியது",
+
+            addToCart:
+                "வண்டியில் சேர்க்கவும்",
+
+            addToWishlist:
+                "விருப்பப்பட்டியலில் சேர்க்கவும்",
+
+            backToBooks:
+                "புத்தகங்களுக்குத் திரும்பு",
+
+            customerReviews:
+                "வாடிக்கையாளர் மதிப்புரைகள்",
+
+            yourRating:
+                "உங்கள் மதிப்பீடு",
+
+            yourReview:
+                "உங்கள் மதிப்புரை",
+
+            reviewPlaceholder:
+                "இந்த புத்தகத்தைப் பற்றிய உங்கள் மதிப்புரையை எழுதுங்கள்...",
+
+            submitReview:
+                "மதிப்புரையை சமர்ப்பிக்கவும்",
+
+            noReviews:
+                "இதுவரை மதிப்புரைகள் இல்லை.",
+
+            allRightsReserved:
+                "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+        },
+
+
+        hi: {
+
+            onlineBookMarketplace:
+                "ऑनलाइन बुक मार्केटप्लेस",
+
+            home:
+                "होम",
+
+            wishlist:
+                "विशलिस्ट",
+
+            cart:
+                "कार्ट",
+
+            bookDetails:
+                "पुस्तक विवरण",
+
+            category:
+                "श्रेणी",
+
+            availability:
+                "उपलब्धता",
+
+            available:
+                "उपलब्ध",
+
+            condition:
+                "स्थिति",
+
+            new:
+                "नई",
+
+            addToCart:
+                "कार्ट में जोड़ें",
+
+            addToWishlist:
+                "विशलिस्ट में जोड़ें",
+
+            backToBooks:
+                "पुस्तकों पर वापस जाएं",
+
+            customerReviews:
+                "ग्राहक समीक्षाएं",
+
+            yourRating:
+                "आपकी रेटिंग",
+
+            yourReview:
+                "आपकी समीक्षा",
+
+            reviewPlaceholder:
+                "इस पुस्तक के बारे में अपनी समीक्षा लिखें...",
+
+            submitReview:
+                "समीक्षा जमा करें",
+
+            noReviews:
+                "अभी तक कोई समीक्षा नहीं है।",
+
+            allRightsReserved:
+                "सर्वाधिकार सुरक्षित।"
+
+        },
+
+
+        te: {
+
+            onlineBookMarketplace:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్",
+
+            home:
+                "హోమ్",
+
+            wishlist:
+                "విష్‌లిస్ట్",
+
+            cart:
+                "కార్ట్",
+
+            bookDetails:
+                "పుస్తక వివరాలు",
+
+            category:
+                "వర్గం",
+
+            availability:
+                "అందుబాటు",
+
+            available:
+                "అందుబాటులో ఉంది",
+
+            condition:
+                "స్థితి",
+
+            new:
+                "కొత్తది",
+
+            addToCart:
+                "కార్ట్‌కు జోడించండి",
+
+            addToWishlist:
+                "విష్‌లిస్ట్‌కు జోడించండి",
+
+            backToBooks:
+                "పుస్తకాలకు తిరిగి వెళ్లండి",
+
+            customerReviews:
+                "కస్టమర్ సమీక్షలు",
+
+            yourRating:
+                "మీ రేటింగ్",
+
+            yourReview:
+                "మీ సమీక్ష",
+
+            reviewPlaceholder:
+                "ఈ పుస్తకం గురించి మీ సమీక్షను రాయండి...",
+
+            submitReview:
+                "సమీక్షను సమర్పించండి",
+
+            noReviews:
+                "ఇంకా సమీక్షలు లేవు.",
+
+            allRightsReserved:
+                "అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."
+
+        },
+
+
+        ml: {
+
+            onlineBookMarketplace:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ്",
+
+            home:
+                "ഹോം",
+
+            wishlist:
+                "വിഷ്‌ലിസ്റ്റ്",
+
+            cart:
+                "കാർട്ട്",
+
+            bookDetails:
+                "പുസ്തക വിശദാംശങ്ങൾ",
+
+            category:
+                "വിഭാഗം",
+
+            availability:
+                "ലഭ്യത",
+
+            available:
+                "ലഭ്യമാണ്",
+
+            condition:
+                "അവസ്ഥ",
+
+            new:
+                "പുതിയത്",
+
+            addToCart:
+                "കാർട്ടിലേക്ക് ചേർക്കുക",
+
+            addToWishlist:
+                "വിഷ്‌ലിസ്റ്റിലേക്ക് ചേർക്കുക",
+
+            backToBooks:
+                "പുസ്തകങ്ങളിലേക്ക് മടങ്ങുക",
+
+            customerReviews:
+                "ഉപഭോക്തൃ അവലോകനങ്ങൾ",
+
+            yourRating:
+                "നിങ്ങളുടെ റേറ്റിംഗ്",
+
+            yourReview:
+                "നിങ്ങളുടെ അവലോകനം",
+
+            reviewPlaceholder:
+                "ഈ പുസ്തകത്തെക്കുറിച്ചുള്ള നിങ്ങളുടെ അവലോകനം എഴുതുക...",
+
+            submitReview:
+                "അവലോകനം സമർപ്പിക്കുക",
+
+            noReviews:
+                "ഇതുവരെ അവലോകനങ്ങളൊന്നുമില്ല.",
+
+            allRightsReserved:
+                "എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+        }
+
+    };
+
+
+    function applyBookDetailsLanguage() {
+
+        const language =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        const selected =
+            bookDetailsTranslations[language] ||
+            bookDetailsTranslations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            });
+
+
+        document
+            .querySelectorAll(
+                "[data-i18n-placeholder]"
+            )
+            .forEach(function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n-placeholder"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.placeholder =
+                        selected[key];
+
+                }
+
+            });
+
+    }
+
+
+    const languageSelector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (languageSelector) {
+
+        languageSelector.value =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        languageSelector.addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    this.value
+                );
+
+
+                applyBookDetailsLanguage();
+
+
+                if (
+                    typeof setLanguage ===
+                    "function"
+                ) {
+
+                    setLanguage(this.value);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    applyBookDetailsLanguage();
+
+</script>
+
+<script src="chatbot.js?v=3"></script>
+</body>
+
+</html>

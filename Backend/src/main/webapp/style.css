@@ -1,0 +1,564 @@
+
+/* =========================================
+   LITERARY EMPORIUM
+   PROFESSIONAL ONLINE BOOK MARKETPLACE
+   STAGE 2 - PROFESSIONAL CSS DESIGN
+   ========================================= */
+
+
+/* =========================================
+   GLOBAL RESET
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f5f6;
+
+    color: #252a2e;
+
+    line-height: 1.6;
+}
+
+
+a {
+    text-decoration: none;
+
+    color: inherit;
+}
+
+
+/* =========================================
+   COMMON CONTAINER
+   ========================================= */
+
+.container {
+    width: 90%;
+
+    max-width: 1180px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.site-header {
+    background: #ffffff;
+
+    border-bottom: 1px solid #d8dde1;
+}
+
+
+.header-content {
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.brand-mark {
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #182b3a;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.brand-text h1 {
+    color: #182b3a;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+}
+
+
+.brand-text p {
+    margin-top: 2px;
+
+    color: #69737c;
+
+    font-size: 11px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+
+.hero {
+    background: #edf0f2;
+
+    border-bottom: 1px solid #d8dde1;
+}
+
+
+.hero-content {
+    min-height: 500px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.hero-text {
+    max-width: 720px;
+}
+
+
+.section-label {
+    margin-bottom: 16px;
+
+    color: #7b2938;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.hero h2 {
+    margin-bottom: 24px;
+
+    color: #182b3a;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 58px;
+
+    font-weight: 400;
+
+    line-height: 1.08;
+}
+
+
+.hero-description {
+    max-width: 650px;
+
+    margin-bottom: 32px;
+
+    color: #5d6871;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   PRIMARY BUTTON
+   ========================================= */
+
+.primary-button {
+    display: inline-block;
+
+    padding: 13px 25px;
+
+    background: #182b3a;
+
+    color: #ffffff;
+
+    border: 1px solid #182b3a;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.2px;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.primary-button:hover {
+    background: #2a4051;
+
+    border-color: #2a4051;
+}
+
+
+/* =========================================
+   ACCESS SECTION
+   ========================================= */
+
+.access-section {
+    padding: 85px 0;
+
+    background: #ffffff;
+}
+
+
+.section-heading {
+    margin-bottom: 45px;
+
+    text-align: center;
+}
+
+
+.section-heading .section-label {
+    margin-bottom: 10px;
+}
+
+
+.section-heading h2 {
+    margin-bottom: 9px;
+
+    color: #182b3a;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 37px;
+
+    font-weight: 400;
+}
+
+
+.section-heading p:last-child {
+    color: #69737c;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   ROLE GRID
+   ========================================= */
+
+.role-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+}
+
+
+/* =========================================
+   ROLE CARD
+   ========================================= */
+
+.role-card {
+    min-height: 285px;
+
+    padding: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #d7dce0;
+
+    border-top: 3px solid #182b3a;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.role-card:hover {
+    border-color: #aeb6bd;
+
+    box-shadow: 0 8px 24px rgba(24, 43, 58, 0.08);
+
+    transform: translateY(-3px);
+}
+
+
+.role-number {
+    margin-bottom: 22px;
+
+    color: #7b2938;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.role-card h3 {
+    margin-bottom: 15px;
+
+    color: #182b3a;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 26px;
+
+    font-weight: 400;
+}
+
+
+.role-card p:not(.role-number) {
+    min-height: 88px;
+
+    margin-bottom: 22px;
+
+    color: #69737c;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   SECONDARY BUTTON
+   ========================================= */
+
+.secondary-button {
+    display: inline-block;
+
+    padding: 10px 19px;
+
+    background: #ffffff;
+
+    color: #182b3a;
+
+    border: 1px solid #182b3a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.secondary-button:hover {
+    background: #182b3a;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.site-footer {
+    background: #182b3a;
+
+    color: #ffffff;
+}
+
+
+.footer-content {
+    min-height: 105px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+
+.footer-content h3 {
+    margin-bottom: 3px;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.footer-content p {
+    color: #c5cdd3;
+
+    font-size: 12px;
+}
+
+
+.copyright {
+    text-align: right;
+}
+
+
+/* =========================================
+   TABLET RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .hero-content {
+        min-height: 440px;
+    }
+
+
+    .hero h2 {
+        font-size: 46px;
+    }
+
+
+    .role-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .role-card {
+        min-height: auto;
+    }
+
+
+    .role-card p:not(.role-number) {
+        min-height: auto;
+    }
+
+
+    .footer-content {
+        padding: 25px 0;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .copyright {
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 500px) {
+
+    .container {
+        width: 92%;
+    }
+
+
+    .header-content {
+        min-height: 70px;
+    }
+
+
+    .brand-mark {
+        width: 40px;
+
+        height: 40px;
+    }
+
+
+    .brand-text h1 {
+        font-size: 15px;
+
+        letter-spacing: 1.2px;
+    }
+
+
+    .brand-text p {
+        font-size: 10px;
+    }
+
+
+    .hero-content {
+        min-height: 410px;
+    }
+
+
+    .hero h2 {
+        font-size: 38px;
+    }
+
+
+    .hero-description {
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+
+    .access-section {
+        padding: 60px 0;
+    }
+
+
+    .section-heading h2 {
+        font-size: 30px;
+    }
+
+
+    .role-card {
+        padding: 26px;
+    }
+
+}
+.seller-count {
+    background: white;
+    border: 1px solid #d9dee4;
+    padding: 18px 20px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #687586;
+}
+
+.seller-count strong {
+    color: #172337;
+    font-size: 20px;
+    margin-left: 8px;
+}

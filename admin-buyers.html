@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Buyers | Literary Emporium</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px 7%;
+            border-bottom: 3px solid #6d2638;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand h1 {
+            font-size: 21px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #c8d0da;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-selector {
+            padding: 9px 12px;
+            border: 1px solid #d7dde4;
+            background: white;
+            color: #172337;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .logout-button {
+            text-decoration: none;
+            color: white;
+            border: 1px solid #9aa6b5;
+            padding: 9px 18px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .logout-button:hover {
+            background: #26364d;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h2 {
+            font-size: 29px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #667384;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .summary {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .summary-title {
+            font-size: 13px;
+            color: #667384;
+            margin-bottom: 8px;
+        }
+
+        .summary-count {
+            font-size: 25px;
+            font-weight: 600;
+            color: #172337;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #d9dee5;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            background: #eef1f4;
+            color: #172337;
+            text-align: left;
+            padding: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid #d9dee5;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #e2e6eb;
+            color: #394656;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .buyer-name {
+            color: #172337;
+            font-weight: 600;
+        }
+
+        .remove-button {
+            background: white;
+            color: #8a2638;
+            border: 1px solid #8a2638;
+            padding: 8px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .remove-button:hover {
+            background: #8a2638;
+            color: white;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 45px 20px;
+            color: #667384;
+            font-size: 14px;
+        }
+
+        .bottom-links {
+            margin-top: 25px;
+        }
+
+        .back-button {
+            display: inline-block;
+            text-decoration: none;
+            color: #172337;
+            border: 1px solid #172337;
+            padding: 11px 20px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            background: #172337;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #e9edf1;
+            color: #667384;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .language-selector {
+                flex: 1;
+            }
+
+            main {
+                padding: 35px 15px;
+            }
+
+            .page-heading h2 {
+                font-size: 24px;
+            }
+
+            th,
+            td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div class="brand">
+
+            <h1>
+                LITERARY EMPORIUM
+            </h1>
+
+            <p data-i18n="adminManagement">
+                Administrator Management
+            </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <select
+                id="languageSelector"
+                class="language-selector">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+
+            <a
+                href="admin-login.html"
+                class="logout-button"
+                id="logoutButton"
+                data-i18n="logout">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="page-heading">
+
+        <h2 data-i18n="manageBuyers">
+            Manage Buyers
+        </h2>
+
+        <p data-i18n="pageDescription">
+            View and manage registered buyer accounts.
+        </p>
+
+    </section>
+
+
+
+    <section class="summary">
+
+        <div
+            class="summary-title"
+            data-i18n="registeredBuyers">
+
+            Registered Buyers
+
+        </div>
+
+        <div
+            class="summary-count"
+            id="buyerCount">
+
+            0
+
+        </div>
+
+    </section>
+
+
+
+    <section class="table-container">
+
+        <table id="buyersTable">
+
+            <thead>
+
+                <tr>
+
+                    <th data-i18n="serialNumber">
+                        S.No
+                    </th>
+
+                    <th data-i18n="buyerName">
+                        Buyer Name
+                    </th>
+
+                    <th data-i18n="emailAddress">
+                        Email Address
+                    </th>
+
+                    <th data-i18n="action">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="buyersTableBody"></tbody>
+
+        </table>
+
+
+        <div
+            class="empty-message"
+            id="emptyMessage"
+            style="display: none;"
+            data-i18n="noBuyers">
+
+            No registered buyers found.
+
+        </div>
+
+    </section>
+
+
+
+    <div class="bottom-links">
+
+        <a
+            href="admin-dashboard.html"
+            class="back-button"
+            data-i18n="backDashboard">
+
+            Back to Administrator Dashboard
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+
+<footer data-i18n="footer">
+
+    © 2026 Literary Emporium.
+    All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================================
+   GET BUYERS
+========================================= */
+
+function getBuyers() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumUsers"
+            )
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================================
+   SAFE HTML
+========================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =========================================
+   DISPLAY BUYERS
+========================================= */
+
+function loadBuyers() {
+
+    const buyers =
+        getBuyers();
+
+
+    const table =
+        document.getElementById(
+            "buyersTable"
+        );
+
+
+    const tableBody =
+        document.getElementById(
+            "buyersTableBody"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "emptyMessage"
+        );
+
+
+    const buyerCount =
+        document.getElementById(
+            "buyerCount"
+        );
+
+
+    buyerCount.textContent =
+        buyers.length;
+
+
+    tableBody.innerHTML = "";
+
+
+    if (buyers.length === 0) {
+
+        table.style.display =
+            "none";
+
+        emptyMessage.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    table.style.display =
+        "table";
+
+    emptyMessage.style.display =
+        "none";
+
+
+    buyers.forEach(
+        function(buyer, index) {
+
+            const row =
+                document.createElement("tr");
+
+
+            const buyerName =
+                buyer.fullName ||
+                buyer.name ||
+                "Unnamed Buyer";
+
+
+            const email =
+                buyer.email ||
+                "No email available";
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td class="buyer-name">
+                    ${escapeHtml(buyerName)}
+                </td>
+
+                <td>
+                    ${escapeHtml(email)}
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="remove-button"
+                        onclick="removeBuyer(${index})"
+                        data-i18n="remove">
+
+                        Remove
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tableBody.appendChild(row);
+
+        }
+    );
+
+
+    applyLanguage();
+
+}
+
+
+
+/* =========================================
+   REMOVE BUYER
+========================================= */
+
+function removeBuyer(index) {
+
+    const buyers =
+        getBuyers();
+
+
+    if (!buyers[index]) {
+        return;
+    }
+
+
+    const buyerName =
+        buyers[index].fullName ||
+        buyers[index].name ||
+        "this buyer";
+
+
+    const language =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const confirmation =
+        confirm(
+            getRemoveConfirmation(
+                language,
+                buyerName
+            )
+        );
+
+
+    if (!confirmation) {
+        return;
+    }
+
+
+    const removedBuyer =
+        buyers[index];
+
+
+    buyers.splice(index, 1);
+
+
+    localStorage.setItem(
+        "literaryEmporiumUsers",
+        JSON.stringify(buyers)
+    );
+
+
+    /*
+     * Clear current buyer session
+     * if the removed account is logged in.
+     */
+
+    const currentBuyer =
+        localStorage.getItem(
+            "literaryEmporiumLoggedInUser"
+        );
+
+
+    if (currentBuyer) {
+
+        try {
+
+            const loggedInBuyer =
+                JSON.parse(currentBuyer);
+
+
+            if (
+                loggedInBuyer.email ===
+                removedBuyer.email
+            ) {
+
+                localStorage.removeItem(
+                    "literaryEmporiumLoggedInUser"
+                );
+
+            }
+
+        } catch (error) {
+
+            /* Ignore invalid session data */
+
+        }
+
+    }
+
+
+    /*
+     * Remove saved address belonging
+     * to the deleted buyer.
+     */
+
+    if (removedBuyer.email) {
+
+        localStorage.removeItem(
+            "literaryEmporiumSavedAddress_" +
+            removedBuyer.email
+        );
+
+    }
+
+
+    loadBuyers();
+
+}
+
+
+
+/* =========================================
+   REMOVE CONFIRMATION
+========================================= */
+
+function getRemoveConfirmation(
+    language,
+    name
+) {
+
+    const messages = {
+
+        en:
+            'Remove buyer "' +
+            name +
+            '"?',
+
+        ta:
+            '"' +
+            name +
+            '" வாங்குபவரை நீக்க வேண்டுமா?',
+
+        hi:
+            '"' +
+            name +
+            '" खरीदार को हटाना है?',
+
+        te:
+            '"' +
+            name +
+            '" కొనుగోలుదారుని తొలగించాలా?',
+
+        ml:
+            '"' +
+            name +
+            '" വാങ്ങുന്നയാളെ നീക്കം ചെയ്യണോ?'
+
+    };
+
+
+    return messages[language] ||
+           messages.en;
+
+}
+
+
+
+/* =========================================
+   TRANSLATIONS
+========================================= */
+
+const translations = {
+
+    en: {
+
+        adminManagement:
+            "Administrator Management",
+
+        logout:
+            "Logout",
+
+        manageBuyers:
+            "Manage Buyers",
+
+        pageDescription:
+            "View and manage registered buyer accounts.",
+
+        registeredBuyers:
+            "Registered Buyers",
+
+        serialNumber:
+            "S.No",
+
+        buyerName:
+            "Buyer Name",
+
+        emailAddress:
+            "Email Address",
+
+        action:
+            "Action",
+
+        remove:
+            "Remove",
+
+        noBuyers:
+            "No registered buyers found.",
+
+        backDashboard:
+            "Back to Administrator Dashboard",
+
+        footer:
+            "© 2026 Literary Emporium. All rights reserved."
+
+    },
+
+
+    ta: {
+
+        adminManagement:
+            "நிர்வாக மேலாண்மை",
+
+        logout:
+            "வெளியேறு",
+
+        manageBuyers:
+            "வாங்குபவர்களை நிர்வகிக்கவும்",
+
+        pageDescription:
+            "பதிவு செய்யப்பட்ட வாங்குபவர் கணக்குகளைப் பார்க்கவும் மற்றும் நிர்வகிக்கவும்.",
+
+        registeredBuyers:
+            "பதிவு செய்யப்பட்ட வாங்குபவர்கள்",
+
+        serialNumber:
+            "வரிசை எண்",
+
+        buyerName:
+            "வாங்குபவர் பெயர்",
+
+        emailAddress:
+            "மின்னஞ்சல் முகவரி",
+
+        action:
+            "செயல்",
+
+        remove:
+            "நீக்கு",
+
+        noBuyers:
+            "பதிவு செய்யப்பட்ட வாங்குபவர்கள் எவரும் இல்லை.",
+
+        backDashboard:
+            "நிர்வாக டாஷ்போர்டுக்குத் திரும்பு",
+
+        footer:
+            "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+    },
+
+
+    hi: {
+
+        adminManagement:
+            "प्रशासक प्रबंधन",
+
+        logout:
+            "लॉग आउट",
+
+        manageBuyers:
+            "खरीदारों को प्रबंधित करें",
+
+        pageDescription:
+            "पंजीकृत खरीदार खातों को देखें और प्रबंधित करें।",
+
+        registeredBuyers:
+            "पंजीकृत खरीदार",
+
+        serialNumber:
+            "क्रम संख्या",
+
+        buyerName:
+            "खरीदार का नाम",
+
+        emailAddress:
+            "ईमेल पता",
+
+        action:
+            "कार्रवाई",
+
+        remove:
+            "हटाएँ",
+
+        noBuyers:
+            "कोई पंजीकृत खरीदार नहीं मिला।",
+
+        backDashboard:
+            "प्रशासक डैशबोर्ड पर वापस जाएँ",
+
+        footer:
+            "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+
+    },
+
+
+    te: {
+
+        adminManagement:
+            "అడ్మినిస్ట్రేటర్ నిర్వహణ",
+
+        logout:
+            "లాగ్ అవుట్",
+
+        manageBuyers:
+            "కొనుగోలుదారులను నిర్వహించండి",
+
+        pageDescription:
+            "నమోదైన కొనుగోలుదారు ఖాతాలను వీక్షించి నిర్వహించండి.",
+
+        registeredBuyers:
+            "నమోదైన కొనుగోలుదారులు",
+
+        serialNumber:
+            "క్రమ సంఖ్య",
+
+        buyerName:
+            "కొనుగోలుదారు పేరు",
+
+        emailAddress:
+            "ఇమెయిల్ చిరునామా",
+
+        action:
+            "చర్య",
+
+        remove:
+            "తొలగించు",
+
+        noBuyers:
+            "నమోదైన కొనుగోలుదారులు ఎవరూ లేరు.",
+
+        backDashboard:
+            "అడ్మినిస్ట్రేటర్ డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్లండి",
+
+        footer:
+            "© 2026 Literary Emporium. అన్ని హక్కులు రక్షించబడ్డాయి."
+
+    },
+
+
+    ml: {
+
+        adminManagement:
+            "അഡ്മിനിസ്ട്രേറ്റർ മാനേജ്മെന്റ്",
+
+        logout:
+            "ലോഗ് ഔട്ട്",
+
+        manageBuyers:
+            "വാങ്ങുന്നവരെ നിയന്ത്രിക്കുക",
+
+        pageDescription:
+            "രജിസ്റ്റർ ചെയ്ത വാങ്ങുന്നയാളുടെ അക്കൗണ്ടുകൾ കാണുകയും നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+
+        registeredBuyers:
+            "രജിസ്റ്റർ ചെയ്ത വാങ്ങുന്നവർ",
+
+        serialNumber:
+            "ക്രമ നമ്പർ",
+
+        buyerName:
+            "വാങ്ങുന്നയാളുടെ പേര്",
+
+        emailAddress:
+            "ഇമെയിൽ വിലാസം",
+
+        action:
+            "പ്രവർത്തനം",
+
+        remove:
+            "നീക്കം ചെയ്യുക",
+
+        noBuyers:
+            "രജിസ്റ്റർ ചെയ്ത വാങ്ങുന്നവരെ കണ്ടെത്താനായില്ല.",
+
+        backDashboard:
+            "അഡ്മിനിസ്ട്രേറ്റർ ഡാഷ്ബോർഡിലേക്ക് മടങ്ങുക",
+
+        footer:
+            "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+    }
+
+};
+
+
+
+/* =========================================
+   APPLY LANGUAGE
+========================================= */
+
+function applyLanguage() {
+
+    const language =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const selected =
+        translations[language] ||
+        translations.en;
+
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(
+            function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            }
+        );
+
+
+    const selector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (selector) {
+
+        selector.value =
+            language;
+
+    }
+
+}
+
+
+
+/* =========================================
+   LANGUAGE SELECTOR
+========================================= */
+
+document
+    .getElementById("languageSelector")
+    .addEventListener(
+        "change",
+        function() {
+
+            localStorage.setItem(
+                "literaryEmporiumLanguage",
+                this.value
+            );
+
+
+            applyLanguage();
+
+            loadBuyers();
+
+        }
+    );
+
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+document
+    .getElementById("logoutButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.removeItem(
+                "literaryEmporiumAdminLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "literaryEmporiumCurrentAdmin"
+            );
+
+        }
+    );
+
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadBuyers();
+
+        applyLanguage();
+
+    }
+);
+
+</script>
+<script src="chatbot.js?v=3"></script>
+
+</body>
+
+</html>

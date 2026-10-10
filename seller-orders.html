@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Seller Orders | Literary Emporium</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f4f5f7;
+
+            color: #172337;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        header {
+
+            background: #172337;
+
+            color: white;
+
+            padding: 22px 55px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            border-bottom:
+                1px solid #29374a;
+        }
+
+        .brand {
+
+            font-size: 21px;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+
+            margin-top: 5px;
+
+            color: #c7ced8;
+
+            font-size: 12px;
+        }
+
+        .header-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            flex-wrap: wrap;
+        }
+
+        .header-right a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .header-right a:hover {
+
+            text-decoration: underline;
+        }
+
+        .language-select {
+
+            padding: 8px 10px;
+
+            border:
+                1px solid #c7ced8;
+
+            background: #172337;
+
+            color: white;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            outline: none;
+        }
+
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        main {
+
+            max-width: 1150px;
+
+            margin: 45px auto;
+
+            padding: 0 25px;
+        }
+
+        .page-heading {
+
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+
+            font-size: 30px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+
+            color: #687384;
+
+            font-size: 14px;
+        }
+
+        .order-count {
+
+            margin-top: 12px;
+
+            color: #4e5968;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           ORDERS
+           ===================================================== */
+
+        .orders-container {
+
+            display: grid;
+
+            gap: 20px;
+        }
+
+        .order-card {
+
+            background: white;
+
+            border:
+                1px solid #d8dde4;
+
+            padding: 25px;
+        }
+
+        .order-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+
+            padding-bottom: 16px;
+
+            border-bottom:
+                1px solid #e1e5ea;
+        }
+
+        .order-id {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: #172337;
+        }
+
+        .order-date {
+
+            margin-top: 5px;
+
+            color: #7b8490;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border:
+                1px solid #c7ced8;
+
+            background: #f5f6f8;
+
+            color: #475566;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .status.placed {
+
+            color: #344c60;
+
+            border-color: #aab7c2;
+        }
+
+        .status.processing {
+
+            color: #31516b;
+
+            border-color: #9db1c0;
+        }
+
+        .status.shipped {
+
+            color: #315c49;
+
+            border-color: #9eb7ab;
+        }
+
+        .status.out {
+
+            color: #315c49;
+
+            border-color: #9eb7ab;
+        }
+
+        .status.delivered {
+
+            color: #24563b;
+
+            border-color: #78a38f;
+        }
+
+        .status.cancelled {
+
+            color: #7b2938;
+
+            border-color: #caa5ac;
+        }
+
+
+        /* =====================================================
+           CUSTOMER
+           ===================================================== */
+
+        .customer-section {
+
+            padding: 17px 0;
+
+            border-bottom:
+                1px solid #e4e7eb;
+        }
+
+        .customer-section h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 7px;
+        }
+
+        .customer-section p {
+
+            color: #687384;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           BOOKS
+           ===================================================== */
+
+        .books-title {
+
+            margin: 17px 0 10px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .seller-book {
+
+            padding: 11px 0;
+
+            border-bottom:
+                1px solid #edf0f3;
+        }
+
+        .seller-book:last-child {
+
+            border-bottom: none;
+        }
+
+        .seller-book-title {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #34424e;
+        }
+
+        .seller-book-meta {
+
+            margin-top: 4px;
+
+            color: #7b8490;
+
+            font-size: 12px;
+        }
+
+        .seller-book-price {
+
+            margin-top: 3px;
+
+            color: #315c49;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           TOTAL
+           ===================================================== */
+
+        .order-total {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 25px;
+
+            margin-top: 17px;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid #e1e5ea;
+        }
+
+        .order-total-label {
+
+            color: #687384;
+
+            font-size: 13px;
+        }
+
+        .order-total-value {
+
+            color: #172337;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           SELLER ACTION
+           ===================================================== */
+
+        .seller-action {
+
+            margin-top: 20px;
+
+            padding-top: 17px;
+
+            border-top:
+                1px solid #e1e5ea;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .status-select {
+
+            padding: 10px 12px;
+
+            border:
+                1px solid #c7ced8;
+
+            background: white;
+
+            color: #172337;
+
+            font-size: 13px;
+
+            cursor: pointer;
+        }
+
+        .update-button {
+
+            padding: 10px 16px;
+
+            border:
+                1px solid #172337;
+
+            background: #172337;
+
+            color: white;
+
+            font-size: 13px;
+
+            cursor: pointer;
+        }
+
+        .update-button:hover {
+
+            background: #26364b;
+        }
+
+        .status-help {
+
+            margin-top: 14px;
+
+            color: #7a8491;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           EMPTY
+           ===================================================== */
+
+        .empty-message {
+
+            background: white;
+
+            border:
+                1px solid #d8dde4;
+
+            padding: 50px 25px;
+
+            text-align: center;
+
+            color: #687384;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        footer {
+
+            margin-top: 60px;
+
+            padding: 22px;
+
+            background: white;
+
+            border-top:
+                1px solid #d8dde4;
+
+            text-align: center;
+
+            color: #7a8491;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding: 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .header-right {
+
+                width: 100%;
+            }
+
+            main {
+
+                margin: 30px auto;
+            }
+
+            .order-header {
+
+                flex-direction: column;
+            }
+
+            .seller-action {
+
+                justify-content: flex-start;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .status-select,
+            .update-button {
+
+                width: 100%;
+            }
+
+            .order-total {
+
+                justify-content:
+                    space-between;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+
+    <div>
+
+        <div class="brand">
+            LITERARY EMPORIUM
+        </div>
+
+
+        <div
+            class="subtitle"
+            data-i18n="sellerOrdersSubtitle"
+        >
+            Online Book Marketplace · Seller Orders
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+
+        <select
+            id="sellerOrdersLanguageSelector"
+            class="language-select"
+            aria-label="Select Language"
+        >
+
+            <option value="en">
+                English
+            </option>
+
+            <option value="ta">
+                தமிழ்
+            </option>
+
+            <option value="hi">
+                हिन्दी
+            </option>
+
+            <option value="te">
+                తెలుగు
+            </option>
+
+            <option value="ml">
+                മലയാളം
+            </option>
+
+        </select>
+
+
+        <a
+            href="seller-dashboard.html"
+            data-i18n="dashboard"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="seller-books.html"
+            data-i18n="manageBooks"
+        >
+            Manage Books
+        </a>
+
+
+        <a
+            href="seller-login.html"
+            data-i18n="logout"
+        >
+            Logout
+        </a>
+
+
+    </div>
+
+
+</header>
+
+
+<main>
+
+
+    <div class="page-heading">
+
+
+        <h1 data-i18n="incomingOrders">
+            Incoming Orders
+        </h1>
+
+
+        <p data-i18n="incomingOrdersDescription">
+            View orders containing your books and update their status.
+        </p>
+
+
+        <div
+            class="order-count"
+            id="orderCount"
+        >
+            0 orders
+        </div>
+
+
+    </div>
+
+
+    <div
+        id="ordersContainer"
+        class="orders-container"
+    ></div>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 Literary Emporium.
+
+    <span data-i18n="allRightsReserved">
+        All rights reserved.
+    </span>
+
+</footer>
+
+
+<script src="language.js"></script>
+
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       STORAGE
+       ===================================================== */
+
+    const ORDERS_KEY =
+        "literaryEmporiumOrders";
+
+
+    const BOOKS_KEY =
+        "literaryEmporiumSellerBooks";
+
+
+    const CURRENT_SELLER_KEY =
+        "literaryEmporiumCurrentSeller";
+
+
+    /* =====================================================
+       LANGUAGE
+       ===================================================== */
+
+    let currentLanguage =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const translations = {
+
+
+        en: {
+
+            sellerOrdersSubtitle:
+                "Online Book Marketplace · Seller Orders",
+
+            dashboard:
+                "Dashboard",
+
+            manageBooks:
+                "Manage Books",
+
+            logout:
+                "Logout",
+
+            incomingOrders:
+                "Incoming Orders",
+
+            incomingOrdersDescription:
+                "View orders containing your books and update their status.",
+
+            order:
+                "order",
+
+            orders:
+                "orders",
+
+            customer:
+                "Customer",
+
+            books:
+                "Your Books in This Order",
+
+            quantity:
+                "Quantity",
+
+            total:
+                "Total",
+
+            update:
+                "Update Status",
+
+            noOrders:
+                "No incoming orders yet.",
+
+            updateSuccess:
+                "Order status updated successfully.",
+
+            orderNotFound:
+                "Order not found.",
+
+            sellerRequired:
+                "Please log in as a seller.",
+
+            statusHelp:
+                "Order Placed → Processing → Shipped → Out for Delivery → Delivered",
+
+            cancelledOrder:
+                "This order has been cancelled by the buyer.",
+
+            allRightsReserved:
+                "All rights reserved."
+
+        },
+
+
+        ta: {
+
+            sellerOrdersSubtitle:
+                "ஆன்லைன் புத்தக சந்தை · விற்பனையாளர் ஆர்டர்கள்",
+
+            dashboard:
+                "டாஷ்போர்டு",
+
+            manageBooks:
+                "புத்தகங்களை நிர்வகிக்கவும்",
+
+            logout:
+                "வெளியேறு",
+
+            incomingOrders:
+                "வரும் ஆர்டர்கள்",
+
+            incomingOrdersDescription:
+                "உங்கள் புத்தகங்கள் உள்ள ஆர்டர்களைப் பார்த்து அவற்றின் நிலையை மாற்றவும்.",
+
+            order:
+                "ஆர்டர்",
+
+            orders:
+                "ஆர்டர்கள்",
+
+            customer:
+                "வாடிக்கையாளர்",
+
+            books:
+                "இந்த ஆர்டரில் உங்கள் புத்தகங்கள்",
+
+            quantity:
+                "எண்ணிக்கை",
+
+            total:
+                "மொத்தம்",
+
+            update:
+                "நிலையை மாற்றவும்",
+
+            noOrders:
+                "இன்னும் வரும் ஆர்டர்கள் இல்லை.",
+
+            updateSuccess:
+                "ஆர்டர் நிலை வெற்றிகரமாக மாற்றப்பட்டது.",
+
+            orderNotFound:
+                "ஆர்டர் கிடைக்கவில்லை.",
+
+            sellerRequired:
+                "விற்பனையாளராக முதலில் உள்நுழையவும்.",
+
+            statusHelp:
+                "Order Placed → Processing → Shipped → Out for Delivery → Delivered",
+
+            cancelledOrder:
+                "இந்த ஆர்டர் வாங்குபவரால் ரத்து செய்யப்பட்டுள்ளது.",
+
+            allRightsReserved:
+                "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+        },
+
+
+        hi: {
+
+            sellerOrdersSubtitle:
+                "ऑनलाइन बुक मार्केटप्लेस · विक्रेता ऑर्डर",
+
+            dashboard:
+                "डैशबोर्ड",
+
+            manageBooks:
+                "पुस्तकें प्रबंधित करें",
+
+            logout:
+                "लॉग आउट",
+
+            incomingOrders:
+                "आने वाले ऑर्डर",
+
+            incomingOrdersDescription:
+                "अपनी पुस्तकों वाले ऑर्डर देखें और उनकी स्थिति अपडेट करें।",
+
+            order:
+                "ऑर्डर",
+
+            orders:
+                "ऑर्डर",
+
+            customer:
+                "ग्राहक",
+
+            books:
+                "इस ऑर्डर में आपकी पुस्तकें",
+
+            quantity:
+                "मात्रा",
+
+            total:
+                "कुल",
+
+            update:
+                "स्थिति अपडेट करें",
+
+            noOrders:
+                "अभी कोई आने वाला ऑर्डर नहीं है।",
+
+            updateSuccess:
+                "ऑर्डर की स्थिति सफलतापूर्वक अपडेट की गई।",
+
+            orderNotFound:
+                "ऑर्डर नहीं मिला।",
+
+            sellerRequired:
+                "कृपया पहले विक्रेता के रूप में लॉग इन करें।",
+
+            statusHelp:
+                "Order Placed → Processing → Shipped → Out for Delivery → Delivered",
+
+            cancelledOrder:
+                "यह ऑर्डर खरीदार द्वारा रद्द कर दिया गया है।",
+
+            allRightsReserved:
+                "सर्वाधिकार सुरक्षित।"
+
+        },
+
+
+        te: {
+
+            sellerOrdersSubtitle:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్ · విక్రేత ఆర్డర్లు",
+
+            dashboard:
+                "డాష్‌బోర్డ్",
+
+            manageBooks:
+                "పుస్తకాలను నిర్వహించండి",
+
+            logout:
+                "లాగ్ అవుట్",
+
+            incomingOrders:
+                "వచ్చిన ఆర్డర్లు",
+
+            incomingOrdersDescription:
+                "మీ పుస్తకాలు ఉన్న ఆర్డర్లను చూడండి మరియు వాటి స్థితిని నవీకరించండి.",
+
+            order:
+                "ఆర్డర్",
+
+            orders:
+                "ఆర్డర్లు",
+
+            customer:
+                "కస్టమర్",
+
+            books:
+                "ఈ ఆర్డర్‌లోని మీ పుస్తకాలు",
+
+            quantity:
+                "పరిమాణం",
+
+            total:
+                "మొత్తం",
+
+            update:
+                "స్థితిని నవీకరించండి",
+
+            noOrders:
+                "ఇంకా వచ్చిన ఆర్డర్లు లేవు.",
+
+            updateSuccess:
+                "ఆర్డర్ స్థితి విజయవంతంగా నవీకరించబడింది.",
+
+            orderNotFound:
+                "ఆర్డర్ కనుగొనబడలేదు.",
+
+            sellerRequired:
+                "దయచేసి విక్రేతగా లాగిన్ అవ్వండి.",
+
+            statusHelp:
+                "Order Placed → Processing → Shipped → Out for Delivery → Delivered",
+
+            cancelledOrder:
+                "ఈ ఆర్డర్‌ను కొనుగోలుదారు రద్దు చేశారు.",
+
+            allRightsReserved:
+                "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి."
+
+        },
+
+
+        ml: {
+
+            sellerOrdersSubtitle:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ് · വിൽപ്പനക്കാരുടെ ഓർഡറുകൾ",
+
+            dashboard:
+                "ഡാഷ്ബോർഡ്",
+
+            manageBooks:
+                "പുസ്തകങ്ങൾ നിയന്ത്രിക്കുക",
+
+            logout:
+                "പുറത്തുകടക്കുക",
+
+            incomingOrders:
+                "വരുന്ന ഓർഡറുകൾ",
+
+            incomingOrdersDescription:
+                "നിങ്ങളുടെ പുസ്തകങ്ങളുള്ള ഓർഡറുകൾ കാണുകയും അവയുടെ നില അപ്ഡേറ്റ് ചെയ്യുകയും ചെയ്യുക.",
+
+            order:
+                "ഓർഡർ",
+
+            orders:
+                "ഓർഡറുകൾ",
+
+            customer:
+                "ഉപഭോക്താവ്",
+
+            books:
+                "ഈ ഓർഡറിലെ നിങ്ങളുടെ പുസ്തകങ്ങൾ",
+
+            quantity:
+                "അളവ്",
+
+            total:
+                "ആകെ",
+
+            update:
+                "നില അപ്ഡേറ്റ് ചെയ്യുക",
+
+            noOrders:
+                "ഇതുവരെ വരുന്ന ഓർഡറുകളില്ല.",
+
+            updateSuccess:
+                "ഓർഡർ നില വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു.",
+
+            orderNotFound:
+                "ഓർഡർ കണ്ടെത്താനായില്ല.",
+
+            sellerRequired:
+                "ദയവായി വിൽപ്പനക്കാരനായി ലോഗിൻ ചെയ്യുക.",
+
+            statusHelp:
+                "Order Placed → Processing → Shipped → Out for Delivery → Delivered",
+
+            cancelledOrder:
+                "ഈ ഓർഡർ വാങ്ങുന്നയാൾ റദ്ദാക്കിയിട്ടുണ്ട്.",
+
+            allRightsReserved:
+                "എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+        }
+
+    };
+
+
+    function getLanguageData() {
+
+        return (
+            translations[
+                currentLanguage
+            ] ||
+            translations.en
+        );
+
+    }
+
+
+    /* =====================================================
+       SAFE HTML
+       ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(
+            value ?? ""
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =====================================================
+       CURRENT SELLER
+       ===================================================== */
+
+    function getCurrentSeller() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    CURRENT_SELLER_KEY
+                ) || "null"
+            );
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SELLER EMAIL
+       ===================================================== */
+
+    function getSellerEmail() {
+
+        const seller =
+            getCurrentSeller();
+
+
+        return seller &&
+            seller.email
+
+                ? String(
+                    seller.email
+                )
+                .trim()
+                .toLowerCase()
+
+                : "";
+
+    }
+
+
+    /* =====================================================
+       GET ORDERS
+       ===================================================== */
+
+    function getOrders() {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(
+                        ORDERS_KEY
+                    ) || "[]"
+                );
+
+
+            return Array.isArray(
+                data
+            )
+                ? data
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       GET SELLER BOOKS
+       ===================================================== */
+
+    function getSellerBooks() {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(
+                        BOOKS_KEY
+                    ) || "[]"
+                );
+
+
+            return Array.isArray(
+                data
+            )
+                ? data
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       GET BOOKS OF CURRENT SELLER
+       ===================================================== */
+
+    function getCurrentSellerBooks() {
+
+        const sellerEmail =
+            getSellerEmail();
+
+
+        if (!sellerEmail) {
+
+            return [];
+
+        }
+
+
+        return getSellerBooks().filter(
+            function (book) {
+
+                return (
+                    String(
+                        book.sellerEmail || ""
+                    )
+                    .trim()
+                    .toLowerCase() ===
+                    sellerEmail
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       MATCH ITEM TO SELLER
+       ===================================================== */
+
+    function itemBelongsToSeller(
+        item,
+        sellerBooks
+    ) {
+
+        const sellerEmail =
+            getSellerEmail();
+
+
+        /* Newer order structure */
+
+        if (
+            item.sellerEmail &&
+            String(
+                item.sellerEmail
+            )
+            .trim()
+            .toLowerCase() ===
+            sellerEmail
+        ) {
+
+            return true;
+
+        }
+
+
+        /* Existing order structure */
+
+        return sellerBooks.some(
+            function (book) {
+
+                const sameTitle =
+                    String(
+                        book.title || ""
+                    )
+                    .trim()
+                    .toLowerCase() ===
+
+                    String(
+                        item.title || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const sameAuthor =
+                    String(
+                        book.author || ""
+                    )
+                    .trim()
+                    .toLowerCase() ===
+
+                    String(
+                        item.author || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const samePrice =
+                    Number(
+                        book.price
+                    ) ===
+
+                    Number(
+                        item.price
+                    );
+
+
+                return (
+                    sameTitle &&
+                    sameAuthor &&
+                    samePrice
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       GET SELLER ORDERS
+       ===================================================== */
+
+    function getSellerOrders() {
+
+        const allOrders =
+            getOrders();
+
+
+        const sellerBooks =
+            getCurrentSellerBooks();
+
+
+        if (
+            sellerBooks.length === 0
+        ) {
+
+            return [];
+
+        }
+
+
+        return allOrders
+            .map(
+                function (order) {
+
+                    if (
+                        !Array.isArray(
+                            order.items
+                        )
+                    ) {
+
+                        return null;
+
+                    }
+
+
+                    const sellerItems =
+                        order.items.filter(
+                            function (item) {
+
+                                return itemBelongsToSeller(
+                                    item,
+                                    sellerBooks
+                                );
+
+                            }
+                        );
+
+
+                    if (
+                        sellerItems.length === 0
+                    ) {
+
+                        return null;
+
+                    }
+
+
+                    return {
+
+                        order:
+                            order,
+
+                        items:
+                            sellerItems
+
+                    };
+
+                }
+            )
+            .filter(
+                function (entry) {
+
+                    return (
+                        entry !== null
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       STATUS CLASS
+       ===================================================== */
+
+    function getStatusClass(
+        status
+    ) {
+
+        const value =
+            String(
+                status || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if (
+            value ===
+            "order placed"
+        ) {
+
+            return "placed";
+
+        }
+
+
+        if (
+            value ===
+            "processing"
+        ) {
+
+            return "processing";
+
+        }
+
+
+        if (
+            value ===
+            "shipped"
+        ) {
+
+            return "shipped";
+
+        }
+
+
+        if (
+            value.includes(
+                "out for delivery"
+            )
+        ) {
+
+            return "out";
+
+        }
+
+
+        if (
+            value ===
+            "delivered"
+        ) {
+
+            return "delivered";
+
+        }
+
+
+        if (
+            value ===
+            "cancelled"
+        ) {
+
+            return "cancelled";
+
+        }
+
+
+        return "placed";
+
+    }
+
+
+    /* =====================================================
+       MONEY
+       ===================================================== */
+
+    function formatMoney(
+        value
+    ) {
+
+        return (
+            "₹" +
+            (
+                Number(
+                    value
+                ) || 0
+            ).toLocaleString(
+                "en-IN",
+                {
+                    minimumFractionDigits:
+                        2,
+
+                    maximumFractionDigits:
+                        2
+                }
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       UPDATE ORDER STATUS
+       ===================================================== */
+
+    window.updateSellerOrderStatus =
+        function (
+            orderId,
+            newStatus
+        ) {
+
+            const orders =
+                getOrders();
+
+
+            const sellerEmail =
+                getSellerEmail();
+
+
+            if (!sellerEmail) {
+
+                alert(
+                    getLanguageData()
+                        .sellerRequired
+                );
+
+                return;
+
+            }
+
+
+            const index =
+                orders.findIndex(
+                    function (
+                        order
+                    ) {
+
+                        return (
+                            String(
+                                order.orderId
+                            ) ===
+                            String(
+                                orderId
+                            )
+                        );
+
+                    }
+                );
+
+
+            if (
+                index === -1
+            ) {
+
+                alert(
+                    getLanguageData()
+                        .orderNotFound
+                );
+
+                return;
+
+            }
+
+
+            const order =
+                orders[index];
+
+
+            /*
+             * Don't allow changing a cancelled
+             * order back to another status.
+             */
+
+            if (
+                String(
+                    order.status || ""
+                )
+                .toLowerCase() ===
+                "cancelled"
+            ) {
+
+                alert(
+                    getLanguageData()
+                        .cancelledOrder
+                );
+
+                renderSellerOrders();
+
+                return;
+
+            }
+
+
+            /*
+             * Verify this order actually
+             * belongs to this seller.
+             */
+
+            const sellerOrders =
+                getSellerOrders();
+
+
+            const ownsOrder =
+                sellerOrders.some(
+                    function (entry) {
+
+                        return (
+                            String(
+                                entry.order.orderId
+                            ) ===
+                            String(
+                                orderId
+                            )
+                        );
+
+                    }
+                );
+
+
+            if (!ownsOrder) {
+
+                alert(
+                    getLanguageData()
+                        .orderNotFound
+                );
+
+                return;
+
+            }
+
+
+            /* Update */
+
+            order.status =
+                newStatus;
+
+
+            order.lastUpdatedBySeller =
+                sellerEmail;
+
+
+            order.updatedAt =
+                new Date().toISOString();
+
+
+            if (
+                newStatus ===
+                "Shipped"
+            ) {
+
+                order.shippedAt =
+                    new Date().toISOString();
+
+            }
+
+
+            if (
+                newStatus ===
+                "Out for Delivery"
+            ) {
+
+                order.outForDeliveryAt =
+                    new Date().toISOString();
+
+            }
+
+
+            if (
+                newStatus ===
+                "Delivered"
+            ) {
+
+                order.deliveredAt =
+                    new Date().toISOString();
+
+            }
+
+
+            localStorage.setItem(
+                ORDERS_KEY,
+                JSON.stringify(
+                    orders
+                )
+            );
+
+
+            alert(
+                getLanguageData()
+                    .updateSuccess
+            );
+
+
+            renderSellerOrders();
+
+        };
+
+
+    /* =====================================================
+       RENDER SELLER ORDERS
+       ===================================================== */
+
+    function renderSellerOrders() {
+
+        const container =
+            document.getElementById(
+                "ordersContainer"
+            );
+
+
+        const countElement =
+            document.getElementById(
+                "orderCount"
+            );
+
+
+        if (!container) {
+
+            return;
+
+        }
+
+
+        const seller =
+            getCurrentSeller();
+
+
+        if (
+            !seller ||
+            !seller.email
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty-message">
+
+                    ${escapeHTML(
+                        getLanguageData()
+                            .sellerRequired
+                    )}
+
+                </div>
+
+            `;
+
+            if (countElement) {
+
+                countElement.textContent =
+                    "0 orders";
+
+            }
+
+            return;
+
+        }
+
+
+        const sellerOrders =
+            getSellerOrders();
+
+
+        const data =
+            getLanguageData();
+
+
+        if (countElement) {
+
+            countElement.textContent =
+                sellerOrders.length +
+                " " +
+                (
+                    sellerOrders.length === 1
+                        ? data.order
+                        : data.orders
+                );
+
+        }
+
+
+        if (
+            sellerOrders.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty-message">
+
+                    ${escapeHTML(
+                        data.noOrders
+                    )}
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            sellerOrders
+                .map(
+                    function (
+                        entry
+                    ) {
+
+                        return createOrderCard(
+                            entry.order,
+                            entry.items
+                        );
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    /* =====================================================
+       CREATE ORDER CARD
+       ===================================================== */
+
+    function createOrderCard(
+        order,
+        sellerItems
+    ) {
+
+        const data =
+            getLanguageData();
+
+
+        const customer =
+            order.customer ||
+            {};
+
+
+        const status =
+            order.status ||
+            "Order Placed";
+
+
+        let sellerTotal =
+            0;
+
+
+        const booksHTML =
+            sellerItems
+                .map(
+                    function (
+                        item
+                    ) {
+
+                        const quantity =
+                            Math.max(
+                                1,
+                                Number(
+                                    item.quantity
+                                ) || 1
+                            );
+
+
+                        const price =
+                            Number(
+                                item.price
+                            ) || 0;
+
+
+                        const itemTotal =
+                            price *
+                            quantity;
+
+
+                        sellerTotal +=
+                            itemTotal;
+
+
+                        return `
+
+                            <div
+                                class="seller-book"
+                            >
+
+                                <div
+                                    class="seller-book-title"
+                                >
+
+                                    ${escapeHTML(
+                                        item.title ||
+                                        "Book"
+                                    )}
+
+                                </div>
+
+
+                                <div
+                                    class="seller-book-meta"
+                                >
+
+                                    ${escapeHTML(
+                                        item.author ||
+                                        ""
+                                    )}
+
+                                    ·
+
+                                    ${escapeHTML(
+                                        data.quantity
+                                    )}
+
+                                    :
+
+                                    ${quantity}
+
+                                </div>
+
+
+                                <div
+                                    class="seller-book-price"
+                                >
+
+                                    ${formatMoney(
+                                        itemTotal
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+        const statusOptions =
+            [
+
+                "Order Placed",
+
+                "Processing",
+
+                "Shipped",
+
+                "Out for Delivery",
+
+                "Delivered"
+
+            ]
+            .map(
+                function (
+                    option
+                ) {
+
+                    return `
+
+                        <option
+                            value="${escapeHTML(
+                                option
+                            )}"
+
+                            ${
+                                status ===
+                                option
+                                    ? "selected"
+                                    : ""
+                            }
+                        >
+
+                            ${escapeHTML(
+                                option
+                            )}
+
+                        </option>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+        /*
+         * Cancelled orders cannot be changed
+         * by the seller.
+         */
+
+        const statusControl =
+            String(
+                status
+            )
+            .trim()
+            .toLowerCase() ===
+            "cancelled"
+
+                ? `
+
+                    <div
+                        class="status-help"
+                    >
+
+                        ${escapeHTML(
+                            data.cancelledOrder
+                        )}
+
+                    </div>
+
+                `
+
+                : `
+
+                    <div
+                        class="seller-action"
+                    >
+
+                        <select
+                            class="status-select"
+                            id="status-${escapeHTML(
+                                order.orderId
+                            )}"
+                        >
+
+                            ${statusOptions}
+
+                        </select>
+
+
+                        <button
+                            type="button"
+                            class="update-button"
+                            onclick="
+                                updateSellerOrderStatus(
+                                    '${escapeHTML(
+                                        order.orderId
+                                    )}',
+
+                                    document.getElementById(
+                                        'status-${escapeHTML(
+                                            order.orderId
+                                        )}'
+                                    ).value
+                                )
+                            "
+                        >
+
+                            ${escapeHTML(
+                                data.update
+                            )}
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="status-help"
+                    >
+
+                        ${escapeHTML(
+                            data.statusHelp
+                        )}
+
+                    </div>
+
+                `;
+
+
+        return `
+
+            <article
+                class="order-card"
+            >
+
+
+                <div
+                    class="order-header"
+                >
+
+                    <div>
+
+                        <div
+                            class="order-id"
+                        >
+
+                            ${escapeHTML(
+                                order.orderId ||
+                                "Order ID unavailable"
+                            )}
+
+                        </div>
+
+
+                        <div
+                            class="order-date"
+                        >
+
+                            ${escapeHTML(
+                                order.date ||
+                                "—"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span
+                            class="
+                                status
+                                ${getStatusClass(
+                                    status
+                                )}
+                            "
+                        >
+
+                            ${escapeHTML(
+                                status
+                            )}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="customer-section"
+                >
+
+                    <h3>
+
+                        ${escapeHTML(
+                            data.customer
+                        )}
+
+                    </h3>
+
+
+                    <p>
+
+                        <strong>
+                            ${escapeHTML(
+                                customer.name ||
+                                "Customer"
+                            )}
+                        </strong>
+
+                        <br>
+
+                        ${escapeHTML(
+                            customer.email ||
+                            "—"
+                        )}
+
+                        <br>
+
+                        ${escapeHTML(
+                            customer.phone ||
+                            "—"
+                        )}
+
+                        <br>
+
+                        ${escapeHTML(
+                            customer.address ||
+                            "—"
+                        )}
+
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="books-title"
+                >
+
+                    ${escapeHTML(
+                        data.books
+                    )}
+
+                </div>
+
+
+                <div>
+
+                    ${booksHTML}
+
+                </div>
+
+
+                <div
+                    class="order-total"
+                >
+
+                    <span
+                        class="order-total-label"
+                    >
+
+                        ${escapeHTML(
+                            data.total
+                        )}
+
+                    </span>
+
+
+                    <span
+                        class="order-total-value"
+                    >
+
+                        ${formatMoney(
+                            sellerTotal
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                ${statusControl}
+
+
+            </article>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       LANGUAGE APPLY
+       ===================================================== */
+
+    function applyLanguage() {
+
+        const data =
+            getLanguageData();
+
+
+        document
+            .querySelectorAll(
+                "[data-i18n]"
+            )
+            .forEach(
+                function (
+                    element
+                ) {
+
+                    const key =
+                        element.getAttribute(
+                            "data-i18n"
+                        );
+
+
+                    if (
+                        data[key] !==
+                        undefined
+                    ) {
+
+                        element.textContent =
+                            data[key];
+
+                    }
+
+                }
+            );
+
+
+        const selector =
+            document.getElementById(
+                "sellerOrdersLanguageSelector"
+            );
+
+
+        if (selector) {
+
+            selector.value =
+                currentLanguage;
+
+        }
+
+
+        renderSellerOrders();
+
+    }
+
+
+    const sellerOrdersLanguageSelector =
+        document.getElementById(
+            "sellerOrdersLanguageSelector"
+        );
+
+
+    if (
+        sellerOrdersLanguageSelector
+    ) {
+
+        sellerOrdersLanguageSelector.value =
+            currentLanguage;
+
+
+        sellerOrdersLanguageSelector.addEventListener(
+            "change",
+            function () {
+
+                currentLanguage =
+                    this.value;
+
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    currentLanguage
+                );
+
+
+                applyLanguage();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIAL LOAD
+       ===================================================== */
+
+    applyLanguage();
+
+
+    /* =====================================================
+       REFRESH WHEN PAGE BECOMES VISIBLE
+       ===================================================== */
+
+    document.addEventListener(
+        "visibilitychange",
+        function () {
+
+            if (
+                !document.hidden
+            ) {
+
+                renderSellerOrders();
+
+            }
+
+        }
+    );
+
+
+})();
+
+</script>
+
+
+<script src="chatbot.js?v=3"></script>
+
+</body>
+
+</html>

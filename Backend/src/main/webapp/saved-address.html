@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Saved Address | Literary Emporium</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="language.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: #f5f6f7;
+            color: #172536;
+            font-family: Arial, sans-serif;
+        }
+
+        .address-page {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .address-card {
+            background: white;
+            border: 1px solid #dfe3e6;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .page-title {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .page-subtitle {
+            color: #68737d;
+            margin-bottom: 30px;
+        }
+
+        .saved-address-box {
+            border: 1px solid #d6dadd;
+            padding: 22px;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        .address-label {
+            font-size: 13px;
+            color: #68737d;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .address-text {
+            line-height: 1.7;
+            white-space: pre-line;
+            margin-bottom: 20px;
+        }
+
+        .empty-address {
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            color: #68737d;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #cfd5da;
+            border-radius: 5px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 11px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary-button {
+            background: #172536;
+            color: white;
+            border: 1px solid #172536;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #172536;
+            border: 1px solid #bfc6cc;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .address-page {
+                margin: 20px auto;
+            }
+
+            .address-card {
+                padding: 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="address-page">
+
+    <div class="address-card">
+
+        <h1 class="page-title">Saved Address</h1>
+
+        <p class="page-subtitle">
+            Your delivery address is saved here and can be updated anytime.
+        </p>
+
+        <div id="addressDisplay"></div>
+
+        <div id="addressFormSection" style="display:none;">
+
+            <div class="form-group">
+
+                <label for="addressInput">
+                    Delivery Address
+                </label>
+
+                <textarea
+                    id="addressInput"
+                    placeholder="Enter your complete delivery address"
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="addressPhone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="addressPhone"
+                    maxlength="10"
+                    placeholder="Enter 10 digit Indian mobile number"
+                >
+
+            </div>
+
+            <div class="button-row">
+
+                <button
+                    class="primary-button"
+                    id="saveAddressButton"
+                >
+                    Save Address
+                </button>
+
+                <button
+                    class="secondary-button"
+                    id="cancelEditButton"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+            <div
+                class="message"
+                id="addressMessage">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+(function () {
+
+    const loggedUser =
+        JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumLoggedInUser"
+            )
+        );
+
+    const display =
+        document.getElementById("addressDisplay");
+
+    const formSection =
+        document.getElementById("addressFormSection");
+
+    const addressInput =
+        document.getElementById("addressInput");
+
+    const addressPhone =
+        document.getElementById("addressPhone");
+
+    const message =
+        document.getElementById("addressMessage");
+
+    const saveButton =
+        document.getElementById("saveAddressButton");
+
+    const cancelButton =
+        document.getElementById("cancelEditButton");
+
+
+    if (!loggedUser || !loggedUser.email) {
+
+        display.innerHTML = `
+            <div class="empty-address">
+                Please login as a buyer to manage your saved address.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const addressKey =
+        "literaryEmporiumSavedAddress_" +
+        loggedUser.email.toLowerCase();
+
+
+    function getSavedAddress() {
+
+        return JSON.parse(
+            localStorage.getItem(addressKey)
+        );
+
+    }
+
+
+    function showAddress() {
+
+        const savedAddress =
+            getSavedAddress();
+
+
+        if (!savedAddress ||
+            !savedAddress.address) {
+
+            display.innerHTML = `
+
+                <div class="empty-address">
+
+                    <strong>
+                        No saved address found.
+                    </strong>
+
+                    <br><br>
+
+                    Please update your address
+                    before placing an order.
+
+                </div>
+
+                <div class="button-row">
+
+                    <button
+                        class="primary-button"
+                        id="updateAddressButton">
+
+                        Update Address
+
+                    </button>
+
+                </div>
+            `;
+
+
+            document
+                .getElementById(
+                    "updateAddressButton"
+                )
+                .onclick = function () {
+
+                    openEditor();
+
+                };
+
+
+            return;
+        }
+
+
+        display.innerHTML = `
+
+            <div class="saved-address-box">
+
+                <div class="address-label">
+                    Saved Delivery Address
+                </div>
+
+                <div class="address-text">
+                    ${escapeHTML(
+                        savedAddress.address
+                    )}
+                </div>
+
+                <div class="address-label">
+                    Phone Number
+                </div>
+
+                <div class="address-text">
+                    ${escapeHTML(
+                        savedAddress.phone ||
+                        "Not provided"
+                    )}
+                </div>
+
+                <div class="button-row">
+
+                    <button
+                        class="primary-button"
+                        id="editAddressButton">
+
+                        Edit Address
+
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+
+        document
+            .getElementById(
+                "editAddressButton"
+            )
+            .onclick = function () {
+
+                openEditor();
+
+            };
+
+    }
+
+
+    function openEditor() {
+
+        const savedAddress =
+            getSavedAddress();
+
+
+        addressInput.value =
+            savedAddress &&
+            savedAddress.address
+                ? savedAddress.address
+                : "";
+
+
+        addressPhone.value =
+            savedAddress &&
+            savedAddress.phone
+                ? savedAddress.phone
+                : "";
+
+
+        message.textContent = "";
+
+        formSection.style.display =
+            "block";
+
+
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    saveButton.onclick = function () {
+
+        const address =
+            addressInput.value.trim();
+
+        const phone =
+            addressPhone.value.trim();
+
+
+        if (!address) {
+
+            message.textContent =
+                "Please enter your complete address.";
+
+            return;
+
+        }
+
+
+        if (!/^[6-9][0-9]{9}$/.test(phone)) {
+
+            message.textContent =
+                "Please enter a valid 10-digit Indian mobile number.";
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+
+            addressKey,
+
+            JSON.stringify({
+
+                address: address,
+
+                phone: phone,
+
+                updatedAt:
+                    new Date().toISOString()
+
+            })
+
+        );
+
+
+        formSection.style.display =
+            "none";
+
+
+        showAddress();
+
+    };
+
+
+    cancelButton.onclick = function () {
+
+        formSection.style.display =
+            "none";
+
+        showAddress();
+
+    };
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    showAddress();
+
+})();
+
+</script>
+<script src="chatbot.js?v=3"></script>
+</body>
+</html>

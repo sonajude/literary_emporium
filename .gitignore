@@ -1,0 +1,34 @@
+# Compiled class files
+*.class
+target/
+Backend/target/
+
+# Package files
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual Machine crash logs
+hs_err_pid*
+replay_pid*
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and sensitive files
+.env
+.env.local

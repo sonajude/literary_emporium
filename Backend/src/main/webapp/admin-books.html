@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Books | Literary Emporium</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #172337;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 20px 7%;
+            border-bottom: 3px solid #6d2638;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #cbd2da;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-selector {
+            padding: 9px 12px;
+            border: 1px solid #d7dde4;
+            background: white;
+            color: #172337;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .dashboard-link {
+            text-decoration: none;
+            color: white;
+            border: 1px solid #d7dde4;
+            padding: 10px 18px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .dashboard-link:hover {
+            background: #26364d;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 25px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 29px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #687586;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .book-count {
+            background: white;
+            border: 1px solid #d9dee4;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #687586;
+        }
+
+        .book-count strong {
+            color: #172337;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+
+        .book-container {
+            background: white;
+            border: 1px solid #d9dee4;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #eef1f4;
+            color: #354052;
+            text-align: left;
+            padding: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid #d9dee4;
+        }
+
+        td {
+            padding: 16px 15px;
+            font-size: 13px;
+            color: #526070;
+            border-bottom: 1px solid #e2e6ea;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .book-title {
+            color: #172337;
+            font-weight: 600;
+        }
+
+        .price {
+            color: #172337;
+            font-weight: 600;
+        }
+
+        .status {
+            color: #315c49;
+            font-weight: 500;
+        }
+
+        .remove-button {
+            padding: 8px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            background: white;
+            color: #8a2638;
+            border: 1px solid #8a2638;
+            border-radius: 4px;
+        }
+
+        .remove-button:hover {
+            background: #f7edef;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 45px 20px;
+            color: #687586;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #e9edf1;
+            color: #667384;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .language-selector {
+                flex: 1;
+            }
+
+            main {
+                padding: 35px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div>
+
+            <div class="brand">
+                LITERARY EMPORIUM
+            </div>
+
+            <div
+                class="subtitle"
+                data-i18n="adminPanel">
+                Administrator Panel
+            </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <select
+                id="languageSelector"
+                class="language-selector">
+
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
+
+            </select>
+
+
+            <a
+                href="admin-dashboard.html"
+                class="dashboard-link"
+                data-i18n="backDashboard">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="page-header">
+
+        <h1 data-i18n="manageBooks">
+            Manage Books
+        </h1>
+
+        <p data-i18n="pageDescription">
+            Review books listed by sellers in the
+            Literary Emporium marketplace.
+        </p>
+
+    </section>
+
+
+
+    <div class="book-count">
+
+        <span data-i18n="availableBooks">
+            Available Books:
+        </span>
+
+        <strong id="bookCount">
+            0
+        </strong>
+
+    </div>
+
+
+
+    <section class="book-container">
+
+        <table id="booksTable">
+
+            <thead>
+
+                <tr>
+
+                    <th data-i18n="bookTitle">
+                        Book Title
+                    </th>
+
+                    <th data-i18n="author">
+                        Author
+                    </th>
+
+                    <th data-i18n="category">
+                        Category
+                    </th>
+
+                    <th data-i18n="price">
+                        Price
+                    </th>
+
+                    <th data-i18n="availability">
+                        Availability
+                    </th>
+
+                    <th data-i18n="action">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="adminBooksTable"></tbody>
+
+        </table>
+
+
+        <div
+            id="emptyBookMessage"
+            class="empty-message"
+            style="display: none;"
+            data-i18n="noBooks">
+
+            No books have been added by sellers yet.
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<footer data-i18n="footer">
+
+    © 2026 Literary Emporium.
+    All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================================
+   GET SELLER BOOKS
+========================================= */
+
+function getBooks() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumSellerBooks"
+            )
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================================
+   SAFE HTML
+========================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =========================================
+   DISPLAY BOOKS
+========================================= */
+
+function displayBooks() {
+
+    const books =
+        getBooks();
+
+
+    const booksTable =
+        document.getElementById(
+            "adminBooksTable"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "emptyBookMessage"
+        );
+
+
+    const bookCount =
+        document.getElementById(
+            "bookCount"
+        );
+
+
+    bookCount.textContent =
+        books.length;
+
+
+    booksTable.innerHTML = "";
+
+
+    if (books.length === 0) {
+
+        emptyMessage.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyMessage.style.display =
+        "none";
+
+
+    books.forEach(
+        function(book, index) {
+
+            const row =
+                document.createElement("tr");
+
+
+            const title =
+                book.title ||
+                "Untitled Book";
+
+
+            const author =
+                book.author ||
+                "Unknown Author";
+
+
+            const category =
+                book.category ||
+                "Uncategorized";
+
+
+            const price =
+                Number(book.price) || 0;
+
+
+            const availability =
+                book.availability ||
+                "Available";
+
+
+            row.innerHTML = `
+
+                <td class="book-title">
+                    ${escapeHtml(title)}
+                </td>
+
+                <td>
+                    ${escapeHtml(author)}
+                </td>
+
+                <td>
+                    ${escapeHtml(category)}
+                </td>
+
+                <td class="price">
+                    ₹${price.toFixed(2)}
+                </td>
+
+                <td class="status">
+                    ${escapeHtml(availability)}
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="remove-button"
+                        onclick="removeBook(${index})"
+                        data-i18n="remove">
+
+                        Remove
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            booksTable.appendChild(row);
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   REMOVE BOOK
+========================================= */
+
+function removeBook(index) {
+
+    const books =
+        getBooks();
+
+
+    if (!books[index]) {
+        return;
+    }
+
+
+    const bookTitle =
+        books[index].title ||
+        "this book";
+
+
+    const currentLanguage =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const confirmText =
+        getRemoveConfirmation(
+            currentLanguage,
+            bookTitle
+        );
+
+
+    const confirmRemoval =
+        confirm(confirmText);
+
+
+    if (!confirmRemoval) {
+        return;
+    }
+
+
+    books.splice(index, 1);
+
+
+    localStorage.setItem(
+        "literaryEmporiumSellerBooks",
+        JSON.stringify(books)
+    );
+
+
+    displayBooks();
+
+}
+
+
+
+/* =========================================
+   REMOVE CONFIRMATION
+========================================= */
+
+function getRemoveConfirmation(
+    language,
+    title
+) {
+
+    const messages = {
+
+        en:
+            'Remove book "' +
+            title +
+            '"?',
+
+        ta:
+            '"' +
+            title +
+            '" புத்தகத்தை நீக்க வேண்டுமா?',
+
+        hi:
+            '"' +
+            title +
+            '" पुस्तक हटाना है?',
+
+        te:
+            '"' +
+            title +
+            '" పుస్తకాన్ని తొలగించాలా?',
+
+        ml:
+            '"' +
+            title +
+            '" പുസ്തകം നീക്കം ചെയ്യണോ?'
+
+    };
+
+
+    return messages[language] ||
+           messages.en;
+
+}
+
+
+
+/* =========================================
+   TRANSLATIONS
+========================================= */
+
+const translations = {
+
+    en: {
+
+        adminPanel:
+            "Administrator Panel",
+
+        backDashboard:
+            "Back to Dashboard",
+
+        manageBooks:
+            "Manage Books",
+
+        pageDescription:
+            "Review books listed by sellers in the Literary Emporium marketplace.",
+
+        availableBooks:
+            "Available Books:",
+
+        bookTitle:
+            "Book Title",
+
+        author:
+            "Author",
+
+        category:
+            "Category",
+
+        price:
+            "Price",
+
+        availability:
+            "Availability",
+
+        action:
+            "Action",
+
+        remove:
+            "Remove",
+
+        noBooks:
+            "No books have been added by sellers yet.",
+
+        footer:
+            "© 2026 Literary Emporium. All rights reserved."
+
+    },
+
+
+    ta: {
+
+        adminPanel:
+            "நிர்வாகி பகுதி",
+
+        backDashboard:
+            "டாஷ்போர்டுக்குத் திரும்பு",
+
+        manageBooks:
+            "புத்தகங்களை நிர்வகிக்கவும்",
+
+        pageDescription:
+            "Literary Emporium சந்தையில் விற்பனையாளர்களால் பட்டியலிடப்பட்ட புத்தகங்களைப் பார்க்கவும்.",
+
+        availableBooks:
+            "கிடைக்கும் புத்தகங்கள்:",
+
+        bookTitle:
+            "புத்தகத்தின் பெயர்",
+
+        author:
+            "ஆசிரியர்",
+
+        category:
+            "வகை",
+
+        price:
+            "விலை",
+
+        availability:
+            "கிடைக்கும் நிலை",
+
+        action:
+            "செயல்",
+
+        remove:
+            "நீக்கு",
+
+        noBooks:
+            "விற்பனையாளர்களால் இன்னும் புத்தகங்கள் சேர்க்கப்படவில்லை.",
+
+        footer:
+            "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+    },
+
+
+    hi: {
+
+        adminPanel:
+            "प्रशासक पैनल",
+
+        backDashboard:
+            "डैशबोर्ड पर वापस जाएँ",
+
+        manageBooks:
+            "पुस्तकें प्रबंधित करें",
+
+        pageDescription:
+            "Literary Emporium मार्केटप्लेस में विक्रेताओं द्वारा सूचीबद्ध पुस्तकों की समीक्षा करें।",
+
+        availableBooks:
+            "उपलब्ध पुस्तकें:",
+
+        bookTitle:
+            "पुस्तक का नाम",
+
+        author:
+            "लेखक",
+
+        category:
+            "श्रेणी",
+
+        price:
+            "कीमत",
+
+        availability:
+            "उपलब्धता",
+
+        action:
+            "कार्रवाई",
+
+        remove:
+            "हटाएँ",
+
+        noBooks:
+            "अभी तक विक्रेताओं द्वारा कोई पुस्तक नहीं जोड़ी गई है।",
+
+        footer:
+            "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+
+    },
+
+
+    te: {
+
+        adminPanel:
+            "అడ్మినిస్ట్రేటర్ ప్యానెల్",
+
+        backDashboard:
+            "డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్లండి",
+
+        manageBooks:
+            "పుస్తకాలను నిర్వహించండి",
+
+        pageDescription:
+            "Literary Emporium మార్కెట్‌ప్లేస్‌లో విక్రేతలు జాబితా చేసిన పుస్తకాలను సమీక్షించండి.",
+
+        availableBooks:
+            "అందుబాటులో ఉన్న పుస్తకాలు:",
+
+        bookTitle:
+            "పుస్తకం పేరు",
+
+        author:
+            "రచయిత",
+
+        category:
+            "వర్గం",
+
+        price:
+            "ధర",
+
+        availability:
+            "అందుబాటు",
+
+        action:
+            "చర్య",
+
+        remove:
+            "తొలగించు",
+
+        noBooks:
+            "ఇంకా విక్రేతలు పుస్తకాలను జోడించలేదు.",
+
+        footer:
+            "© 2026 Literary Emporium. అన్ని హక్కులు రక్షించబడ్డాయి."
+
+    },
+
+
+    ml: {
+
+        adminPanel:
+            "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ",
+
+        backDashboard:
+            "ഡാഷ്ബോർഡിലേക്ക് മടങ്ങുക",
+
+        manageBooks:
+            "പുസ്തകങ്ങൾ നിയന്ത്രിക്കുക",
+
+        pageDescription:
+            "Literary Emporium മാർക്കറ്റ്പ്ലേസിൽ വിൽപ്പനക്കാർ ലിസ്റ്റ് ചെയ്ത പുസ്തകങ്ങൾ പരിശോധിക്കുക.",
+
+        availableBooks:
+            "ലഭ്യമായ പുസ്തകങ്ങൾ:",
+
+        bookTitle:
+            "പുസ്തകത്തിന്റെ പേര്",
+
+        author:
+            "രചയിതാവ്",
+
+        category:
+            "വിഭാഗം",
+
+        price:
+            "വില",
+
+        availability:
+            "ലഭ്യത",
+
+        action:
+            "പ്രവർത്തനം",
+
+        remove:
+            "നീക്കം ചെയ്യുക",
+
+        noBooks:
+            "വിൽപ്പനക്കാർ ഇതുവരെ പുസ്തകങ്ങൾ ചേർത്തിട്ടില്ല.",
+
+        footer:
+            "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+    }
+
+};
+
+
+
+/* =========================================
+   APPLY LANGUAGE
+========================================= */
+
+function applyLanguage() {
+
+    const language =
+        localStorage.getItem(
+            "literaryEmporiumLanguage"
+        ) || "en";
+
+
+    const selected =
+        translations[language] ||
+        translations.en;
+
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(
+            function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            }
+        );
+
+
+    const selector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (selector) {
+
+        selector.value =
+            language;
+
+    }
+
+}
+
+
+
+/* =========================================
+   LANGUAGE SELECTOR
+========================================= */
+
+document
+    .getElementById("languageSelector")
+    .addEventListener(
+        "change",
+        function() {
+
+            localStorage.setItem(
+                "literaryEmporiumLanguage",
+                this.value
+            );
+
+
+            applyLanguage();
+
+
+            /*
+             * Re-display dynamic buttons
+             * using the selected language.
+             */
+
+            displayBooks();
+
+        }
+    );
+
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        displayBooks();
+
+        applyLanguage();
+
+    }
+);
+
+</script>
+<script src="chatbot.js?v=3"></script>
+
+</body>
+
+</html>

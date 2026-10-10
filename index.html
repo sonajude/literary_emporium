@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Literary Emporium</title>
+
+    <script src="language.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #f5f5f3;
+            color: #172536;
+            min-height: 100vh;
+        }
+
+
+        /* =================================
+           SPLASH SCREEN
+        ================================= */
+
+        #splashScreen {
+
+            position: fixed;
+            inset: 0;
+
+            background: #172536;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 9999;
+
+            transition: opacity 0.8s ease,
+                        visibility 0.8s ease;
+
+        }
+
+
+        #splashScreen.hide {
+
+            opacity: 0;
+            visibility: hidden;
+
+        }
+
+
+        .splash-content {
+
+            text-align: center;
+            color: white;
+            width: 90%;
+            max-width: 600px;
+
+        }
+
+
+        .splash-mark {
+
+            width: 105px;
+            height: 105px;
+
+            margin: 0 auto 28px;
+
+            border: 2px solid #d8dce1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: Georgia, serif;
+            font-size: 44px;
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .splash-title {
+
+            font-size: 38px;
+            letter-spacing: 4px;
+            font-weight: 600;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .splash-subtitle {
+
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+
+            color: #cbd3db;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .splash-line {
+
+            width: 180px;
+            height: 1px;
+
+            background: #9fa9b4;
+
+            margin: 25px auto;
+
+        }
+
+
+        .loading-text {
+
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+
+            color: #b9c2ca;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .progress-container {
+
+            width: 230px;
+            height: 2px;
+
+            background: #394957;
+
+            margin: 14px auto 0;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+            width: 0%;
+
+            background: #d9dde1;
+
+            animation: loading 7s linear forwards;
+
+        }
+
+
+        @keyframes loading {
+
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+
+        /* =================================
+           MAIN PAGE
+        ================================= */
+
+        #mainPage {
+
+            min-height: 100vh;
+
+            opacity: 0;
+
+            transition: opacity 0.8s ease;
+
+        }
+
+
+        #mainPage.show {
+
+            opacity: 1;
+
+        }
+
+
+        /* =================================
+           HEADER
+        ================================= */
+
+        header {
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #d8dde2;
+
+            padding: 20px 7%;
+
+        }
+
+
+        .header-content {
+
+            max-width: 1250px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+        }
+
+
+        .brand-mark {
+
+            width: 45px;
+            height: 45px;
+
+            background: #172536;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .brand-name {
+
+            font-size: 20px;
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .brand-caption {
+
+            font-family: Arial, sans-serif;
+            color: #718091;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .header-right {
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+        }
+
+
+        .language-label {
+
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #647181;
+
+        }
+
+
+        #languageSelector {
+
+            padding: 9px 12px;
+
+            border: 1px solid #cdd3da;
+
+            background: white;
+
+            color: #172536;
+
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =================================
+           HERO
+        ================================= */
+
+        .hero {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 85px 7% 65px;
+
+            text-align: center;
+
+        }
+
+
+        .hero-small {
+
+            font-family: Arial, sans-serif;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+
+            color: #6d2638;
+
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .hero h1 {
+
+            font-size: 48px;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .hero p {
+
+            max-width: 700px;
+
+            margin: auto;
+
+            color: #647181;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+        }
+
+
+        .hero-line {
+
+            width: 70px;
+            height: 2px;
+
+            background: #6d2638;
+
+            margin: 30px auto 0;
+
+        }
+
+
+        /* =================================
+           CONTINUE AS
+        ================================= */
+
+        .roles-section {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 0 7% 75px;
+
+        }
+
+
+        .section-heading {
+
+            text-align: center;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .section-heading h2 {
+
+            font-size: 26px;
+
+            font-weight: 600;
+
+        }
+
+
+        .section-heading p {
+
+            font-family: Arial, sans-serif;
+
+            color: #718091;
+
+            font-size: 13px;
+
+            margin-top: 7px;
+
+        }
+
+
+        .role-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 24px;
+
+        }
+
+
+        .role-card {
+
+            background: white;
+
+            border: 1px solid #d8dde2;
+
+            border-top: 3px solid #172536;
+
+            min-height: 285px;
+
+            padding: 34px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            transition: border-color 0.2s ease,
+                        transform 0.2s ease;
+
+        }
+
+
+        .role-card:hover {
+
+            border-top-color: #6d2638;
+
+            transform: translateY(-3px);
+
+        }
+
+
+        .role-letter {
+
+            width: 48px;
+            height: 48px;
+
+            border: 1px solid #cdd3da;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #172536;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .role-card h3 {
+
+            font-size: 25px;
+
+            font-weight: 500;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        .role-card p {
+
+            font-family: Arial, sans-serif;
+
+            color: #687586;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            flex: 1;
+
+        }
+
+
+        .role-button {
+
+            display: inline-block;
+
+            width: fit-content;
+
+            text-decoration: none;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            color: white;
+
+            background: #172536;
+
+            padding: 11px 23px;
+
+            margin-top: 25px;
+
+            border: 1px solid #172536;
+
+        }
+
+
+        .role-button:hover {
+
+            background: #6d2638;
+
+            border-color: #6d2638;
+
+        }
+
+
+        /* =================================
+           FOOTER
+        ================================= */
+
+        footer {
+
+            background: #172536;
+
+            color: #d7dde3;
+
+            padding: 23px 7%;
+
+        }
+
+
+        .footer-content {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 12px;
+
+        }
+
+
+        .footer-title {
+
+            color: white;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 850px) {
+
+            .role-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .role-card {
+
+                min-height: 230px;
+
+            }
+
+
+            .hero {
+
+                padding-top: 60px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 38px;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 17px 5%;
+
+            }
+
+
+            .header-content {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .header-right {
+
+                width: 100%;
+
+            }
+
+
+            #languageSelector {
+
+                flex: 1;
+
+            }
+
+
+            .hero {
+
+                padding: 55px 6% 45px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .hero p {
+
+                font-size: 14px;
+
+            }
+
+
+            .roles-section {
+
+                padding: 0 5% 50px;
+
+            }
+
+
+            .role-card {
+
+                padding: 27px;
+
+            }
+
+
+            .footer-content {
+
+                flex-direction: column;
+
+                text-align: center;
+
+            }
+
+
+            .splash-title {
+
+                font-size: 27px;
+
+                letter-spacing: 3px;
+
+            }
+
+
+            .splash-mark {
+
+                width: 85px;
+                height: 85px;
+
+                font-size: 34px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =================================
+     20 SECOND SPLASH SCREEN
+================================= -->
+
+<div id="splashScreen">
+
+    <div class="splash-content">
+
+        <div class="splash-mark">
+            LE
+        </div>
+
+        <div class="splash-title">
+            LITERARY EMPORIUM
+        </div>
+
+        <div class="splash-line"></div>
+
+        <div class="splash-subtitle">
+            ONLINE BOOK MARKETPLACE
+        </div>
+
+        <div style="height: 32px;"></div>
+
+        <div class="loading-text">
+            Loading marketplace...
+        </div>
+
+        <div class="progress-container">
+
+            <div class="progress-bar"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================
+     MAIN WEBSITE
+================================= -->
+
+<div id="mainPage">
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="header-content">
+
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    LE
+                </div>
+
+                <div>
+
+                    <div class="brand-name"
+                         data-i18n="brandName">
+
+                        LITERARY EMPORIUM
+
+                    </div>
+
+                    <div class="brand-caption"
+                         data-i18n="brandCaption">
+
+                        Online Book Marketplace
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <span class="language-label"
+                      data-i18n="language">
+
+                    Language
+
+                </span>
+
+
+                <select id="languageSelector">
+
+                    <option value="en">
+                        English
+                    </option>
+
+                    <option value="ta">
+                        தமிழ்
+                    </option>
+
+                    <option value="hi">
+                        हिन्दी
+                    </option>
+
+                    <option value="te">
+                        తెలుగు
+                    </option>
+
+                    <option value="ml">
+                        മലയാളം
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-small"
+             data-i18n="welcome">
+
+            Welcome to
+
+        </div>
+
+
+        <h1 data-i18n="heroTitle">
+
+            Literary Emporium
+
+        </h1>
+
+
+        <p data-i18n="heroDescription">
+
+            A professional online marketplace
+            for discovering, buying and selling books.
+
+        </p>
+
+
+        <div class="hero-line"></div>
+
+    </section>
+
+
+
+    <!-- ROLES -->
+
+    <section class="roles-section">
+
+
+        <div class="section-heading">
+
+            <h2 data-i18n="continueAs">
+
+                Continue As
+
+            </h2>
+
+
+            <p data-i18n="chooseRole">
+
+                Select your role to continue.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="role-grid">
+
+
+            <!-- BUYER -->
+
+            <article class="role-card">
+
+                <div class="role-letter">
+                    B
+                </div>
+
+
+                <h3 data-i18n="buyer">
+                    Buyer
+                </h3>
+
+
+                <p data-i18n="buyerDescription">
+
+                    Browse books, manage your
+                    wishlist, cart and orders.
+
+                </p>
+
+
+                <a href="login.html"
+                   class="role-button"
+                   data-i18n="continueBuyer">
+
+                    Continue as Buyer
+
+                </a>
+
+            </article>
+
+
+
+            <!-- SELLER -->
+
+            <article class="role-card">
+
+                <div class="role-letter">
+                    S
+                </div>
+
+
+                <h3 data-i18n="seller">
+                    Seller
+                </h3>
+
+
+                <p data-i18n="sellerDescription">
+
+                    Manage your books, listings
+                    and sales.
+
+                </p>
+
+
+                <a href="seller-login.html"
+                   class="role-button"
+                   data-i18n="continueSeller">
+
+                    Continue as Seller
+
+                </a>
+
+            </article>
+
+
+
+            <!-- ADMIN -->
+
+            <article class="role-card">
+
+                <div class="role-letter">
+                    A
+                </div>
+
+
+                <h3 data-i18n="admin">
+                    Admin
+                </h3>
+
+
+                <p data-i18n="adminDescription">
+
+                    Manage buyers, sellers,
+                    books and orders.
+
+                </p>
+
+
+                <a href="admin-login.html"
+                   class="role-button"
+                   data-i18n="continueAdmin">
+
+                    Continue as Admin
+
+                </a>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+
+                <span class="footer-title"
+                      data-i18n="footerBrand">
+
+                    Literary Emporium
+
+                </span>
+
+                <span>
+                    &nbsp;·&nbsp;
+                </span>
+
+                <span data-i18n="footerText">
+
+                    Online Book Marketplace
+
+                </span>
+
+            </div>
+
+
+            <div data-i18n="copyright">
+
+                © 2026 Literary Emporium.
+                All rights reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+</div>
+
+
+
+<script>
+
+    /* =================================
+       TRANSLATIONS
+    ================================= */
+
+    const indexTranslations = {
+
+        en: {
+
+            brandName:
+                "LITERARY EMPORIUM",
+
+            brandCaption:
+                "Online Book Marketplace",
+
+            language:
+                "Language",
+
+            welcome:
+                "Welcome to",
+
+            heroTitle:
+                "Literary Emporium",
+
+            heroDescription:
+                "A professional online marketplace for discovering, buying and selling books.",
+
+            continueAs:
+                "Continue As",
+
+            chooseRole:
+                "Select your role to continue.",
+
+            buyer:
+                "Buyer",
+
+            buyerDescription:
+                "Browse books, manage your wishlist, cart and orders.",
+
+            continueBuyer:
+                "Continue as Buyer",
+
+            seller:
+                "Seller",
+
+            sellerDescription:
+                "Manage your books, listings and sales.",
+
+            continueSeller:
+                "Continue as Seller",
+
+            admin:
+                "Admin",
+
+            adminDescription:
+                "Manage buyers, sellers, books and orders.",
+
+            continueAdmin:
+                "Continue as Admin",
+
+            footerBrand:
+                "Literary Emporium",
+
+            footerText:
+                "Online Book Marketplace",
+
+            copyright:
+                "© 2026 Literary Emporium. All rights reserved."
+
+        },
+
+
+        ta: {
+
+            brandName:
+                "லிட்ரரி எம்போரியம்",
+
+            brandCaption:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            language:
+                "மொழி",
+
+            welcome:
+                "வரவேற்கிறோம்",
+
+            heroTitle:
+                "லிட்ரரி எம்போரியம்",
+
+            heroDescription:
+                "புத்தகங்களைத் தேட, வாங்க மற்றும் விற்க உதவும் தொழில்முறை ஆன்லைன் சந்தை.",
+
+            continueAs:
+                "தொடரவும்",
+
+            chooseRole:
+                "தொடர உங்கள் பங்கைத் தேர்ந்தெடுக்கவும்.",
+
+            buyer:
+                "வாங்குபவர்",
+
+            buyerDescription:
+                "புத்தகங்களைப் பார்த்து, விருப்பப்பட்டியல், கார்ட் மற்றும் ஆர்டர்களை நிர்வகிக்கவும்.",
+
+            continueBuyer:
+                "வாங்குபவராக தொடரவும்",
+
+            seller:
+                "விற்பனையாளர்",
+
+            sellerDescription:
+                "உங்கள் புத்தகங்கள், பட்டியல்கள் மற்றும் விற்பனைகளை நிர்வகிக்கவும்.",
+
+            continueSeller:
+                "விற்பனையாளராக தொடரவும்",
+
+            admin:
+                "நிர்வாகி",
+
+            adminDescription:
+                "வாங்குபவர்கள், விற்பனையாளர்கள், புத்தகங்கள் மற்றும் ஆர்டர்களை நிர்வகிக்கவும்.",
+
+            continueAdmin:
+                "நிர்வாகியாக தொடரவும்",
+
+            footerBrand:
+                "லிட்ரரி எம்போரியம்",
+
+            footerText:
+                "ஆன்லைன் புத்தக சந்தை",
+
+            copyright:
+                "© 2026 லிட்ரரி எம்போரியம். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+
+        },
+
+
+        hi: {
+
+            brandName:
+                "लिटरेरी एम्पोरियम",
+
+            brandCaption:
+                "ऑनलाइन बुक मार्केटप्लेस",
+
+            language:
+                "भाषा",
+
+            welcome:
+                "स्वागत है",
+
+            heroTitle:
+                "लिटरेरी एम्पोरियम",
+
+            heroDescription:
+                "किताबों को खोजने, खरीदने और बेचने के लिए एक पेशेवर ऑनलाइन मार्केटप्लेस।",
+
+            continueAs:
+                "इस रूप में जारी रखें",
+
+            chooseRole:
+                "जारी रखने के लिए अपनी भूमिका चुनें।",
+
+            buyer:
+                "खरीदार",
+
+            buyerDescription:
+                "किताबें ब्राउज़ करें और अपनी विशलिस्ट, कार्ट और ऑर्डर प्रबंधित करें।",
+
+            continueBuyer:
+                "खरीदार के रूप में जारी रखें",
+
+            seller:
+                "विक्रेता",
+
+            sellerDescription:
+                "अपनी किताबें, लिस्टिंग और बिक्री प्रबंधित करें।",
+
+            continueSeller:
+                "विक्रेता के रूप में जारी रखें",
+
+            admin:
+                "प्रशासक",
+
+            adminDescription:
+                "खरीदारों, विक्रेताओं, किताबों और ऑर्डर को प्रबंधित करें।",
+
+            continueAdmin:
+                "प्रशासक के रूप में जारी रखें",
+
+            footerBrand:
+                "लिटरेरी एम्पोरियम",
+
+            footerText:
+                "ऑनलाइन बुक मार्केटप्लेस",
+
+            copyright:
+                "© 2026 लिटरेरी एम्पोरियम। सर्वाधिकार सुरक्षित।"
+
+        },
+
+
+        te: {
+
+            brandName:
+                "లిటరరీ ఎంపోరియం",
+
+            brandCaption:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్",
+
+            language:
+                "భాష",
+
+            welcome:
+                "స్వాగతం",
+
+            heroTitle:
+                "లిటరరీ ఎంపోరియం",
+
+            heroDescription:
+                "పుస్తకాలను కనుగొనడానికి, కొనడానికి మరియు విక్రయించడానికి ప్రొఫెషనల్ ఆన్‌లైన్ మార్కెట్‌ప్లేస్.",
+
+            continueAs:
+                "ఇలా కొనసాగించండి",
+
+            chooseRole:
+                "కొనసాగించడానికి మీ పాత్రను ఎంచుకోండి.",
+
+            buyer:
+                "కొనుగోలుదారు",
+
+            buyerDescription:
+                "పుస్తకాలను బ్రౌజ్ చేసి, మీ విష్‌లిస్ట్, కార్ట్ మరియు ఆర్డర్లను నిర్వహించండి.",
+
+            continueBuyer:
+                "కొనుగోలుదారుగా కొనసాగండి",
+
+            seller:
+                "విక్రేత",
+
+            sellerDescription:
+                "మీ పుస్తకాలు, లిస్టింగ్‌లు మరియు అమ్మకాలను నిర్వహించండి.",
+
+            continueSeller:
+                "విక్రేతగా కొనసాగండి",
+
+            admin:
+                "అడ్మిన్",
+
+            adminDescription:
+                "కొనుగోలుదారులు, విక్రేతలు, పుస్తకాలు మరియు ఆర్డర్లను నిర్వహించండి.",
+
+            continueAdmin:
+                "అడ్మిన్‌గా కొనసాగండి",
+
+            footerBrand:
+                "లిటరరీ ఎంపోరియం",
+
+            footerText:
+                "ఆన్‌లైన్ బుక్ మార్కెట్‌ప్లేస్",
+
+            copyright:
+                "© 2026 లిటరరీ ఎంపోరియం. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."
+
+        },
+
+
+        ml: {
+
+            brandName:
+                "ലിറ്റററി എംപോറിയം",
+
+            brandCaption:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ്",
+
+            language:
+                "ഭാഷ",
+
+            welcome:
+                "സ്വാഗതം",
+
+            heroTitle:
+                "ലിറ്റററി എംപോറിയം",
+
+            heroDescription:
+                "പുസ്തകങ്ങൾ കണ്ടെത്താനും വാങ്ങാനും വിൽക്കാനും സഹായിക്കുന്ന പ്രൊഫഷണൽ ഓൺലൈൻ മാർക്കറ്റ്പ്ലേസ്.",
+
+            continueAs:
+                "തുടരുക",
+
+            chooseRole:
+                "തുടരാൻ നിങ്ങളുടെ റോൾ തിരഞ്ഞെടുക്കുക.",
+
+            buyer:
+                "വാങ്ങുന്നയാൾ",
+
+            buyerDescription:
+                "പുസ്തകങ്ങൾ ബ്രൗസ് ചെയ്യുകയും നിങ്ങളുടെ വിഷ്‌ലിസ്റ്റ്, കാർട്ട്, ഓർഡറുകൾ എന്നിവ നിയന്ത്രിക്കുകയും ചെയ്യുക.",
+
+            continueBuyer:
+                "വാങ്ങുന്നയാളായി തുടരുക",
+
+            seller:
+                "വിൽപ്പനക്കാരൻ",
+
+            sellerDescription:
+                "നിങ്ങളുടെ പുസ്തകങ്ങൾ, ലിസ്റ്റിംഗുകൾ, വിൽപ്പനകൾ എന്നിവ നിയന്ത്രിക്കുക.",
+
+            continueSeller:
+                "വിൽപ്പനക്കാരനായി തുടരുക",
+
+            admin:
+                "അഡ്മിൻ",
+
+            adminDescription:
+                "വാങ്ങുന്നവർ, വിൽപ്പനക്കാർ, പുസ്തകങ്ങൾ, ഓർഡറുകൾ എന്നിവ നിയന്ത്രിക്കുക.",
+
+            continueAdmin:
+                "അഡ്മിനായി തുടരുക",
+
+            footerBrand:
+                "ലിറ്റററി എംപോറിയം",
+
+            footerText:
+                "ഓൺലൈൻ ബുക്ക് മാർക്കറ്റ്പ്ലേസ്",
+
+            copyright:
+                "© 2026 ലിറ്റററി എംപോറിയം. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+
+        }
+
+    };
+
+
+    /* =================================
+       APPLY LANGUAGE
+    ================================= */
+
+    function applyIndexLanguage() {
+
+        const language =
+            localStorage.getItem(
+                "literaryEmporiumLanguage"
+            ) || "en";
+
+
+        const translations =
+            indexTranslations[language] ||
+            indexTranslations.en;
+
+
+        document
+            .querySelectorAll("[data-i18n]")
+            .forEach(function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (
+                    translations[key] !==
+                    undefined
+                ) {
+
+                    element.textContent =
+                        translations[key];
+
+                }
+
+            });
+
+
+        const selector =
+            document.getElementById(
+                "languageSelector"
+            );
+
+
+        if (selector) {
+
+            selector.value =
+                language;
+
+        }
+
+    }
+
+
+    /* =================================
+       LANGUAGE SELECTOR
+    ================================= */
+
+    document
+        .getElementById("languageSelector")
+        .addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "literaryEmporiumLanguage",
+                    this.value
+                );
+
+
+                applyIndexLanguage();
+
+            }
+        );
+
+
+    /* =================================
+       20 SECOND SPLASH
+    ================================= */
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            applyIndexLanguage();
+
+
+            const splash =
+                document.getElementById(
+                    "splashScreen"
+                );
+
+
+            const main =
+                document.getElementById(
+                    "mainPage"
+                );
+
+
+            setTimeout(
+                function() {
+
+                    splash.classList.add(
+                        "hide"
+                    );
+
+
+                    main.classList.add(
+                        "show"
+                    );
+
+                },
+                7000
+            );
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wishlist - Literary Emporium</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6f8;
+            color: #202733;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #172337;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .brand h1 {
+            font-size: 22px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #c5ccd5;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #b7c0cc;
+        }
+
+        .language-select {
+            padding: 7px 10px;
+            border: 1px solid #667386;
+            background: #172337;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .container {
+            width: 84%;
+            max-width: 1100px;
+            margin: 50px auto;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h2 {
+            font-size: 30px;
+            color: #172337;
+            font-weight: 600;
+        }
+
+        .heading p {
+            margin-top: 8px;
+            color: #667080;
+            font-size: 14px;
+        }
+
+        .wishlist {
+            background: white;
+            border: 1px solid #dce1e7;
+        }
+
+        .wishlist-item {
+            padding: 25px;
+            border-bottom: 1px solid #e1e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .wishlist-item:last-child {
+            border-bottom: none;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-info h3 {
+            color: #172337;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .book-info p {
+            color: #687384;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .book-price {
+            color: #7c2637;
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .wishlist-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .remove-button {
+            border: none;
+            background: none;
+            color: #7c2637;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .remove-button:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            background: white;
+            border: 1px solid #dce1e7;
+            padding: 60px 30px;
+            text-align: center;
+        }
+
+        .empty h3 {
+            color: #172337;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #667080;
+            font-size: 14px;
+        }
+
+        .continue {
+            display: inline-block;
+            margin-top: 22px;
+            color: #172337;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .continue:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: #7a8492;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 18px;
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 16px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .wishlist-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .wishlist-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .language-select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        <h1>LITERARY EMPORIUM</h1>
+
+        <p data-i18n="onlineBookMarketplace">
+            Online Book Marketplace
+        </p>
+    </div>
+
+    <nav>
+
+        <a href="home.html" data-i18n="home">
+            Home
+        </a>
+
+        <a href="wishlist.html" data-i18n="wishlist">
+            Wishlist
+        </a>
+
+        <a href="cart.html" data-i18n="cart">
+            Cart
+        </a>
+
+        <a href="login.html" data-i18n="logout">
+            Logout
+        </a>
+
+        <select
+            id="languageSelector"
+            class="language-select"
+            aria-label="Select Language"
+        >
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+            <option value="te">తెలుగు</option>
+            <option value="ml">മലയാളം</option>
+        </select>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="heading">
+
+        <h2 data-i18n="wishlist">
+            Wishlist
+        </h2>
+
+        <p data-i18n="wishlistDescription">
+            Books you have saved for later.
+        </p>
+
+    </section>
+
+
+    <!-- IMPORTANT:
+         Keep this ID because script.js uses it
+    -->
+    <section id="wishlistContainer"></section>
+
+</main>
+
+
+<footer data-i18n="footerText">
+    © 2026 Literary Emporium. All rights reserved.
+</footer>
+
+
+<script src="language.js"></script>
+<script src="script.js"></script>
+
+
+<script>
+(function () {
+
+    const translations = {
+
+        en: {
+            onlineBookMarketplace: "Online Book Marketplace",
+            home: "Home",
+            wishlist: "Wishlist",
+            cart: "Cart",
+            logout: "Logout",
+            wishlistDescription: "Books you have saved for later.",
+            footerText: "© 2026 Literary Emporium. All rights reserved."
+        },
+
+        ta: {
+            onlineBookMarketplace: "ஆன்லைன் புத்தக சந்தை",
+            home: "முகப்பு",
+            wishlist: "விருப்பப்பட்டியல்",
+            cart: "வண்டி",
+            logout: "வெளியேறு",
+            wishlistDescription: "பின்னர் வாங்குவதற்காக நீங்கள் சேமித்த புத்தகங்கள்.",
+            footerText: "© 2026 Literary Emporium. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        },
+
+        hi: {
+            onlineBookMarketplace: "ऑनलाइन पुस्तक बाज़ार",
+            home: "होम",
+            wishlist: "पसंदीदा सूची",
+            cart: "कार्ट",
+            logout: "लॉगआउट",
+            wishlistDescription: "वे पुस्तकें जिन्हें आपने बाद के लिए सहेजा है।",
+            footerText: "© 2026 Literary Emporium. सर्वाधिकार सुरक्षित।"
+        },
+
+        te: {
+            onlineBookMarketplace: "ఆన్‌లైన్ పుస్తక మార్కెట్",
+            home: "హోమ్",
+            wishlist: "విష్‌లిస్ట్",
+            cart: "కార్ట్",
+            logout: "లాగ్ అవుట్",
+            wishlistDescription: "తర్వాత కొనుగోలు చేయడానికి మీరు సేవ్ చేసిన పుస్తకాలు.",
+            footerText: "© 2026 Literary Emporium. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి."
+        },
+
+        ml: {
+            onlineBookMarketplace: "ഓൺലൈൻ പുസ്തക വിപണി",
+            home: "ഹോം",
+            wishlist: "വിഷ്‌ലിസ്റ്റ്",
+            cart: "കാർട്ട്",
+            logout: "ലോഗ് ഔട്ട്",
+            wishlistDescription: "പിന്നീട് വാങ്ങുന്നതിനായി നിങ്ങൾ സംരക്ഷിച്ച പുസ്തകങ്ങൾ.",
+            footerText: "© 2026 Literary Emporium. എല്ലാ അവകാശങ്ങളും സംരക്ഷിച്ചിരിക്കുന്നു."
+        }
+
+    };
+
+
+    function applyWishlistLanguage(lang) {
+
+        const selected = translations[lang] || translations.en;
+
+        document.querySelectorAll("[data-i18n]").forEach(function (element) {
+
+            const key = element.getAttribute("data-i18n");
+
+            if (selected[key]) {
+                element.textContent = selected[key];
+            }
+
+        });
+
+    }
+
+
+    function getSavedLanguage() {
+
+        return localStorage.getItem("literaryEmporiumLanguage") || "en";
+
+    }
+
+
+    function setupWishlistLanguage() {
+
+        const selector = document.getElementById("languageSelector");
+
+        if (!selector) return;
+
+        const currentLanguage = getSavedLanguage();
+
+        selector.value = currentLanguage;
+
+        applyWishlistLanguage(currentLanguage);
+
+
+        selector.addEventListener("change", function () {
+
+            const language = selector.value;
+
+            localStorage.setItem(
+                "literaryEmporiumLanguage",
+                language
+            );
+
+            if (typeof setLanguage === "function") {
+                setLanguage(language);
+            }
+
+            applyWishlistLanguage(language);
+
+        });
+
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        setupWishlistLanguage();
+
+    });
+
+})();
+</script>
+<script src="chatbot.js?v=3"></script>
+</body>
+</html>
