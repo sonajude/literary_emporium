@@ -4,11 +4,9 @@ echo ========================================================
 echo        Pushing Literary Emporium to GitHub
 echo ========================================================
 echo.
-echo Remote Repository: https://github.com/sonajude/literary-emporium.git
-echo Branch: main
+echo Remote: https://github.com/sonajude/literary_emporium.git
 echo.
-echo Running: git push origin main
-git push origin main
+git push -u origin main
 echo.
 if %ERRORLEVEL% equ 0 (
     echo ========================================================
@@ -16,9 +14,7 @@ if %ERRORLEVEL% equ 0 (
     echo ========================================================
 ) else (
     echo ========================================================
-    echo If GitHub asked for authentication, please sign in.
-    echo If using a Personal Access Token (PAT), run:
-    echo git push https://YOUR_TOKEN@github.com/sonajude/literary-emporium.git main
+    echo Push failed. Please check your GitHub login or connection.
     echo ========================================================
 )
 echo.
