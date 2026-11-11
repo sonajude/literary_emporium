@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "WishlistServlet", urlPatterns = {"/api/wishlist/*"})
+@WebServlet(name = "WishlistServlet", urlPatterns = {"/api/wishlist", "/api/wishlist/*"})
 public class WishlistServlet extends HttpServlet {
 
     private final WishlistDAO wishlistDAO = new WishlistDAO();
@@ -51,11 +51,36 @@ public class WishlistServlet extends HttpServlet {
 
         try {
             int userId = Integer.parseInt(getString(body, "userId", request.getParameter("userId")));
-            int bookId = Integer.parseInt(getString(body, "bookId", request.getParameter("bookId")));
+            String bookIdStr = getString(body, "bookId", request.getParameter("bookId"));
+            int rawBookId = 0;
+            if (bookIdStr != null && !bookIdStr.isEmpty()) {
+                try { rawBookId = Integer.parseInt(bookIdStr); } catch (Exception ignored) {}
+            }
+            String title = getString(body, "title", null);
+            String author = getString(body, "author", null);
+            String category = getString(body, "category", null);
+            String priceStr = getString(body, "price", null);
+            java.math.BigDecimal price = null;
+            if (priceStr != null && !priceStr.isEmpty()) {
+                try { price = new java.math.BigDecimal(priceStr.replaceAll("[^0-9.]", "")); } catch (Exception ignored) {}
+            }
+            String imageUrl = getString(body, "imageUrl", getString(body, "image", null));
+            int bookId = new com.literaryemporium.dao.BookDAO().findOrCreateBook(rawBookId, title, author, category, price, imageUrl);
 
-            boolean success = wishlistDAO.addToWishlist(userId, bookId);
-            res.put("status", success ? "success" : "error");
-            res.put("message", success ? "Book added to wishlist." : "Failed to add to wishlist.");
+            int result = wishlistDAO.addToWishlist(userId, bookId);
+            if (result == 1) {
+                res.put("status", "success");
+                res.put("bookId", bookId);
+                res.put("message", "Book added to wishlist successfully!");
+            } else if (result == 0) {
+                res.put("status", "exists");
+                res.put("bookId", bookId);
+                res.put("message", "This book is already in your wishlist.");
+            } else {
+                res.put("status", "error");
+                res.put("message", "Failed to add to wishlist.");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
             res.put("status", "error");
             res.put("message", e.getMessage());

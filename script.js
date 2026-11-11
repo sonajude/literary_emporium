@@ -38,13 +38,37 @@ function isValidEmail(email) {
    ========================================================= */
 
 function getUsers() {
-
-    return JSON.parse(
-        localStorage.getItem(
-            "literaryEmporiumUsers"
-        )
-    ) || [];
-
+    let users = [];
+    try {
+        users = JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumUsers"
+            )
+        ) || [];
+    } catch (e) {
+        users = [];
+    }
+    const defaultBuyer = {
+        id: 3,
+        name: "Kavitha R",
+        fullName: "Kavitha R",
+        email: "buyer@literaryemporium.com",
+        password: "buyer123",
+        role: "buyer"
+    };
+    if (!Array.isArray(users) || users.length === 0) {
+        users = [defaultBuyer];
+        saveUsers(users);
+    } else {
+        const exists = users.some(function(u) {
+            return u.email && u.email.toLowerCase() === defaultBuyer.email.toLowerCase();
+        });
+        if (!exists) {
+            users.unshift(defaultBuyer);
+            saveUsers(users);
+        }
+    }
+    return users;
 }
 
 
@@ -353,7 +377,8 @@ if (loginForm) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: email,
-                    password: password
+                    password: password,
+                    role: "buyer"
                 })
             })
             .then(function(res) {
@@ -404,18 +429,145 @@ if (loginForm) {
 
 
 /* =========================================================
-   GET CURRENT BUYER
+   GET CURRENT BUYER & USER
    ========================================================= */
 
 function getCurrentBuyer() {
+    try {
+        const u = JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumLoggedInUser"
+            )
+        );
+        if (u) return u;
+    } catch (e) {}
 
-    return JSON.parse(
-        localStorage.getItem(
-            "literaryEmporiumLoggedInUser"
-        )
-    );
-
+    // Fallback default buyer
+    return {
+        id: 3,
+        name: "Kavitha R",
+        fullName: "Kavitha R",
+        email: "buyer@literaryemporium.com",
+        role: "buyer"
+    };
 }
+
+function getCurrentUser() {
+    return getCurrentBuyer();
+}
+
+/* =========================================================
+   TOAST NOTIFICATION (Dark navy, Burgundy, Forest green)
+   ========================================================= */
+
+function showToast(message, type) {
+    type = type || "success";
+    let toast = document.getElementById("emporiumToast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "emporiumToast";
+        toast.style.position = "fixed";
+        toast.style.bottom = "24px";
+        toast.style.right = "24px";
+        toast.style.zIndex = "99999";
+        toast.style.padding = "12px 22px";
+        toast.style.borderRadius = "4px";
+        toast.style.fontFamily = "Arial, Helvetica, sans-serif";
+        toast.style.fontSize = "14px";
+        toast.style.fontWeight = "600";
+        toast.style.boxShadow = "0 6px 18px rgba(0,0,0,0.18)";
+        toast.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+        toast.style.maxWidth = "380px";
+        toast.style.lineHeight = "1.4";
+        document.body.appendChild(toast);
+    }
+
+    if (type === "error" || type === "danger") {
+        toast.style.backgroundColor = "#7c2637"; // Burgundy
+        toast.style.color = "#ffffff";
+    } else if (type === "info" || type === "pending" || type === "exists") {
+        toast.style.backgroundColor = "#172337"; // Dark navy
+        toast.style.color = "#ffffff";
+    } else {
+        toast.style.backgroundColor = "#315c49"; // Forest green
+        toast.style.color = "#ffffff";
+    }
+
+    toast.textContent = message;
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+
+    clearTimeout(toast._hideTimeout);
+    toast._hideTimeout = setTimeout(function () {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+    }, 3200);
+}
+
+/* =========================================================
+   NAV COUNTS BADGE UPDATE
+   ========================================================= */
+
+function updateNavCounts() {
+    const cart = (typeof getCart === "function") ? getCart() : (JSON.parse(localStorage.getItem("literaryEmporiumCart") || "[]"));
+    const wishlist = (typeof getWishlist === "function") ? getWishlist() : (JSON.parse(localStorage.getItem("literaryEmporiumWishlist") || "[]"));
+
+    let cartCount = 0;
+    cart.forEach(function(item) {
+        cartCount += (Number(item.quantity) || 1);
+    });
+    const wishlistCount = wishlist.length;
+
+    document.querySelectorAll('a[href="cart.html"]').forEach(function(el) {
+        let badge = el.querySelector(".nav-count-badge");
+        if (!badge) {
+            badge = document.createElement("span");
+            badge.className = "nav-count-badge";
+            badge.style.marginLeft = "6px";
+            badge.style.background = "#7c2637";
+            badge.style.color = "#ffffff";
+            badge.style.borderRadius = "10px";
+            badge.style.padding = "2px 7px";
+            badge.style.fontSize = "11px";
+            badge.style.fontWeight = "bold";
+            el.appendChild(badge);
+        }
+        badge.textContent = cartCount;
+    });
+
+    document.querySelectorAll('a[href="wishlist.html"]').forEach(function(el) {
+        let badge = el.querySelector(".nav-count-badge");
+        if (!badge) {
+            badge = document.createElement("span");
+            badge.className = "nav-count-badge";
+            badge.style.marginLeft = "6px";
+            badge.style.background = "#315c49";
+            badge.style.color = "#ffffff";
+            badge.style.borderRadius = "10px";
+            badge.style.padding = "2px 7px";
+            badge.style.fontSize = "11px";
+            badge.style.fontWeight = "bold";
+            el.appendChild(badge);
+        }
+        badge.textContent = wishlistCount;
+    });
+
+    const cartCountEl = document.getElementById("cartCount") || document.getElementById("cartItemCount") || document.getElementById("itemCount");
+    if (cartCountEl) {
+        cartCountEl.textContent = cartCount;
+    }
+    const wishlistCountEl = document.getElementById("wishlistCount");
+    if (wishlistCountEl) {
+        wishlistCountEl.textContent = wishlistCount;
+    }
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", updateNavCounts);
+} else {
+    updateNavCounts();
+}
+
 
 
 /* =========================================================
@@ -751,10 +903,21 @@ function displaySellerBooksOnHome() {
         })
         .then(function(books) {
             if (Array.isArray(books) && books.length > 0) {
-                renderSellerBookCards(books, container, emptyMessage);
+                const localBooks = getSellerBooks();
+                const merged = [...books];
+                localBooks.forEach(function(lb) {
+                    const alreadyExists = merged.some(function(mb) {
+                        return (lb.id && String(lb.id) === String(mb.id)) ||
+                               (lb.title && mb.title && lb.title.toLowerCase() === mb.title.toLowerCase());
+                    });
+                    if (!alreadyExists) {
+                        merged.push(lb);
+                    }
+                });
+                renderSellerBookCards(merged, container, emptyMessage);
                 localStorage.setItem(
                     "literaryEmporiumSellerBooks",
-                    JSON.stringify(books)
+                    JSON.stringify(merged)
                 );
             } else {
                 renderSellerBookCards(getSellerBooks(), container, emptyMessage);
@@ -1183,95 +1346,95 @@ if (addToCartButton) {
         "click",
         function() {
 
-            if (!selectedBookData) {
+            if (!selectedBookData || (!selectedBookData.title && !selectedBookData.name)) {
+                showToast("Please select a valid book.", "error");
+                if (cartMessage) {
+                    showMessage(cartMessage, "Please select a valid book to add to cart.", "error");
+                }
                 return;
             }
 
+            try {
+                const cart = getCart();
 
-            const cart =
-                getCart();
+                const price =
+                    Number(
+                        String(
+                            selectedBookData.price || 0
+                        )
+                        .replace("₹", "")
+                        .replace(/,/g, "")
+                        .replace(/[^\d.]/g, "")
+                    ) || 0;
 
+                const existing =
+                    cart.find(
+                        function(book) {
+                            return (
+                                String(book.title || "").trim().toLowerCase() ===
+                                String(selectedBookData.title || "").trim().toLowerCase()
+                            );
+                        }
+                    );
 
-            const price =
-                Number(
-                    String(
-                        selectedBookData.price ||
-                        0
-                    )
-                    .replace("₹", "")
-                    .replace(/,/g, "")
-                ) || 0;
+                if (existing) {
+                    existing.quantity = (Number(existing.quantity) || 1) + 1;
+                } else {
+                    cart.push({
+                        title: selectedBookData.title,
+                        author: selectedBookData.author || "Unknown",
+                        category: selectedBookData.category || "General",
+                        description: selectedBookData.description || "",
+                        price: price,
+                        quantity: 1,
+                        image: selectedBookData.image || selectedBookData.cover || "",
+                        sellerEmail: selectedBookData.sellerEmail || "",
+                        sellerBookId: selectedBookData.sellerBookId || selectedBookData.id || ""
+                    });
+                }
 
+                saveCart(cart);
+                updateNavCounts();
 
-            const existing =
-                cart.find(
-                    function(book) {
+                // Persist to MySQL cart table
+                const loggedInUser = getCurrentUser();
+                const bookId = selectedBookData.sellerBookId || selectedBookData.id;
+                if (loggedInUser && loggedInUser.id) {
+                    fetch("api/cart", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            userId: loggedInUser.id,
+                            bookId: (!isNaN(Number(bookId)) && Number(bookId) > 0) ? Number(bookId) : 0,
+                            title: selectedBookData.title,
+                            author: selectedBookData.author || "",
+                            category: selectedBookData.category || "",
+                            price: price,
+                            image: selectedBookData.image || selectedBookData.cover || "",
+                            quantity: 1
+                        })
+                    }).catch(function(err) {
+                        console.warn("Cart backend sync:", err);
+                    });
+                }
 
-                        return (
-                            book.title ===
-                            selectedBookData.title &&
-                            book.author ===
-                            selectedBookData.author
-                        );
+                showToast("Book added to cart successfully!", "success");
 
-                    }
-                );
+                if (cartMessage) {
+                    cartMessage.style.color = "#315c49";
+                    showMessage(
+                        cartMessage,
+                        "Book added to cart successfully!",
+                        "success"
+                    );
+                }
 
-
-            if (existing) {
-
-                existing.quantity =
-                    (Number(
-                        existing.quantity
-                    ) || 1) + 1;
-
-            } else {
-
-                cart.push({
-
-                    title:
-                        selectedBookData.title,
-
-                    author:
-                        selectedBookData.author,
-
-                    category:
-                        selectedBookData.category,
-
-                    description:
-                        selectedBookData.description,
-
-                    price:
-                        price,
-
-                    quantity:
-                        1,
-
-                    image:
-                        selectedBookData.image ||
-                        "",
-
-                    sellerEmail:
-                        selectedBookData.sellerEmail ||
-                        "",
-
-                    sellerBookId:
-                        selectedBookData.sellerBookId ||
-                        ""
-
-                });
-
+            } catch (err) {
+                showToast("Failed to add book to cart.", "error");
+                if (cartMessage) {
+                    showMessage(cartMessage, "Error: " + err.message, "error");
+                }
             }
-
-
-            saveCart(cart);
-
-
-            showMessage(
-                cartMessage,
-                "Book added to cart.",
-                "success"
-            );
 
         }
     );
@@ -1314,84 +1477,100 @@ if (addToWishlistButton) {
         "click",
         function() {
 
-            if (!selectedBookData) {
+            if (!selectedBookData || (!selectedBookData.title && !selectedBookData.name)) {
+                showToast("Please select a valid book.", "error");
+                if (cartMessage) {
+                    showMessage(cartMessage, "Please select a valid book to add to wishlist.", "error");
+                }
                 return;
             }
 
+            try {
+                const wishlist = getWishlist();
 
-            const wishlist =
-                getWishlist();
+                const exists =
+                    wishlist.some(
+                        function(book) {
+                            return (
+                                String(book.title || "").trim().toLowerCase() ===
+                                String(selectedBookData.title || "").trim().toLowerCase()
+                            );
+                        }
+                    );
 
-
-            const exists =
-                wishlist.some(
-                    function(book) {
-
-                        return (
-                            book.title ===
-                            selectedBookData.title &&
-                            book.author ===
-                            selectedBookData.author
+                if (exists) {
+                    showToast("This book is already in your wishlist.", "info");
+                    if (cartMessage) {
+                        cartMessage.style.color = "#7c2637";
+                        showMessage(
+                            cartMessage,
+                            "This book is already in your wishlist.",
+                            "error"
                         );
-
                     }
-                );
+                    return;
+                }
 
+                const price =
+                    Number(
+                        String(selectedBookData.price || 0)
+                            .replace("₹", "")
+                            .replace(/,/g, "")
+                            .replace(/[^\d.]/g, "")
+                    ) || 0;
 
-            if (exists) {
+                wishlist.push({
+                    title: selectedBookData.title,
+                    author: selectedBookData.author || "Unknown",
+                    category: selectedBookData.category || "General",
+                    description: selectedBookData.description || "",
+                    price: price,
+                    image: selectedBookData.image || selectedBookData.cover || "",
+                    sellerEmail: selectedBookData.sellerEmail || "",
+                    sellerBookId: selectedBookData.sellerBookId || selectedBookData.id || ""
+                });
 
-                showMessage(
-                    cartMessage,
-                    "Book is already in your wishlist.",
-                    "error"
-                );
+                saveWishlist(wishlist);
+                updateNavCounts();
 
-                return;
+                // Persist to MySQL wishlist table
+                const loggedInUser = getCurrentUser();
+                const bookId = selectedBookData.sellerBookId || selectedBookData.id;
+                if (loggedInUser && loggedInUser.id) {
+                    fetch("api/wishlist", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            userId: loggedInUser.id,
+                            bookId: (!isNaN(Number(bookId)) && Number(bookId) > 0) ? Number(bookId) : 0,
+                            title: selectedBookData.title,
+                            author: selectedBookData.author || "",
+                            category: selectedBookData.category || "",
+                            price: price,
+                            image: selectedBookData.image || selectedBookData.cover || ""
+                        })
+                    }).catch(function(err) {
+                        console.warn("Wishlist backend sync:", err);
+                    });
+                }
+
+                showToast("Book added to wishlist successfully!", "success");
+
+                if (cartMessage) {
+                    cartMessage.style.color = "#315c49";
+                    showMessage(
+                        cartMessage,
+                        "Book added to wishlist successfully!",
+                        "success"
+                    );
+                }
+
+            } catch (err) {
+                showToast("Failed to add book to wishlist.", "error");
+                if (cartMessage) {
+                    showMessage(cartMessage, "Error: " + err.message, "error");
+                }
             }
-
-
-            wishlist.push({
-
-                title:
-                    selectedBookData.title,
-
-                author:
-                    selectedBookData.author,
-
-                category:
-                    selectedBookData.category,
-
-                description:
-                    selectedBookData.description,
-
-                price:
-                    selectedBookData.price,
-
-                image:
-                    selectedBookData.image ||
-                    "",
-
-                sellerEmail:
-                    selectedBookData.sellerEmail ||
-                    "",
-
-                sellerBookId:
-                    selectedBookData.sellerBookId ||
-                    ""
-
-            });
-
-
-            saveWishlist(
-                wishlist
-            );
-
-
-            showMessage(
-                cartMessage,
-                "Book added to wishlist.",
-                "success"
-            );
 
         }
     );
@@ -1794,12 +1973,21 @@ function displayWishlist() {
 
                 </div>
 
-                <button
-                    type="button"
-                    onclick="removeFromWishlist(${index})"
-                >
-                    Remove
-                </button>
+                <div style="display:flex;gap:8px;">
+                    <button
+                        type="button"
+                        style="background:#172337;color:#fff;border:none;padding:7px 12px;font-size:12px;cursor:pointer;"
+                        onclick="moveWishlistToCart(${index})"
+                    >
+                        Move to Cart
+                    </button>
+                    <button
+                        type="button"
+                        onclick="removeFromWishlist(${index})"
+                    >
+                        Remove
+                    </button>
+                </div>
 
             `;
 
@@ -1815,29 +2003,82 @@ function displayWishlist() {
 
 
 function removeFromWishlist(index) {
-
-    const wishlist =
-        getWishlist();
-
-
+    const wishlist = getWishlist();
     if (!wishlist[index]) {
         return;
     }
 
+    const removed = wishlist[index];
+    const loggedInUser = getCurrentUser();
+    const bookId = removed.sellerBookId || removed.id;
+    if (loggedInUser && loggedInUser.id && bookId && !isNaN(Number(bookId))) {
+        fetch("api/wishlist?userId=" + encodeURIComponent(loggedInUser.id) + "&bookId=" + encodeURIComponent(bookId), {
+            method: "DELETE"
+        }).catch(function() {});
+    }
 
-    wishlist.splice(
-        index,
-        1
-    );
-
-
-    saveWishlist(
-        wishlist
-    );
-
-
+    wishlist.splice(index, 1);
+    saveWishlist(wishlist);
     displayWishlist();
+}
 
+function moveWishlistToCart(index) {
+    const wishlist = getWishlist();
+    if (!wishlist[index]) {
+        return;
+    }
+    const book = wishlist[index];
+    const cart = getCart();
+
+    const existing = cart.find(function(c) {
+        return c.title === book.title;
+    });
+
+    if (existing) {
+        existing.quantity = (Number(existing.quantity) || 1) + 1;
+    } else {
+        const price = Number(String(book.price || 0).replace(/[^\d.]/g, "")) || 0;
+        cart.push({
+            title: book.title,
+            author: book.author,
+            category: book.category || "",
+            description: book.description || "",
+            price: price,
+            quantity: 1,
+            image: book.image || "",
+            sellerEmail: book.sellerEmail || "",
+            sellerBookId: book.sellerBookId || ""
+        });
+    }
+
+    saveCart(cart);
+    updateNavCounts();
+
+    // Sync to backend cart if logged in
+    const loggedInUser = getCurrentUser();
+    const bookId = book.sellerBookId || book.id;
+    if (loggedInUser && loggedInUser.id) {
+        fetch("api/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId: loggedInUser.id,
+                bookId: (!isNaN(Number(bookId)) && Number(bookId) > 0) ? Number(bookId) : 0,
+                title: book.title,
+                author: book.author || "",
+                category: book.category || "",
+                price: price,
+                image: book.image || "",
+                quantity: 1
+            })
+        }).catch(function() {});
+    }
+
+    showToast("Book added to cart successfully!", "success");
+
+    // Remove from wishlist
+    removeFromWishlist(index);
+    updateNavCounts();
 }
 
 
@@ -1846,13 +2087,36 @@ function removeFromWishlist(index) {
    ========================================================= */
 
 function getSellers() {
-
-    return JSON.parse(
-        localStorage.getItem(
-            "literaryEmporiumSellers"
-        )
-    ) || [];
-
+    let sellers = [];
+    try {
+        sellers = JSON.parse(
+            localStorage.getItem(
+                "literaryEmporiumSellers"
+            )
+        ) || [];
+    } catch (e) {
+        sellers = [];
+    }
+    const defaultSeller = {
+        id: 2,
+        name: "Heritage Booksellers",
+        email: "seller@literaryemporium.com",
+        password: "seller123",
+        role: "seller"
+    };
+    if (!Array.isArray(sellers) || sellers.length === 0) {
+        sellers = [defaultSeller];
+        saveSellers(sellers);
+    } else {
+        const exists = sellers.some(function(s) {
+            return s.email && s.email.toLowerCase() === defaultSeller.email.toLowerCase();
+        });
+        if (!exists) {
+            sellers.unshift(defaultSeller);
+            saveSellers(sellers);
+        }
+    }
+    return sellers;
 }
 
 
@@ -2098,7 +2362,8 @@ if (sellerLoginForm) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: email,
-                    password: password
+                    password: password,
+                    role: "seller"
                 })
             })
             .then(function(res) {

@@ -9,6 +9,7 @@ Backend/target/
 *.zip
 *.tar.gz
 *.rar
+*.jar
 
 # Virtual Machine crash logs
 hs_err_pid*

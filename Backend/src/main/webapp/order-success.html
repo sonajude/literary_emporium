@@ -590,6 +590,28 @@
 
     </div>
 
+    <!-- CUSTOMER & DELIVERY DETAILS -->
+    <div class="delivery-box" style="margin: 20px 0;">
+        <div class="delivery-title" style="font-size: 16px; font-weight: bold; color: #172337; margin-bottom: 12px;">
+            Customer & Delivery Details
+        </div>
+        <div class="delivery-row">
+            <span class="delivery-label">Customer Name</span>
+            <span class="delivery-value" id="customerName">-</span>
+        </div>
+        <div class="delivery-row">
+            <span class="delivery-label">Customer Email</span>
+            <span class="delivery-value" id="customerEmail">-</span>
+        </div>
+        <div class="delivery-row">
+            <span class="delivery-label">Phone Number</span>
+            <span class="delivery-value" id="customerPhone">-</span>
+        </div>
+        <div class="delivery-row">
+            <span class="delivery-label">Delivery Address</span>
+            <span class="delivery-value" id="deliveryAddress" style="max-width: 65%; text-align: right;">-</span>
+        </div>
+    </div>
 
     <h2 class="section-title" data-i18n="orderDetails">
         Order Details
@@ -613,7 +635,7 @@
             </span>
 
             <span id="subtotal">
-                ₹0
+                ₹0.00
             </span>
 
         </div>
@@ -635,11 +657,11 @@
         <div class="summary-row total">
 
             <span data-i18n="total">
-                Total
+                Total Amount
             </span>
 
             <span id="total">
-                ₹0
+                ₹0.00
             </span>
 
         </div>
@@ -650,6 +672,30 @@
     <!-- PAYMENT -->
 
     <div class="payment-box">
+
+        <div class="payment-row">
+
+            <span class="payment-label">
+                Order Date
+            </span>
+
+            <span class="payment-value" id="orderDate">
+                -
+            </span>
+
+        </div>
+
+        <div class="payment-row">
+
+            <span class="payment-label">
+                Order Status
+            </span>
+
+            <span class="payment-value" id="orderStatus" style="color: #315c49;">
+                Order Placed
+            </span>
+
+        </div>
 
         <div class="payment-row">
 
@@ -991,6 +1037,7 @@
 
 
 <script src="language.js"></script>
+<script src="script.js"></script>
 
 
 <script>
@@ -1002,56 +1049,90 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.getItem("literaryEmporiumOrders")
         ) || [];
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlOrderId = urlParams.get("orderId") || urlParams.get("orderCode");
 
     const trackingOrderId =
+        urlOrderId ||
         localStorage.getItem(
             "literaryEmporiumTrackingOrderId"
         );
 
-
     let order = null;
 
-
     /* =========================
-       FIND EXACT ORDER
+       FIND EXACT ORDER LOCALLY
     ========================= */
-
     if (trackingOrderId) {
-
         order = orders.find(function (item) {
-
-            return String(item.orderId) ===
-                   String(trackingOrderId);
-
+            return String(item.orderId) === String(trackingOrderId) ||
+                   String(item.orderCode) === String(trackingOrderId) ||
+                   String(item.id) === String(trackingOrderId);
         });
-
     }
-
-
-    /* FALLBACK TO LATEST ORDER */
 
     if (!order && orders.length > 0) {
-
         order = orders[0];
-
     }
 
+    // Try fetching freshest from Backend API if order code / ID exists
+    if (trackingOrderId) {
+        fetch("api/orders?orderCode=" + encodeURIComponent(trackingOrderId))
+            .then(res => res.json())
+            .then(dbOrder => {
+                if (dbOrder && dbOrder.id) {
+                    renderOrder(dbOrder);
+                } else {
+                    if (order) renderOrder(order);
+                    else showOrderUnavailable();
+                }
+            })
+            .catch(() => {
+                if (order) renderOrder(order);
+                else showOrderUnavailable();
+            });
+    } else if (order) {
+        renderOrder(order);
+    } else {
+        showOrderUnavailable();
+    }
 
-    const orderIdElement =
-        document.getElementById("orderId");
-
-
-    if (!order) {
-
-        orderIdElement.textContent =
-            "Order information unavailable";
-
+    function showOrderUnavailable() {
+        document.getElementById("orderId").textContent = "Order information unavailable";
         document.getElementById("orderItems").innerHTML =
-            '<div class="empty-order">Order details are unavailable.</div>';
-
-        return;
-
+            '<div class="empty-order">Order details are unavailable or no order was placed.</div>';
     }
+
+    function renderOrder(order) {
+        /* =========================
+           ORDER ID & DATE & STATUS
+        ========================= */
+        const orderIdVal = order.orderCode || order.orderId || ("ORD-" + order.id);
+        document.getElementById("orderId").textContent = orderIdVal;
+
+        const dateEl = document.getElementById("orderDate");
+        if (dateEl) {
+            dateEl.textContent = order.orderDate || order.date || new Date().toLocaleString("en-IN");
+        }
+
+        const statusEl = document.getElementById("orderStatus");
+        if (statusEl) {
+            statusEl.textContent = order.status || order.orderStatus || "Order Placed";
+        }
+
+        /* =========================
+           CUSTOMER & ADDRESS
+        ========================= */
+        const cName = order.customerName || (order.customer && order.customer.name) || "Customer";
+        const cEmail = order.customerEmail || (order.customer && order.customer.email) || "-";
+        const cPhone = order.customerPhone || (order.customer && order.customer.phone) || "-";
+        const cAddr = order.deliveryAddress || (order.customer && order.customer.address) || "-";
+
+        if (document.getElementById("customerName")) document.getElementById("customerName").textContent = cName;
+        if (document.getElementById("customerEmail")) document.getElementById("customerEmail").textContent = cEmail;
+        if (document.getElementById("customerPhone")) document.getElementById("customerPhone").textContent = cPhone;
+        if (document.getElementById("deliveryAddress")) document.getElementById("deliveryAddress").textContent = cAddr;
+
 
 
     /* =========================
@@ -1164,7 +1245,10 @@ const cover =
     ========================= */
 
     const subtotal =
-        Number(order.subtotal) || 0;
+        Number(order.subtotal) ||
+        Number(order.totalAmount) ||
+        Number(order.total) ||
+        0;
 
 
     const deliveryCharge =
@@ -1172,6 +1256,7 @@ const cover =
 
 
     const total =
+        Number(order.totalAmount) ||
         Number(order.total) ||
         (subtotal + deliveryCharge);
 
@@ -1199,12 +1284,13 @@ const cover =
 
     document.getElementById("paymentMethod")
         .textContent =
-        order.paymentMethod || "Not available";
+        order.paymentMethod || "Pay Later";
 
 
     document.getElementById("paymentStatus")
         .textContent =
-        order.paymentStatus || "Pending";
+        order.paymentStatus || "PENDING";
+
 
 
     /* =========================

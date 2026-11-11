@@ -50,20 +50,23 @@ MySQL Database (literary_emporium)
    source schema.sql;
    ```
 
-### 2. Build Backend with Maven
-In `Backend` directory:
-```bash
-mvn clean package
+### 2. Build & Deploy (1-Click)
+Run `BUILD_PROJECT.bat` in the project root:
+```cmd
+BUILD_PROJECT.bat
 ```
-This generates `target/literary-emporium.war`.
+This compiles all Java classes with JDK 21, packages `literary-emporium.war`, and deploys it directly into Apache Tomcat `webapps/`.
 
-### 3. Deploy to Apache Tomcat
-1. Copy `literary-emporium.war` to Tomcat's `webapps/` folder.
-2. Start Tomcat using:
-   ```powershell
-   catalina.bat run
-   ```
-3. Open in browser: `http://localhost:8080/literary-emporium/`
+*(Alternatively, via Maven: `mvn clean package` inside `Backend`)*
+
+### 3. Start the Server
+Run `START_SERVER.bat` in the project root:
+```cmd
+START_SERVER.bat
+```
+This launches Apache Tomcat 10.1 and automatically opens `http://localhost:8080/literary-emporium/` in your browser.
+
+To stop the server, run `STOP_SERVER.bat`.
 
 ## 🔑 Default Credentials (for testing)
 

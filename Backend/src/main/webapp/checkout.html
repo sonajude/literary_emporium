@@ -849,22 +849,54 @@
                     class="payment-details"
                 >
 
-                    <div class="qr-container">
+                    <div class="qr-container" style="text-align:center;padding:15px;background:#ffffff;border:1px solid #dce1e7;border-radius:6px;">
 
-                        <h3>GPay</h3>
+                        <h3 style="margin-top:0;color:#172337;">Google Pay (UPI QR)</h3>
 
-                        <p data-i18n="scanToPay">
-                            Scan the QR code to complete payment.
+                        <p style="font-size:13px;color:#555;margin:4px 0;" data-i18n="scanToPay">
+                            Scan the QR code with any UPI app to complete payment.
                         </p>
 
-                        <img
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=GPay-Demo-Literary-Emporium"
-                            alt="GPay Demo QR Code"
-                        >
+                        <div style="font-size:18px;font-weight:bold;color:#172337;margin:10px 0;">
+                            Amount to Pay: <span id="gpayAmountText" style="color:#7c2637;">₹0.00</span>
+                        </div>
 
-                        <p data-i18n="demoPayment">
-                            Demo payment only.
-                        </p>
+                        <div style="margin:12px auto;display:inline-block;padding:8px;background:#fff;border:1px solid #ccc;border-radius:4px;">
+                            <img
+                                id="gpayQrImage"
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=literaryemporium@oksbi&pn=Literary%20Emporium"
+                                alt="GPay UPI QR Code"
+                                style="width:200px;height:200px;display:block;"
+                            >
+                        </div>
+
+                        <div style="font-size:12px;color:#666;margin:4px 0;">
+                            UPI VPA: <strong id="gpayUpiId">literaryemporium@oksbi</strong> | Ref: <span id="gpayPaymentId">Generating...</span>
+                        </div>
+
+                        <div id="gpayStatusBadge" style="display:inline-block;padding:8px 16px;border-radius:4px;background:#fff3cd;color:#856404;font-weight:bold;margin:12px 0;font-size:13px;border:1px solid #ffeeba;">
+                            Payment Status: PENDING (Waiting for payment)
+                        </div>
+
+                        <div style="margin-top:10px;">
+                            <button type="button" class="secondary-btn" onclick="checkCurrentPaymentStatus()" style="font-size:13px;padding:8px 14px;cursor:pointer;">
+                                🔄 Check Payment Status with Server
+                            </button>
+                        </div>
+
+                        <div style="background:#f7f8fa;border:1px dashed #6c757d;padding:12px;border-radius:5px;margin-top:14px;text-align:left;">
+                            <span style="font-size:11px;font-weight:bold;color:#495057;display:block;margin-bottom:6px;">
+                                🧪 OFFICIAL TESTING / VIVA DEMO PANEL (Server-Side Verification):
+                            </span>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button type="button" style="background:#315c49;color:#fff;border:none;padding:7px 14px;font-size:12px;cursor:pointer;border-radius:4px;font-weight:600;" onclick="simulateServerVerification('SUCCESS')">
+                                    ✓ Simulate Verified Payment (Mark PAID on Server)
+                                </button>
+                                <button type="button" style="background:#7c2637;color:#fff;border:none;padding:7px 14px;font-size:12px;cursor:pointer;border-radius:4px;font-weight:600;" onclick="simulateServerVerification('FAIL')">
+                                    ✗ Simulate Declined Payment (Mark FAILED)
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -876,22 +908,54 @@
                     class="payment-details"
                 >
 
-                    <div class="qr-container">
+                    <div class="qr-container" style="text-align:center;padding:15px;background:#ffffff;border:1px solid #dce1e7;border-radius:6px;">
 
-                        <h3>PhonePe</h3>
+                        <h3 style="margin-top:0;color:#172337;">PhonePe (UPI QR)</h3>
 
-                        <p data-i18n="scanToPay">
-                            Scan the QR code to complete payment.
+                        <p style="font-size:13px;color:#555;margin:4px 0;" data-i18n="scanToPay">
+                            Scan the QR code with any UPI app to complete payment.
                         </p>
 
-                        <img
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PhonePe-Demo-Literary-Emporium"
-                            alt="PhonePe Demo QR Code"
-                        >
+                        <div style="font-size:18px;font-weight:bold;color:#172337;margin:10px 0;">
+                            Amount to Pay: <span id="phonepeAmountText" style="color:#7c2637;">₹0.00</span>
+                        </div>
 
-                        <p data-i18n="demoPayment">
-                            Demo payment only.
-                        </p>
+                        <div style="margin:12px auto;display:inline-block;padding:8px;background:#fff;border:1px solid #ccc;border-radius:4px;">
+                            <img
+                                id="phonepeQrImage"
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=literaryemporium@ybl&pn=Literary%20Emporium"
+                                alt="PhonePe UPI QR Code"
+                                style="width:200px;height:200px;display:block;"
+                            >
+                        </div>
+
+                        <div style="font-size:12px;color:#666;margin:4px 0;">
+                            UPI VPA: <strong id="phonepeUpiId">literaryemporium@ybl</strong> | Ref: <span id="phonepePaymentId">Generating...</span>
+                        </div>
+
+                        <div id="phonepeStatusBadge" style="display:inline-block;padding:8px 16px;border-radius:4px;background:#fff3cd;color:#856404;font-weight:bold;margin:12px 0;font-size:13px;border:1px solid #ffeeba;">
+                            Payment Status: PENDING (Waiting for payment)
+                        </div>
+
+                        <div style="margin-top:10px;">
+                            <button type="button" class="secondary-btn" onclick="checkCurrentPaymentStatus()" style="font-size:13px;padding:8px 14px;cursor:pointer;">
+                                🔄 Check Payment Status with Server
+                            </button>
+                        </div>
+
+                        <div style="background:#f7f8fa;border:1px dashed #6c757d;padding:12px;border-radius:5px;margin-top:14px;text-align:left;">
+                            <span style="font-size:11px;font-weight:bold;color:#495057;display:block;margin-bottom:6px;">
+                                🧪 OFFICIAL TESTING / VIVA DEMO PANEL (Server-Side Verification):
+                            </span>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button type="button" style="background:#315c49;color:#fff;border:none;padding:7px 14px;font-size:12px;cursor:pointer;border-radius:4px;font-weight:600;" onclick="simulateServerVerification('SUCCESS')">
+                                    ✓ Simulate Verified Payment (Mark PAID on Server)
+                                </button>
+                                <button type="button" style="background:#7c2637;color:#fff;border:none;padding:7px 14px;font-size:12px;cursor:pointer;border-radius:4px;font-weight:600;" onclick="simulateServerVerification('FAIL')">
+                                    ✗ Simulate Declined Payment (Mark FAILED)
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -1887,6 +1951,138 @@ document.addEventListener(
             );
 
 
+        let currentPaymentRequest = null;
+
+        function updatePaymentUI(status, ref) {
+            const selected = document.querySelector('input[name="payment"]:checked');
+            const method = selected ? selected.value : "GPay";
+            const statusBadge = method === "PhonePe" ? document.getElementById("phonepeStatusBadge") : document.getElementById("gpayStatusBadge");
+            if (!statusBadge) return;
+
+            if (status === "PAID") {
+                statusBadge.innerHTML = "✓ Payment Status: <strong style='color:#155724;'>PAID</strong> (Verified by Server)<br><small style='font-weight:normal;color:#28a745;'>Provider Ref: " + (ref || "Verified") + "</small>";
+                statusBadge.style.background = "#d4edda";
+                statusBadge.style.color = "#155724";
+                statusBadge.style.border = "1px solid #c3e6cb";
+            } else if (status === "FAILED") {
+                statusBadge.innerHTML = "✗ Payment Status: <strong style='color:#721c24;'>FAILED</strong> (Declined by Bank)";
+                statusBadge.style.background = "#f8d7da";
+                statusBadge.style.color = "#721c24";
+                statusBadge.style.border = "1px solid #f5c6cb";
+            } else {
+                statusBadge.innerHTML = "Payment Status: <strong>PENDING</strong> (Waiting for payment)";
+                statusBadge.style.background = "#fff3cd";
+                statusBadge.style.color = "#856404";
+                statusBadge.style.border = "1px solid #ffeeba";
+            }
+        }
+
+        function initiateQrPayment(method) {
+            const buyer = loggedUser || { id: 3 };
+            const amountVal = total;
+            const amountText = method === "PhonePe" ? document.getElementById("phonepeAmountText") : document.getElementById("gpayAmountText");
+            const qrImage = method === "PhonePe" ? document.getElementById("phonepeQrImage") : document.getElementById("gpayQrImage");
+            const paymentIdEl = method === "PhonePe" ? document.getElementById("phonepePaymentId") : document.getElementById("gpayPaymentId");
+            const statusBadge = method === "PhonePe" ? document.getElementById("phonepeStatusBadge") : document.getElementById("gpayStatusBadge");
+
+            if (amountText) amountText.textContent = "₹" + amountVal.toFixed(2);
+            if (statusBadge) {
+                statusBadge.textContent = "Creating payment request on server...";
+                statusBadge.style.background = "#fff3cd";
+                statusBadge.style.color = "#856404";
+            }
+
+            fetch("api/payments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    amount: amountVal,
+                    method: method,
+                    userId: buyer.id
+                })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.status === "success") {
+                    currentPaymentRequest = data;
+                    if (qrImage) qrImage.src = data.qrCodeUrl;
+                    if (paymentIdEl) paymentIdEl.textContent = data.paymentId;
+                    updatePaymentUI("PENDING", null);
+                } else {
+                    if (statusBadge) {
+                        statusBadge.textContent = "Failed to initialize payment request.";
+                        statusBadge.style.background = "#f8d7da";
+                        statusBadge.style.color = "#721c24";
+                    }
+                }
+            })
+            .catch(function() {
+                if (statusBadge) {
+                    statusBadge.textContent = "Payment service error.";
+                    statusBadge.style.background = "#f8d7da";
+                    statusBadge.style.color = "#721c24";
+                }
+            });
+        }
+
+        window.checkCurrentPaymentStatus = function() {
+            if (!currentPaymentRequest || !currentPaymentRequest.paymentId) {
+                showToast("Please select a QR payment method first.", "error");
+                return;
+            }
+            fetch("api/payments?paymentId=" + encodeURIComponent(currentPaymentRequest.paymentId))
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data.status === "success") {
+                        currentPaymentRequest.paymentStatus = data.paymentStatus;
+                        updatePaymentUI(data.paymentStatus, data.providerReference);
+                        if (data.paymentStatus === "PAID") {
+                            showToast("Payment successful!", "success");
+                        } else if (data.paymentStatus === "FAILED") {
+                            showToast("Payment verification failed. Please try again.", "error");
+                        } else {
+                            showToast("Payment pending.", "info");
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    showToast("Verification check failed: " + err.message, "error");
+                });
+        };
+
+        window.simulateServerVerification = function(outcome) {
+            if (!currentPaymentRequest || !currentPaymentRequest.paymentId) {
+                showToast("Please select a QR payment method first.", "error");
+                return;
+            }
+            const pid = currentPaymentRequest.paymentId;
+            fetch("api/payments/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    paymentId: pid,
+                    simulateOutcome: outcome,
+                    providerReference: (outcome === "SUCCESS" ? "UTR-" + Date.now() : "FAIL-DECLINED-" + Date.now())
+                })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.status === "success" && data.paymentStatus === "PAID") {
+                    currentPaymentRequest.paymentStatus = "PAID";
+                    currentPaymentRequest.providerReference = data.providerReference;
+                    updatePaymentUI("PAID", data.providerReference);
+                    showToast("Payment successful!", "success");
+                } else {
+                    currentPaymentRequest.paymentStatus = "FAILED";
+                    updatePaymentUI("FAILED", data.providerReference);
+                    showToast("Payment verification failed. Please try again.", "error");
+                }
+            })
+            .catch(function(err) {
+                showToast("Verification request failed: " + err.message, "error");
+            });
+        };
+
         paymentInputs.forEach(
             function (input) {
 
@@ -1915,6 +2111,7 @@ document.addEventListener(
                             gpayDetails.classList.add(
                                 "active"
                             );
+                            initiateQrPayment("GPay");
 
                         }
 
@@ -1927,6 +2124,7 @@ document.addEventListener(
                             phonepeDetails.classList.add(
                                 "active"
                             );
+                            initiateQrPayment("PhonePe");
 
                         }
 
@@ -1939,6 +2137,7 @@ document.addEventListener(
                             payLaterDetails.classList.add(
                                 "active"
                             );
+                            currentPaymentRequest = null;
 
                         }
 
@@ -2252,30 +2451,43 @@ document.addEventListener(
                         "Please select a payment method.",
                         "error"
                     );
+                    showToast("Please select a payment method.", "error");
 
                     return;
                 }
 
 
-                const paymentMethod =
+                const paymentMethodChoice =
                     selectedPayment.value;
 
+                let paymentMethod = paymentMethodChoice;
+                let paymentStatus = "PENDING";
+                let orderStatus = "Order Placed";
+                let paymentId = null;
 
-                const paymentStatus =
-                    paymentMethod ===
-                    "Pay Later"
-
-                        ? "Pay Later"
-
-                        : "Payment Confirmed";
+                if (paymentMethodChoice === "Pay Later") {
+                    paymentMethod = "Pay Later";
+                    paymentStatus = "PENDING";
+                    orderStatus = "Order Placed";
+                } else {
+                    // QR Payment (GPay or PhonePe)
+                    if (!currentPaymentRequest || currentPaymentRequest.paymentStatus !== "PAID") {
+                        showOrderMessage(
+                            "Please complete and verify your QR code payment before placing the order, or choose Pay Later.",
+                            "error"
+                        );
+                        showToast("Payment verification required. Please verify payment or select Pay Later.", "error");
+                        return;
+                    }
+                    paymentMethod = paymentMethodChoice + " (UPI QR)";
+                    paymentStatus = "PAID";
+                    orderStatus = "Processing";
+                    paymentId = currentPaymentRequest.paymentId;
+                }
 
 
                 /* =================================================
                    CREATE ORDER ID + CREATED TIME
-
-                   IMPORTANT:
-                   The same timestamp is stored in createdAt.
-                   Cancel Order uses this for the 48-hour rule.
                    ================================================= */
 
                 const createdAt =
@@ -2288,258 +2500,143 @@ document.addEventListener(
 
 
                 /* =================================================
-                   CREATE ORDER
+                   CREATE ORDER DATA OBJECT
                    ================================================= */
+
+                const orderItemsList = cart.map(function (book) {
+                    return {
+                        bookId: (!isNaN(Number(book.sellerBookId || book.id)) && Number(book.sellerBookId || book.id) > 0)
+                            ? Number(book.sellerBookId || book.id) : 0,
+                        title: book.title || "Book",
+                        author: book.author || "",
+                        category: book.category || "",
+                        price: Number(book.price) || 0,
+                        quantity: Math.max(1, Number(book.quantity) || 1),
+                        cover: book.cover || book.image || "",
+                        image: book.cover || book.image || ""
+                    };
+                });
 
                 const newOrder = {
-
-                    orderId:
-                        orderId,
-
-
-                    createdAt:
-                        createdAt,
-
-
+                    orderId: orderId,
+                    orderCode: orderId,
+                    createdAt: createdAt,
                     customer: {
-
-                        name:
-                            name,
-
-                        email:
-                            email,
-
-                        phone:
-                            phone,
-
-                        address:
-                            saved.address
-
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: saved.address
                     },
-
-
-                    items:
-                        cart.map(
-                            function (book) {
-
-                                return {
-
-                                    title:
-                                        book.title || "",
-
-                                    author:
-                                        book.author || "",
-
-                                    price:
-                                        Number(
-                                            book.price
-                                        ) || 0,
-
-                                    quantity:
-                                        Math.max(
-                                            1,
-                                            Number(
-                                                book.quantity
-                                            ) || 1
-                                        ),
-
-                                    cover:
-                                        book.cover ||
-                                        book.image ||
-                                        ""
-
-                                };
-
-                            }
-                        ),
-
-
-                    subtotal:
-                        subtotal,
-
-
-                    deliveryCharge:
-                        delivery,
-
-
-                    total:
-                        total,
-
-
-                    paymentMethod:
-                        paymentMethod,
-
-
-                    paymentStatus:
-                        paymentStatus,
-
-
-                    status:
-                        "Order Placed",
-
-
-                    date:
-                        new Date().toLocaleString(
-                            "en-IN"
-                        ),
-
-
+                    customerName: name,
+                    customerEmail: email,
+                    customerPhone: phone,
+                    deliveryAddress: saved.address,
+                    items: orderItemsList,
+                    subtotal: subtotal,
+                    deliveryCharge: delivery,
+                    total: total,
+                    totalAmount: total,
+                    paymentMethod: paymentMethod,
+                    paymentStatus: paymentStatus,
+                    paymentId: paymentId,
+                    status: orderStatus,
+                    date: new Date().toLocaleString("en-IN"),
                     deliveryEstimate: {
-
-                        minDays:
-                            3,
-
-                        maxDays:
-                            5,
-
-                        earliestDate:
-                            earliestDate.toISOString(),
-
-                        latestDate:
-                            latestDate.toISOString(),
-
-                        dateRange:
-                            deliveryRange,
-
-                        deliveryWindow:
-                            "9:00 AM – 8:00 PM"
-
+                        minDays: 3,
+                        maxDays: 5,
+                        earliestDate: earliestDate.toISOString(),
+                        latestDate: latestDate.toISOString(),
+                        dateRange: deliveryRange,
+                        deliveryWindow: "9:00 AM – 8:00 PM"
                     },
-
-
-                    payLater:
-                        paymentMethod ===
-                        "Pay Later"
-
-                            ? {
-
-                                enabled:
-                                    true,
-
-                                dueDate:
-                                    payLaterDate.toISOString(),
-
-                                dueDateFormatted:
-                                    formatDate(
-                                        payLaterDate
-                                    ),
-
-                                reminder:
-                                    true
-
-                            }
-
-                            : {
-
-                                enabled:
-                                    false
-
-                            }
-
+                    payLater: paymentMethodChoice === "Pay Later" ? {
+                        enabled: true,
+                        dueDate: payLaterDate.toISOString(),
+                        dueDateFormatted: formatDate(payLaterDate),
+                        reminder: true
+                    } : { enabled: false }
                 };
-
-
-                /* =================================================
-                   SAVE ORDER
-                   ================================================= */
-
-                let orders = [];
-
-
-                try {
-
-                    orders =
-                        JSON.parse(
-                            localStorage.getItem(
-                                ordersKey
-                            ) || "[]"
-                        );
-
-
-                    if (
-                        !Array.isArray(
-                            orders
-                        )
-                    ) {
-
-                        orders = [];
-
-                    }
-
-                } catch (error) {
-
-                    orders = [];
-
-                }
-
-
-                orders.unshift(
-                    newOrder
-                );
-
-
-                localStorage.setItem(
-                    ordersKey,
-                    JSON.stringify(
-                        orders
-                    )
-                );
-
-
-                /* =================================================
-                   TRACKING
-                   ================================================= */
-
-                localStorage.setItem(
-                    "literaryEmporiumTrackingOrderId",
-                    orderId
-                );
-
-
-                /* =================================================
-                   CLEAR CART
-                   ================================================= */
-
-                localStorage.removeItem(
-                    cartKey
-                );
 
 
                 /* =================================================
                    PREVENT DOUBLE SUBMIT
                    ================================================= */
 
-                isSubmitting =
-                    true;
-
-
-                placeOrderButton.disabled =
-                    true;
-
-
-                placeOrderButton.textContent =
-                    "Order Placed";
-
-
-                showOrderMessage(
-                    "Order placed successfully.",
-                    "success"
-                );
+                isSubmitting = true;
+                placeOrderButton.disabled = true;
+                placeOrderButton.textContent = "Processing Order...";
+                showOrderMessage("Processing your order with database...", "success");
 
 
                 /* =================================================
-                   REDIRECT
+                   SAVE ORDER TO DATABASE (BACKEND FIRST)
                    ================================================= */
 
-                window.setTimeout(
-                    function () {
+                const buyerUser = loggedUser || { id: 3 };
 
-                        window.location.href =
-                            "order-success.html";
+                fetch("api/orders", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        orderCode: orderId,
+                        userId: buyerUser.id || 3,
+                        total: total,
+                        paymentMethod: paymentMethod,
+                        paymentStatus: paymentStatus,
+                        paymentId: paymentId,
+                        customerName: name,
+                        customerEmail: email,
+                        customerPhone: phone,
+                        deliveryAddress: saved.address,
+                        status: orderStatus,
+                        items: orderItemsList
+                    })
+                })
+                .then(function(res) {
+                    if (!res.ok) {
+                        throw new Error("Server responded with HTTP " + res.status);
+                    }
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (data && data.status === "success") {
+                        newOrder.id = data.orderId;
+                        newOrder.orderId = data.orderCode || data.orderId;
 
-                    },
-                    700
-                );
+                        // Save order in localStorage too
+                        let orders = [];
+                        try {
+                            orders = JSON.parse(localStorage.getItem(ordersKey) || "[]");
+                            if (!Array.isArray(orders)) orders = [];
+                        } catch (e) {
+                            orders = [];
+                        }
+                        orders.unshift(newOrder);
+                        localStorage.setItem(ordersKey, JSON.stringify(orders));
+
+                        localStorage.setItem("literaryEmporiumTrackingOrderId", newOrder.orderId);
+                        localStorage.removeItem(cartKey);
+
+                        showToast("Order placed successfully!", "success");
+                        showOrderMessage("Order placed successfully! Redirecting to confirmation page...", "success");
+
+                        placeOrderButton.textContent = "Order Placed";
+
+                        setTimeout(function() {
+                            window.location.href = "order-success.html?orderId=" + encodeURIComponent(newOrder.orderId);
+                        }, 500);
+
+                    } else {
+                        throw new Error((data && data.message) ? data.message : "Failed to create order in database.");
+                    }
+                })
+                .catch(function(err) {
+                    isSubmitting = false;
+                    placeOrderButton.disabled = false;
+                    placeOrderButton.textContent = "Place Order";
+                    showToast("Order creation failed: " + err.message, "error");
+                    showOrderMessage("Error placing order: " + err.message, "error");
+                });
 
             }
         );

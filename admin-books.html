@@ -603,6 +603,13 @@ function removeBook(index) {
     }
 
 
+    const bookToDelete = books[index];
+    if (bookToDelete && !isNaN(Number(bookToDelete.id))) {
+        fetch("api/books?id=" + encodeURIComponent(bookToDelete.id), {
+            method: "DELETE"
+        }).catch(function() {});
+    }
+
     books.splice(index, 1);
 
 

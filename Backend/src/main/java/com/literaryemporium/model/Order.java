@@ -7,9 +7,17 @@ import java.util.List;
 
 public class Order {
     private int id;
+    private String orderCode;
     private int userId;
     private BigDecimal totalAmount;
-    private String status; // "Pending", "Shipped", "Delivered", "Cancelled"
+    private String status; // "Order Placed", "Pending", "Processing", "Shipped", "Delivered", "Cancelled"
+    private String paymentMethod; // "Pay Later", "GPay (UPI)", "PhonePe (UPI)", "Bank Account"
+    private String paymentStatus; // "PENDING", "PAID", "FAILED"
+    private String paymentId;
+    private String customerName;
+    private String customerEmail;
+    private String customerPhone;
+    private String deliveryAddress;
     private Timestamp orderDate;
 
     // Joined fields
@@ -36,6 +44,14 @@ public class Order {
         this.id = id;
     }
 
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -58,6 +74,62 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Timestamp getOrderDate() {

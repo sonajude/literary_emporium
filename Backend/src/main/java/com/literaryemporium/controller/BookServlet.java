@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "BookServlet", urlPatterns = {"/api/books/*"})
+@WebServlet(name = "BookServlet", urlPatterns = {"/api/books", "/api/books/*"})
 public class BookServlet extends HttpServlet {
 
     private final BookDAO bookDAO = new BookDAO();

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "CartServlet", urlPatterns = {"/api/cart/*"})
+@WebServlet(name = "CartServlet", urlPatterns = {"/api/cart", "/api/cart/*"})
 public class CartServlet extends HttpServlet {
 
     private final CartDAO cartDAO = new CartDAO();
@@ -51,13 +51,29 @@ public class CartServlet extends HttpServlet {
 
         try {
             int userId = Integer.parseInt(getString(body, "userId", request.getParameter("userId")));
-            int bookId = Integer.parseInt(getString(body, "bookId", request.getParameter("bookId")));
+            String bookIdStr = getString(body, "bookId", request.getParameter("bookId"));
+            int rawBookId = 0;
+            if (bookIdStr != null && !bookIdStr.isEmpty()) {
+                try { rawBookId = Integer.parseInt(bookIdStr); } catch (Exception ignored) {}
+            }
+            String title = getString(body, "title", null);
+            String author = getString(body, "author", null);
+            String category = getString(body, "category", null);
+            String priceStr = getString(body, "price", null);
+            java.math.BigDecimal price = null;
+            if (priceStr != null && !priceStr.isEmpty()) {
+                try { price = new java.math.BigDecimal(priceStr.replaceAll("[^0-9.]", "")); } catch (Exception ignored) {}
+            }
+            String imageUrl = getString(body, "imageUrl", getString(body, "image", null));
+            int bookId = new com.literaryemporium.dao.BookDAO().findOrCreateBook(rawBookId, title, author, category, price, imageUrl);
+
             String qtyStr = getString(body, "quantity", request.getParameter("quantity"));
             int quantity = (qtyStr != null && !qtyStr.isEmpty()) ? Integer.parseInt(qtyStr) : 1;
 
             boolean success = cartDAO.addToCart(userId, bookId, quantity);
             res.put("status", success ? "success" : "error");
-            res.put("message", success ? "Item added to cart." : "Failed to add to cart.");
+            res.put("bookId", bookId);
+            res.put("message", success ? "Book added to cart successfully!" : "Failed to add to cart.");
         } catch (Exception e) {
             res.put("status", "error");
             res.put("message", e.getMessage());

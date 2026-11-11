@@ -798,11 +798,12 @@
         }
 
         const saveBook = function(imageData) {
-
             const books = getSellerBooks();
+            const tempId = "SELLER-BOOK-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
+            const sellerId = currentSeller.id || 2;
 
             const newBook = {
-                id: "SELLER-BOOK-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+                id: tempId,
                 sellerEmail: sellerEmail,
                 sellerName: sellerName,
                 title: title,
@@ -816,16 +817,35 @@
                 createdAt: new Date().toISOString()
             };
 
-            books.push(newBook);
-
-            localStorage.setItem(
-                "literaryEmporiumSellerBooks",
-                JSON.stringify(books)
-            );
-
-            clearAddBookForm();
-            showAddBookMessage(getTranslation("bookAddedSuccess"), "success");
-            displaySellerBooks();
+            // Post to backend database
+            fetch("api/books", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: title,
+                    author: author,
+                    category: category,
+                    price: price,
+                    description: description,
+                    imageUrl: imageData && imageData.length < 500 ? imageData : "",
+                    sellerId: sellerId,
+                    stock: stock
+                })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.status === "success" && data.book && data.book.id) {
+                    newBook.id = data.book.id;
+                }
+            })
+            .catch(function() {})
+            .finally(function() {
+                books.push(newBook);
+                localStorage.setItem("literaryEmporiumSellerBooks", JSON.stringify(books));
+                clearAddBookForm();
+                showAddBookMessage(getTranslation("bookAddedSuccess"), "success");
+                displaySellerBooks();
+            });
         };
 
         if (imageInput.files && imageInput.files[0]) {
@@ -874,33 +894,21 @@
     }
 
     function removeBook(index) {
-
-        const sellerBooks =
-            getSellerBooks();
-
-
-        if (
-            !confirm(
-                getTranslation(
-                    "removeConfirmation"
-                )
-            )
-        ) {
+        const sellerBooks = getSellerBooks();
+        if (!confirm(getTranslation("removeConfirmation"))) {
             return;
         }
 
+        const bookToDelete = sellerBooks[index];
+        if (bookToDelete && !isNaN(Number(bookToDelete.id))) {
+            fetch("api/books?id=" + encodeURIComponent(bookToDelete.id), {
+                method: "DELETE"
+            }).catch(function() {});
+        }
 
         sellerBooks.splice(index, 1);
-
-
-        localStorage.setItem(
-            "literaryEmporiumSellerBooks",
-            JSON.stringify(sellerBooks)
-        );
-
-
+        localStorage.setItem("literaryEmporiumSellerBooks", JSON.stringify(sellerBooks));
         displaySellerBooks();
-
     }
 
 

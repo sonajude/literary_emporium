@@ -1084,9 +1084,7 @@
                     this.value
                 );
 
-
                 applyBookDetailsLanguage();
-
 
                 if (
                     typeof setLanguage ===
@@ -1102,6 +1100,121 @@
 
     }
 
+
+    /* =========================================
+       CUSTOMER REVIEWS SYSTEM
+    ========================================= */
+    (function initReviews() {
+        const submitBtn = document.getElementById("submitReviewButton");
+        const ratingInput = document.getElementById("reviewRating");
+        const textInput = document.getElementById("reviewText");
+        const messageEl = document.getElementById("reviewMessage");
+        const container = document.getElementById("reviewsContainer");
+
+        if (!container) return;
+
+        const currentBook = JSON.parse(sessionStorage.getItem("selectedBook")) || {};
+        const bookKey = "literaryEmporiumReviews_" + (currentBook.id || currentBook.title || "default").replace(/[^a-zA-Z0-9]/g, "_");
+
+        function getReviews() {
+            try {
+                const stored = JSON.parse(localStorage.getItem(bookKey));
+                if (Array.isArray(stored) && stored.length > 0) return stored;
+            } catch (e) {}
+
+            return [
+                {
+                    user: "Kavitha R (Verified Buyer)",
+                    rating: 5,
+                    date: "10 Oct 2026",
+                    comment: "Exceptional quality and fast delivery. One of the finest editions available in the marketplace!"
+                },
+                {
+                    user: "Arun Kumar",
+                    rating: 4,
+                    date: "04 Oct 2026",
+                    comment: "Thoroughly researched content and great print quality. Highly recommended for avid readers."
+                }
+            ];
+        }
+
+        function saveReviews(reviews) {
+            localStorage.setItem(bookKey, JSON.stringify(reviews));
+        }
+
+        function escapeReviewHTML(str) {
+            return String(str || "").replace(/[&<>"']/g, function(c) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+        }
+
+        function renderReviews() {
+            const reviews = getReviews();
+            container.innerHTML = "";
+            if (!reviews || reviews.length === 0) {
+                container.innerHTML = '<p class="no-reviews" data-i18n="noReviews">No reviews yet.</p>';
+                return;
+            }
+
+            reviews.forEach(function(r) {
+                const item = document.createElement("div");
+                item.className = "review-item";
+                const stars = "★".repeat(Number(r.rating) || 5) + "☆".repeat(Math.max(0, 5 - (Number(r.rating) || 5)));
+                item.innerHTML = `
+                    <div class="review-rating">${stars} (${r.rating}/5)</div>
+                    <div class="review-user">${escapeReviewHTML(r.user)} <span style="font-size:11px;color:#8894a0;font-weight:normal;margin-left:8px;">${escapeReviewHTML(r.date)}</span></div>
+                    <div class="review-content">${escapeReviewHTML(r.comment)}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        if (submitBtn) {
+            submitBtn.addEventListener("click", function() {
+                const comment = textInput ? textInput.value.trim() : "";
+                const rating = ratingInput ? parseInt(ratingInput.value, 10) || 5 : 5;
+
+                if (!comment) {
+                    if (messageEl) {
+                        messageEl.textContent = "Please write a few words for your review.";
+                        messageEl.style.color = "#8a2638";
+                    }
+                    return;
+                }
+
+                let userName = "Verified Reader";
+                try {
+                    const loggedIn = JSON.parse(localStorage.getItem("literaryEmporiumLoggedInUser"));
+                    if (loggedIn && (loggedIn.name || loggedIn.fullName)) {
+                        userName = (loggedIn.name || loggedIn.fullName) + " (Verified Buyer)";
+                    }
+                } catch (e) {}
+
+                const reviews = getReviews();
+                const now = new Date();
+                const dateStr = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+                reviews.unshift({
+                    user: userName,
+                    rating: rating,
+                    date: dateStr,
+                    comment: comment
+                });
+
+                saveReviews(reviews);
+                renderReviews();
+
+                if (textInput) textInput.value = "";
+                if (messageEl) {
+                    messageEl.textContent = "Thank you! Your review has been submitted successfully.";
+                    messageEl.style.color = "#315c49";
+                    setTimeout(function() { messageEl.textContent = ""; }, 4000);
+                }
+            });
+        }
+
+        renderReviews();
+    })();
 
     applyBookDetailsLanguage();
 

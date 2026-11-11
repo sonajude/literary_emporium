@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "AuthServlet", urlPatterns = {"/api/auth/*"})
+@WebServlet(name = "AuthServlet", urlPatterns = {"/api/auth", "/api/auth/*"})
 public class AuthServlet extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAO();

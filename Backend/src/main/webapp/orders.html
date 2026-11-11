@@ -751,6 +751,7 @@
 
 
 <script src="language.js"></script>
+<script src="script.js"></script>
 
 
 <script>
@@ -1384,6 +1385,7 @@
 
 
         renderOrders();
+        syncDatabaseOrders();
 
     }
 
@@ -1443,6 +1445,54 @@
 
         }
 
+    }
+
+    function syncDatabaseOrders() {
+        const currentUser = getCurrentUser();
+        if (!currentUser || !currentUser.id) return;
+
+        fetch("api/orders?userId=" + encodeURIComponent(currentUser.id))
+            .then(function(res) { return res.json(); })
+            .then(function(dbOrders) {
+                if (!Array.isArray(dbOrders) || dbOrders.length === 0) return;
+                const localOrders = getOrders();
+                let changed = false;
+
+                dbOrders.forEach(function(dbo) {
+                    const exists = localOrders.some(function(lo) {
+                        return String(lo.id) === String(dbo.id) || String(lo.orderId) === ("LE-ORD-" + dbo.id);
+                    });
+                    if (!exists) {
+                        changed = true;
+                        localOrders.unshift({
+                            id: dbo.id,
+                            orderId: "LE-ORD-" + dbo.id,
+                            date: dbo.orderDate || new Date().toISOString(),
+                            status: dbo.status || "Pending",
+                            total: Number(dbo.totalAmount || 0),
+                            buyerEmail: currentUser.email,
+                            buyerName: currentUser.name || "Buyer",
+                            paymentMethod: "Online / Verified",
+                            items: (dbo.items || []).map(function(it) {
+                                return {
+                                    id: it.bookId,
+                                    title: it.title || "Book",
+                                    author: it.author || "",
+                                    price: Number(it.price || 0),
+                                    quantity: it.quantity || 1,
+                                    image: it.imageUrl || ""
+                                };
+                            })
+                        });
+                    }
+                });
+
+                if (changed) {
+                    localStorage.setItem(ORDERS_KEY, JSON.stringify(localOrders));
+                    renderOrders();
+                }
+            })
+            .catch(function() {});
     }
 
 
@@ -2106,6 +2156,7 @@
 
 
                 renderOrders();
+        syncDatabaseOrders();
 
                 return;
 
@@ -2139,6 +2190,7 @@
                 );
 
                 renderOrders();
+        syncDatabaseOrders();
 
                 return;
 
@@ -2162,6 +2214,17 @@
                 )
             );
 
+            if (order.id && !isNaN(Number(order.id))) {
+                fetch("api/orders", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        orderId: order.id,
+                        status: "Cancelled"
+                    })
+                }).catch(function() {});
+            }
+
 
             showMessage(
                 data.cancelSuccess,
@@ -2170,6 +2233,7 @@
 
 
             renderOrders();
+        syncDatabaseOrders();
 
         };
 
@@ -2881,6 +2945,7 @@
             ) {
 
                 renderOrders();
+        syncDatabaseOrders();
 
             }
 

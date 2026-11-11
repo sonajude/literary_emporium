@@ -839,6 +839,17 @@
         orders[index].status =
             newStatus;
 
+        if (orders[index].id && !isNaN(Number(orders[index].id))) {
+            fetch("api/orders", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    orderId: orders[index].id,
+                    status: newStatus
+                })
+            }).catch(function() {});
+        }
+
 
         localStorage.setItem(
             "literaryEmporiumOrders",

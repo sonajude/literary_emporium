@@ -173,6 +173,45 @@ public class BookDAO {
         return false;
     }
 
+    public int findOrCreateBook(int bookId, String title, String author, String category, java.math.BigDecimal price, String imageUrl) {
+        if (bookId > 0) {
+            Book existing = getBookById(bookId);
+            if (existing != null) {
+                return existing.getId();
+            }
+        }
+        if (title != null && !title.trim().isEmpty()) {
+            String checkSql = "SELECT id FROM books WHERE LOWER(title) = LOWER(?) LIMIT 1";
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(checkSql)) {
+                ps.setString(1, title.trim());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Create book
+            Book b = new Book();
+            b.setTitle(title.trim());
+            b.setAuthor(author != null && !author.trim().isEmpty() ? author.trim() : "Various Authors");
+            b.setCategory(category != null && !category.trim().isEmpty() ? category.trim() : "Fiction");
+            b.setPrice(price != null && price.compareTo(java.math.BigDecimal.ZERO) > 0 ? price : java.math.BigDecimal.valueOf(399.00));
+            b.setDescription("Catalogue title at Literary Emporium.");
+            b.setImageUrl(imageUrl != null ? imageUrl : "");
+            b.setSellerId(2); // default seller
+            b.setStock(50);
+            boolean added = addBook(b);
+            if (added && b.getId() > 0) {
+                return b.getId();
+            }
+        }
+        return 1; // default seed book
+    }
+
     private Book mapResultSetToBook(ResultSet rs) throws Exception {
         Book b = new Book();
         b.setId(rs.getInt("id"));
@@ -191,3 +230,4 @@ public class BookDAO {
         return b;
     }
 }
+

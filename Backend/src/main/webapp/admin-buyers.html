@@ -635,6 +635,12 @@ function removeBuyer(index) {
     const removedBuyer =
         buyers[index];
 
+    if (removedBuyer && !isNaN(Number(removedBuyer.id))) {
+        fetch("api/auth?id=" + encodeURIComponent(removedBuyer.id), {
+            method: "DELETE"
+        }).catch(function() {});
+    }
+
 
     buyers.splice(index, 1);
 

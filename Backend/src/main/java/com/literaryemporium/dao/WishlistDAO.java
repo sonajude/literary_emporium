@@ -11,7 +11,11 @@ import java.util.List;
 
 public class WishlistDAO {
 
-    public boolean addToWishlist(int userId, int bookId) {
+    /**
+     * Adds a book to the user's wishlist.
+     * @return 1 if newly added, 0 if already exists, -1 on failure.
+     */
+    public int addToWishlist(int userId, int bookId) {
         String checkSql = "SELECT id FROM wishlist WHERE user_id = ? AND book_id = ?";
         String insertSql = "INSERT INTO wishlist (user_id, book_id) VALUES (?, ?)";
 
@@ -21,7 +25,7 @@ public class WishlistDAO {
                 checkPs.setInt(2, bookId);
                 try (ResultSet rs = checkPs.executeQuery()) {
                     if (rs.next()) {
-                        return true; // Already in wishlist
+                        return 0; // Already in wishlist
                     }
                 }
             }
@@ -29,12 +33,12 @@ public class WishlistDAO {
             try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
                 insertPs.setInt(1, userId);
                 insertPs.setInt(2, bookId);
-                return insertPs.executeUpdate() > 0;
+                return insertPs.executeUpdate() > 0 ? 1 : -1;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     public List<WishlistItem> getWishlistByUser(int userId) {
